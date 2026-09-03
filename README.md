@@ -21,3 +21,6 @@ The main idea of this app is to gather Inspection Sheets from different competit
 - A possibility to run mock-scrutineerings with a possibility to approve/reject each scrutineering point and add detailed note and photos. The results are saved for traceability and detailed statistics for each scrutineering point
 - A possibility to have several judges run one mock-scrutineering receiving updates from one another in real time. Also several participants should be able to join, and the judges' and participants' names are saved for feature reference
 - Detailed statistics and metadata for each scrutineering point from every mock-scrutineering run against it should be visible. It includes things like notes, photos, status change history, judge name, time for decision and aggregated information through several mock-scrutineerings, like pass rate, average time to pass and more.
+
+# Wireframe diagram
+<img src="./docs/imgs/wireframe-design.png" alt="Wireframe diagram" width="700" />
