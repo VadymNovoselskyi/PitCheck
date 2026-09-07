@@ -20,16 +20,27 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hello World!"),
+        title: const Text("Scrutineering App!"),
         centerTitle: true,
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          const Text("A test text"),
-          FilledButton(onPressed: () {}, child: const Text("Im a button!")),
-        ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("A test text"),
+              FilledButton(
+                onPressed: () {
+                  print("The button is working");
+                },
+                child: const Text("Click to me to print smth!"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
