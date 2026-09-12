@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930302853058",
+    "project_id": "scrutineering-app",
+    "storage_bucket": "scrutineering-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930302853058:android:f04dcab7d42da95e37e05b",
+        "android_client_info": {
+          "package_name": "com.example.pit_check"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChqofXUfN_9jIpOMRZINXfwsWYG91xyeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
