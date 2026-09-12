@@ -51,3 +51,12 @@ class User {
 }
 
 enum Role { admin, user }
+
+const currentUser = User(
+  id: '123456789',
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test.user@example.com',
+  image: '',
+  role: Role.user,
+);
