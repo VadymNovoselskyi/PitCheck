@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 
+import 'theme.dart';
+
 void main() {
   runApp(const ScrutApp());
 }
 
 class ScrutApp extends StatelessWidget {
-  const new({super.key});
+  const ScrutApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: "Scrutineering App", home: Home());
+    return MaterialApp(title: 'PitCheck', theme: appTheme, home: const Home());
   }
 }
 
 class Home extends StatelessWidget {
-  const new({super.key});
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Scrutineering App!"),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: const Text('PitCheck')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
