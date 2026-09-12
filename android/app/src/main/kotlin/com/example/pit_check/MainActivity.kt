@@ -1,4 +1,4 @@
-package com.example.tdp028
+package com.example.pit_check
 
 import io.flutter.embedding.android.FlutterActivity
 

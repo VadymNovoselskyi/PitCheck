@@ -1,6 +1,6 @@
 {
-    "name": "tdp028",
-    "short_name": "tdp028",
+    "name": "pit_check",
+    "short_name": "pit_check",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

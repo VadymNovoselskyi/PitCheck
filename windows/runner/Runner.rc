@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "tdp028" "\0"
+            VALUE "FileDescription", "pit_check" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tdp028" "\0"
+            VALUE "InternalName", "pit_check" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "tdp028.exe" "\0"
-            VALUE "ProductName", "tdp028" "\0"
+            VALUE "OriginalFilename", "pit_check.exe" "\0"
+            VALUE "ProductName", "pit_check" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
