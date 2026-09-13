@@ -23,13 +23,23 @@ class InspectionCategoryRepository {
     );
   }
 
-  Stream<List<InspectionCategory>> getCategories(String sheetId) {
+  Stream<List<InspectionCategory>> getInspectionCategories(String sheetId) {
     return _ref(sheetId)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
   }
 
-  Future<void> addCategory(
+  Stream<InspectionCategory> getInspectionCategoryById(
+    String sheetId,
+    String categoryId,
+  ) {
+    return _ref(sheetId)
+        .doc(categoryId)
+        .snapshots()
+        .map((snapshot) => snapshot.data()!);
+  }
+
+  Future<void> addInspectionCategory(
     String sheetId,
     InspectionCategory category,
     User currentUser,
@@ -40,7 +50,7 @@ class InspectionCategoryRepository {
     });
   }
 
-  Future<void> updateCategory(
+  Future<void> updateInspectionCategory(
     String sheetId,
     InspectionCategory category,
     User currentUser,
@@ -51,7 +61,7 @@ class InspectionCategoryRepository {
     });
   }
 
-  Future<void> deleteCategory(String sheetId, String categoryId) {
+  Future<void> deleteInspectionCategory(String sheetId, String categoryId) {
     return _ref(sheetId).doc(categoryId).delete();
   }
 }

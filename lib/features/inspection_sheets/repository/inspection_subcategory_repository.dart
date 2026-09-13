@@ -32,7 +32,7 @@ class InspectionSubcategoryRepository {
     );
   }
 
-  Stream<List<InspectionSubcategory>> getSubcategories(
+  Stream<List<InspectionSubcategory>> getInspectionSubcategories(
     String sheetId,
     String categoryId,
   ) {
@@ -41,7 +41,18 @@ class InspectionSubcategoryRepository {
     );
   }
 
-  Future<void> addSubcategory(
+  Stream<InspectionSubcategory> getInspectionSubcategoryById(
+    String sheetId,
+    String categoryId,
+    String subcategoryId,
+  ) {
+    return _ref(
+      sheetId,
+      categoryId,
+    ).doc(subcategoryId).snapshots().map((snapshot) => snapshot.data()!);
+  }
+
+  Future<void> addInspectionSubcategory(
     String sheetId,
     String categoryId,
     InspectionSubcategory subcategory,
@@ -53,7 +64,7 @@ class InspectionSubcategoryRepository {
     });
   }
 
-  Future<void> updateSubcategory(
+  Future<void> updateInspectionSubcategory(
     String sheetId,
     String categoryId,
     InspectionSubcategory subcategory,
@@ -65,7 +76,7 @@ class InspectionSubcategoryRepository {
     });
   }
 
-  Future<void> deleteSubcategory(
+  Future<void> deleteInspectionSubcategory(
     String sheetId,
     String categoryId,
     String subcategoryId,
