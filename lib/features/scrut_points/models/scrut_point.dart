@@ -9,6 +9,7 @@ class ScrutPoint {
     required this.auditMetadata,
     this.description = '',
     this.order,
+    this.archivedAt,
   });
 
   final String id;
@@ -16,6 +17,9 @@ class ScrutPoint {
   final String name;
   final String description;
   final AuditMetadata auditMetadata;
+  final DateTime? archivedAt;
+
+  bool get isArchived => archivedAt != null;
 
   final int? order;
 
@@ -25,6 +29,7 @@ class ScrutPoint {
       'name': name,
       'description': description,
       'order': order,
+      'archivedAt': archivedAt,
     };
   }
 
@@ -44,6 +49,7 @@ class ScrutPoint {
       description: data['description'],
       order: data['order'],
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
   }
 }

@@ -7,15 +7,23 @@ class InspectionCategory {
     required this.inspectionSheetId,
     required this.type,
     required this.auditMetadata,
+    this.archivedAt,
   });
 
   final String id;
   final String inspectionSheetId;
   final InspectionCategoryType type;
   final AuditMetadata auditMetadata;
+  final DateTime? archivedAt;
+
+  bool get isArchived => archivedAt != null;
 
   Map<String, dynamic> toFirestore() {
-    return {'inspectionSheetId': inspectionSheetId, 'type': type.name};
+    return {
+      'inspectionSheetId': inspectionSheetId,
+      'type': type.name,
+      'archivedAt': archivedAt,
+    };
   }
 
   factory InspectionCategory.fromFirestore(
@@ -34,6 +42,7 @@ class InspectionCategory {
         (t) => t.name == data['type'],
       ),
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
   }
 }

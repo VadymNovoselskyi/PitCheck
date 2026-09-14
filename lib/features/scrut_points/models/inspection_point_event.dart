@@ -8,8 +8,8 @@ class InspectionPointEvent {
     required this.scrutPointId,
     required this.type,
     required this.status,
-    required this.judgeId,
-    required this.judgeName,
+    required this.actorId,
+    required this.actorName,
     required this.occurredAt,
     this.comment = '',
     this.attachmentUrls = const [],
@@ -21,8 +21,8 @@ class InspectionPointEvent {
 
   final InspectionPointEventType type;
   final InspectionPointStatus status;
-  final String judgeId;
-  final String judgeName;
+  final String actorId;
+  final String actorName;
   final String comment;
   final List<String> attachmentUrls;
 
@@ -35,11 +35,10 @@ class InspectionPointEvent {
       'scrutPointId': scrutPointId,
       'type': type.name,
       'status': status.name,
-      'judgeId': judgeId,
-      'judgeName': judgeName,
+      'actorId': actorId,
+      'actorName': actorName,
       'comment': comment,
       'attachmentUrls': attachmentUrls,
-      'occurredAt': occurredAt,
     };
   }
 
@@ -58,8 +57,8 @@ class InspectionPointEvent {
       scrutPointId: data['scrutPointId'],
       type: InspectionPointEventType.values.byName(data['type']),
       status: InspectionPointStatus.values.byName(data['status']),
-      judgeId: data['judgeId'],
-      judgeName: data['judgeName'],
+      actorId: data['actorId'],
+      actorName: data['actorName'],
       comment: data['comment'] ?? '',
       attachmentUrls: List<String>.from(data['attachmentUrls'] ?? const []),
       occurredAt: (data['occurredAt'] as Timestamp?)?.toDate(),

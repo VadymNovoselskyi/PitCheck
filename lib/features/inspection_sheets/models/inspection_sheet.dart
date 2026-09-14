@@ -9,6 +9,7 @@ class InspectionSheet {
     required this.description,
     this.sourceUrl,
     required this.auditMetadata,
+    this.archivedAt,
   });
 
   final String id;
@@ -17,6 +18,9 @@ class InspectionSheet {
   final String description;
   final String? sourceUrl;
   final AuditMetadata auditMetadata;
+  final DateTime? archivedAt;
+
+  bool get isArchived => archivedAt != null;
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -24,6 +28,7 @@ class InspectionSheet {
       'year': year,
       'description': description,
       'sourceUrl': sourceUrl,
+      'archivedAt': archivedAt,
     };
   }
 
@@ -43,6 +48,7 @@ class InspectionSheet {
       description: data['description'],
       sourceUrl: data['sourceUrl'],
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
   }
 }

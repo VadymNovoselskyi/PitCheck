@@ -40,7 +40,6 @@ class InspectionPointResult {
       'currentStatus': currentStatus.name,
       'latestJudgeId': latestJudgeId,
       'latestJudgeName': latestJudgeName,
-      'latestDecisionAt': latestDecisionAt,
       'isAddressed': isAddressed,
       'addressedNote': addressedNote,
     };

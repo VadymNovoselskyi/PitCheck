@@ -24,8 +24,19 @@ class Inspection {
   /// Null until the inspection is completed.
   final DateTime? endedAt;
 
-  bool get isRunning => endedAt == null;
-  bool get isCompleted => endedAt != null;
+  InspectionLifecycle get lifecycle {
+    if (endedAt != null) {
+      return InspectionLifecycle.completed;
+    }
+    if (startedAt != null) {
+      return InspectionLifecycle.running;
+    }
+    return InspectionLifecycle.lobby;
+  }
+
+  bool get isLobby => lifecycle == InspectionLifecycle.lobby;
+  bool get isRunning => lifecycle == InspectionLifecycle.running;
+  bool get isCompleted => lifecycle == InspectionLifecycle.completed;
 
   Duration? elapsedAt(DateTime now) {
     final start = startedAt;
@@ -40,9 +51,8 @@ class Inspection {
     return {
       'inspectionSheetId': inspectionSheetId,
       'categoryId': categoryId,
+      // An empty list includes every subcategory in the selected category.
       'selectedSubcategoryIds': selectedSubcategoryIds,
-      'startedAt': startedAt,
-      'endedAt': endedAt,
     };
   }
 
@@ -68,3 +78,5 @@ class Inspection {
     );
   }
 }
+
+enum InspectionLifecycle { lobby, running, completed }

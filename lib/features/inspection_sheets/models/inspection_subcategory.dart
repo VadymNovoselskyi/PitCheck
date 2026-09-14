@@ -9,6 +9,7 @@ class InspectionSubcategory {
     required this.description,
     required this.auditMetadata,
     this.order,
+    this.archivedAt,
   });
 
   final String id;
@@ -16,6 +17,9 @@ class InspectionSubcategory {
   final String name;
   final String description;
   final AuditMetadata auditMetadata;
+  final DateTime? archivedAt;
+
+  bool get isArchived => archivedAt != null;
 
   // Index in its category
   final int? order;
@@ -26,6 +30,7 @@ class InspectionSubcategory {
       'name': name,
       'description': description,
       'order': order,
+      'archivedAt': archivedAt,
     };
   }
 
@@ -45,6 +50,7 @@ class InspectionSubcategory {
       description: data['description'],
       order: data['order'],
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
   }
 }
