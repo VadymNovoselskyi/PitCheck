@@ -7,6 +7,7 @@ class InspectionCategory {
     required this.inspectionSheetId,
     required this.type,
     required this.auditMetadata,
+    this.order,
     this.archivedAt,
   });
 
@@ -14,6 +15,7 @@ class InspectionCategory {
   final String inspectionSheetId;
   final InspectionCategoryType type;
   final AuditMetadata auditMetadata;
+  final int? order;
   final DateTime? archivedAt;
 
   bool get isArchived => archivedAt != null;
@@ -22,6 +24,7 @@ class InspectionCategory {
     return {
       'inspectionSheetId': inspectionSheetId,
       'type': type.name,
+      'order': order,
       'archivedAt': archivedAt,
     };
   }
@@ -42,6 +45,7 @@ class InspectionCategory {
         (t) => t.name == data['type'],
       ),
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      order: data['order'],
       archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
   }
@@ -58,6 +62,7 @@ enum InspectionCategoryType {
   ),
   egress(name: "Egress", description: "Egress inspection"),
   accumulator(name: "Accumulator", description: "Accumulator inspection"),
+  electrical(name: "Electrical", description: "Electrical inspection"),
   lv(name: "LV", description: "Low Voltage inspection"),
   mech(name: "Mech", description: "Mechanical inspection"),
   hv(name: "HV", description: "High Voltage inspection"),
