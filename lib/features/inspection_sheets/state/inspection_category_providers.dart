@@ -9,12 +9,19 @@ part 'inspection_category_providers.g.dart';
 final inspectionCategoryRepository = InspectionCategoryRepository();
 
 @riverpod
-Stream<List<InspectionCategory>> inspectionCategories(Ref ref, String sheetId) {
-  return inspectionCategoryRepository.getInspectionCategories(sheetId);
+Stream<List<InspectionCategory>> inspectionCategories(
+  Ref ref,
+  String sheetId, {
+  bool archived = false,
+}) {
+  return inspectionCategoryRepository.getInspectionCategories(
+    sheetId,
+    archived: archived,
+  );
 }
 
 @riverpod
-Stream<InspectionCategory> inspectionCategoryById(
+Stream<InspectionCategory?> inspectionCategoryById(
   Ref ref,
   String sheetId,
   String categoryId,
@@ -26,41 +33,47 @@ Stream<InspectionCategory> inspectionCategoryById(
 }
 
 @riverpod
-Future<void> addInspectionCategory(
-  Ref ref,
-  String sheetId,
-  InspectionCategory category,
-) {
+Future<void> addInspectionCategory(Ref ref, InspectionCategory category) {
   final currentUser = ref.read(currentUserProvider);
   return inspectionCategoryRepository.addInspectionCategory(
-    sheetId,
     category,
     currentUser,
   );
 }
 
 @riverpod
-Future<void> updateInspectionCategory(
-  Ref ref,
-  String sheetId,
-  InspectionCategory category,
-) {
+Future<void> updateInspectionCategory(Ref ref, InspectionCategory category) {
   final currentUser = ref.read(currentUserProvider);
   return inspectionCategoryRepository.updateInspectionCategory(
-    sheetId,
     category,
     currentUser,
   );
 }
 
 @riverpod
-Future<void> deleteInspectionCategory(
+Future<void> setInspectionCategoryArchived(
+  Ref ref,
+  InspectionCategory category, {
+  required bool archived,
+}) {
+  final currentUser = ref.read(currentUserProvider);
+  return inspectionCategoryRepository.setInspectionCategoryArchived(
+    category,
+    currentUser,
+    archived: archived,
+  );
+}
+
+@riverpod
+Future<void> reorderInspectionCategories(
   Ref ref,
   String sheetId,
-  String categoryId,
+  List<String> orderedCategoryIds,
 ) {
-  return inspectionCategoryRepository.deleteInspectionCategory(
+  final currentUser = ref.read(currentUserProvider);
+  return inspectionCategoryRepository.reorderInspectionCategories(
     sheetId,
-    categoryId,
+    orderedCategoryIds,
+    currentUser,
   );
 }

@@ -9,12 +9,15 @@ part 'inspection_sheet_providers.g.dart';
 final inspectionSheetRepository = InspectionSheetRepository();
 
 @riverpod
-Stream<List<InspectionSheet>> inspectionSheets(Ref ref) {
-  return inspectionSheetRepository.getInspectionSheets();
+Stream<List<InspectionSheet>> inspectionSheets(
+  Ref ref, {
+  bool archived = false,
+}) {
+  return inspectionSheetRepository.getInspectionSheets(archived: archived);
 }
 
 @riverpod
-Stream<InspectionSheet> inspectionSheetById(Ref ref, String id) {
+Stream<InspectionSheet?> inspectionSheetById(Ref ref, String id) {
   return inspectionSheetRepository.getInspectionSheetById(id);
 }
 
@@ -31,6 +34,15 @@ Future<void> updateInspectionSheet(Ref ref, InspectionSheet sheet) {
 }
 
 @riverpod
-Future<void> deleteInspectionSheet(Ref ref, String id) {
-  return inspectionSheetRepository.deleteInspectionSheet(id);
+Future<void> setInspectionSheetArchived(
+  Ref ref,
+  InspectionSheet sheet, {
+  required bool archived,
+}) {
+  final currentUser = ref.read(currentUserProvider);
+  return inspectionSheetRepository.setInspectionSheetArchived(
+    sheet,
+    currentUser,
+    archived: archived,
+  );
 }

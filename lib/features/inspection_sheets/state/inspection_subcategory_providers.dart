@@ -12,16 +12,18 @@ final inspectionSubcategoryRepository = InspectionSubcategoryRepository();
 Stream<List<InspectionSubcategory>> inspectionSubcategories(
   Ref ref,
   String sheetId,
-  String categoryId,
-) {
+  String categoryId, {
+  bool archived = false,
+}) {
   return inspectionSubcategoryRepository.getInspectionSubcategories(
     sheetId,
     categoryId,
+    archived: archived,
   );
 }
 
 @riverpod
-Stream<InspectionSubcategory> inspectionSubcategoryById(
+Stream<InspectionSubcategory?> inspectionSubcategoryById(
   Ref ref,
   String sheetId,
   String categoryId,
@@ -38,13 +40,11 @@ Stream<InspectionSubcategory> inspectionSubcategoryById(
 Future<void> addInspectionSubcategory(
   Ref ref,
   String sheetId,
-  String categoryId,
   InspectionSubcategory subcategory,
 ) {
   final currentUser = ref.read(currentUserProvider);
   return inspectionSubcategoryRepository.addInspectionSubcategory(
     sheetId,
-    categoryId,
     subcategory,
     currentUser,
   );
@@ -54,28 +54,44 @@ Future<void> addInspectionSubcategory(
 Future<void> updateInspectionSubcategory(
   Ref ref,
   String sheetId,
-  String categoryId,
   InspectionSubcategory subcategory,
 ) {
   final currentUser = ref.read(currentUserProvider);
   return inspectionSubcategoryRepository.updateInspectionSubcategory(
     sheetId,
-    categoryId,
     subcategory,
     currentUser,
   );
 }
 
 @riverpod
-Future<void> deleteInspectionSubcategory(
+Future<void> setInspectionSubcategoryArchived(
+  Ref ref,
+  String sheetId,
+  InspectionSubcategory subcategory, {
+  required bool archived,
+}) {
+  final currentUser = ref.read(currentUserProvider);
+  return inspectionSubcategoryRepository.setInspectionSubcategoryArchived(
+    sheetId,
+    subcategory,
+    currentUser,
+    archived: archived,
+  );
+}
+
+@riverpod
+Future<void> reorderInspectionSubcategories(
   Ref ref,
   String sheetId,
   String categoryId,
-  String subcategoryId,
+  List<String> orderedSubcategoryIds,
 ) {
-  return inspectionSubcategoryRepository.deleteInspectionSubcategory(
+  final currentUser = ref.read(currentUserProvider);
+  return inspectionSubcategoryRepository.reorderInspectionSubcategories(
     sheetId,
     categoryId,
-    subcategoryId,
+    orderedSubcategoryIds,
+    currentUser,
   );
 }

@@ -24,7 +24,7 @@ final class InspectionCategoriesProvider
         $StreamProvider<List<InspectionCategory>> {
   InspectionCategoriesProvider._({
     required InspectionCategoriesFamily super.from,
-    required String super.argument,
+    required (String, {bool archived}) super.argument,
   }) : super(
          retry: null,
          name: r'inspectionCategoriesProvider',
@@ -40,7 +40,7 @@ final class InspectionCategoriesProvider
   String toString() {
     return r'inspectionCategoriesProvider'
         ''
-        '($argument)';
+        '$argument';
   }
 
   @$internal
@@ -51,8 +51,8 @@ final class InspectionCategoriesProvider
 
   @override
   Stream<List<InspectionCategory>> create(Ref ref) {
-    final argument = this.argument as String;
-    return inspectionCategories(ref, argument);
+    final argument = this.argument as (String, {bool archived});
+    return inspectionCategories(ref, argument.$1, archived: argument.archived);
   }
 
   @override
@@ -67,10 +67,14 @@ final class InspectionCategoriesProvider
 }
 
 String _$inspectionCategoriesHash() =>
-    r'eda3e2d7b71b676a5f7679190eb7d3d489ae3372';
+    r'87fcac45e89e303555db592399da595acb11b363';
 
 final class InspectionCategoriesFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<InspectionCategory>>, String> {
+    with
+        $FunctionalFamilyOverride<
+          Stream<List<InspectionCategory>>,
+          (String, {bool archived})
+        > {
   InspectionCategoriesFamily._()
     : super(
         retry: null,
@@ -80,8 +84,11 @@ final class InspectionCategoriesFamily extends $Family
         isAutoDispose: true,
       );
 
-  InspectionCategoriesProvider call(String sheetId) =>
-      InspectionCategoriesProvider._(argument: sheetId, from: this);
+  InspectionCategoriesProvider call(String sheetId, {bool archived = false}) =>
+      InspectionCategoriesProvider._(
+        argument: (sheetId, archived: archived),
+        from: this,
+      );
 
   @override
   String toString() => r'inspectionCategoriesProvider';
@@ -93,13 +100,13 @@ final inspectionCategoryByIdProvider = InspectionCategoryByIdFamily._();
 final class InspectionCategoryByIdProvider
     extends
         $FunctionalProvider<
-          AsyncValue<InspectionCategory>,
-          InspectionCategory,
-          Stream<InspectionCategory>
+          AsyncValue<InspectionCategory?>,
+          InspectionCategory?,
+          Stream<InspectionCategory?>
         >
     with
-        $FutureModifier<InspectionCategory>,
-        $StreamProvider<InspectionCategory> {
+        $FutureModifier<InspectionCategory?>,
+        $StreamProvider<InspectionCategory?> {
   InspectionCategoryByIdProvider._({
     required InspectionCategoryByIdFamily super.from,
     required (String, String) super.argument,
@@ -123,12 +130,12 @@ final class InspectionCategoryByIdProvider
 
   @$internal
   @override
-  $StreamProviderElement<InspectionCategory> $createElement(
+  $StreamProviderElement<InspectionCategory?> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<InspectionCategory> create(Ref ref) {
+  Stream<InspectionCategory?> create(Ref ref) {
     final argument = this.argument as (String, String);
     return inspectionCategoryById(ref, argument.$1, argument.$2);
   }
@@ -146,12 +153,12 @@ final class InspectionCategoryByIdProvider
 }
 
 String _$inspectionCategoryByIdHash() =>
-    r'b16c734e316d240e5c28b33ed9a26bfb707a90bd';
+    r'486fe5e5a35c179450071667b6cb8973974cf669';
 
 final class InspectionCategoryByIdFamily extends $Family
     with
         $FunctionalFamilyOverride<
-          Stream<InspectionCategory>,
+          Stream<InspectionCategory?>,
           (String, String)
         > {
   InspectionCategoryByIdFamily._()
@@ -181,7 +188,7 @@ final class AddInspectionCategoryProvider
     with $FutureModifier<void>, $FutureProvider<void> {
   AddInspectionCategoryProvider._({
     required AddInspectionCategoryFamily super.from,
-    required (String, InspectionCategory) super.argument,
+    required InspectionCategory super.argument,
   }) : super(
          retry: null,
          name: r'addInspectionCategoryProvider',
@@ -197,7 +204,7 @@ final class AddInspectionCategoryProvider
   String toString() {
     return r'addInspectionCategoryProvider'
         ''
-        '$argument';
+        '($argument)';
   }
 
   @$internal
@@ -207,8 +214,8 @@ final class AddInspectionCategoryProvider
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument = this.argument as (String, InspectionCategory);
-    return addInspectionCategory(ref, argument.$1, argument.$2);
+    final argument = this.argument as InspectionCategory;
+    return addInspectionCategory(ref, argument);
   }
 
   @override
@@ -223,14 +230,10 @@ final class AddInspectionCategoryProvider
 }
 
 String _$addInspectionCategoryHash() =>
-    r'680a1cf73a077d56c945080382a466f529a1b7dd';
+    r'c01400d64ebcb7739dd940074a742e68abb87d2a';
 
 final class AddInspectionCategoryFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          (String, InspectionCategory)
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, InspectionCategory> {
   AddInspectionCategoryFamily._()
     : super(
         retry: null,
@@ -240,13 +243,8 @@ final class AddInspectionCategoryFamily extends $Family
         isAutoDispose: true,
       );
 
-  AddInspectionCategoryProvider call(
-    String sheetId,
-    InspectionCategory category,
-  ) => AddInspectionCategoryProvider._(
-    argument: (sheetId, category),
-    from: this,
-  );
+  AddInspectionCategoryProvider call(InspectionCategory category) =>
+      AddInspectionCategoryProvider._(argument: category, from: this);
 
   @override
   String toString() => r'addInspectionCategoryProvider';
@@ -260,7 +258,7 @@ final class UpdateInspectionCategoryProvider
     with $FutureModifier<void>, $FutureProvider<void> {
   UpdateInspectionCategoryProvider._({
     required UpdateInspectionCategoryFamily super.from,
-    required (String, InspectionCategory) super.argument,
+    required InspectionCategory super.argument,
   }) : super(
          retry: null,
          name: r'updateInspectionCategoryProvider',
@@ -276,7 +274,7 @@ final class UpdateInspectionCategoryProvider
   String toString() {
     return r'updateInspectionCategoryProvider'
         ''
-        '$argument';
+        '($argument)';
   }
 
   @$internal
@@ -286,8 +284,8 @@ final class UpdateInspectionCategoryProvider
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument = this.argument as (String, InspectionCategory);
-    return updateInspectionCategory(ref, argument.$1, argument.$2);
+    final argument = this.argument as InspectionCategory;
+    return updateInspectionCategory(ref, argument);
   }
 
   @override
@@ -303,14 +301,10 @@ final class UpdateInspectionCategoryProvider
 }
 
 String _$updateInspectionCategoryHash() =>
-    r'faf236c589c7e1593f9937ead0f040e4f77e33c2';
+    r'be3fbd30f6bdb52918e79911b45ba959f7f1908d';
 
 final class UpdateInspectionCategoryFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          (String, InspectionCategory)
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, InspectionCategory> {
   UpdateInspectionCategoryFamily._()
     : super(
         retry: null,
@@ -320,41 +314,37 @@ final class UpdateInspectionCategoryFamily extends $Family
         isAutoDispose: true,
       );
 
-  UpdateInspectionCategoryProvider call(
-    String sheetId,
-    InspectionCategory category,
-  ) => UpdateInspectionCategoryProvider._(
-    argument: (sheetId, category),
-    from: this,
-  );
+  UpdateInspectionCategoryProvider call(InspectionCategory category) =>
+      UpdateInspectionCategoryProvider._(argument: category, from: this);
 
   @override
   String toString() => r'updateInspectionCategoryProvider';
 }
 
-@ProviderFor(deleteInspectionCategory)
-final deleteInspectionCategoryProvider = DeleteInspectionCategoryFamily._();
+@ProviderFor(setInspectionCategoryArchived)
+final setInspectionCategoryArchivedProvider =
+    SetInspectionCategoryArchivedFamily._();
 
-final class DeleteInspectionCategoryProvider
+final class SetInspectionCategoryArchivedProvider
     extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
-  DeleteInspectionCategoryProvider._({
-    required DeleteInspectionCategoryFamily super.from,
-    required (String, String) super.argument,
+  SetInspectionCategoryArchivedProvider._({
+    required SetInspectionCategoryArchivedFamily super.from,
+    required (InspectionCategory, {bool archived}) super.argument,
   }) : super(
          retry: null,
-         name: r'deleteInspectionCategoryProvider',
+         name: r'setInspectionCategoryArchivedProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$deleteInspectionCategoryHash();
+  String debugGetCreateSourceHash() => _$setInspectionCategoryArchivedHash();
 
   @override
   String toString() {
-    return r'deleteInspectionCategoryProvider'
+    return r'setInspectionCategoryArchivedProvider'
         ''
         '$argument';
   }
@@ -366,13 +356,17 @@ final class DeleteInspectionCategoryProvider
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument = this.argument as (String, String);
-    return deleteInspectionCategory(ref, argument.$1, argument.$2);
+    final argument = this.argument as (InspectionCategory, {bool archived});
+    return setInspectionCategoryArchived(
+      ref,
+      argument.$1,
+      archived: argument.archived,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is DeleteInspectionCategoryProvider &&
+    return other is SetInspectionCategoryArchivedProvider &&
         other.argument == argument;
   }
 
@@ -382,26 +376,109 @@ final class DeleteInspectionCategoryProvider
   }
 }
 
-String _$deleteInspectionCategoryHash() =>
-    r'cdf3b270277a11077de334a0f04853ba7280074b';
+String _$setInspectionCategoryArchivedHash() =>
+    r'9d8eaa4c0378f3942e49a2e02daad93781eef9c8';
 
-final class DeleteInspectionCategoryFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, (String, String)> {
-  DeleteInspectionCategoryFamily._()
+final class SetInspectionCategoryArchivedFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<void>,
+          (InspectionCategory, {bool archived})
+        > {
+  SetInspectionCategoryArchivedFamily._()
     : super(
         retry: null,
-        name: r'deleteInspectionCategoryProvider',
+        name: r'setInspectionCategoryArchivedProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  DeleteInspectionCategoryProvider call(String sheetId, String categoryId) =>
-      DeleteInspectionCategoryProvider._(
-        argument: (sheetId, categoryId),
-        from: this,
-      );
+  SetInspectionCategoryArchivedProvider call(
+    InspectionCategory category, {
+    required bool archived,
+  }) => SetInspectionCategoryArchivedProvider._(
+    argument: (category, archived: archived),
+    from: this,
+  );
 
   @override
-  String toString() => r'deleteInspectionCategoryProvider';
+  String toString() => r'setInspectionCategoryArchivedProvider';
+}
+
+@ProviderFor(reorderInspectionCategories)
+final reorderInspectionCategoriesProvider =
+    ReorderInspectionCategoriesFamily._();
+
+final class ReorderInspectionCategoriesProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  ReorderInspectionCategoriesProvider._({
+    required ReorderInspectionCategoriesFamily super.from,
+    required (String, List<String>) super.argument,
+  }) : super(
+         retry: null,
+         name: r'reorderInspectionCategoriesProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$reorderInspectionCategoriesHash();
+
+  @override
+  String toString() {
+    return r'reorderInspectionCategoriesProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<void> create(Ref ref) {
+    final argument = this.argument as (String, List<String>);
+    return reorderInspectionCategories(ref, argument.$1, argument.$2);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReorderInspectionCategoriesProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$reorderInspectionCategoriesHash() =>
+    r'05739c6b6d01a2d95bf3c399d0334b371f39c7fe';
+
+final class ReorderInspectionCategoriesFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<void>, (String, List<String>)> {
+  ReorderInspectionCategoriesFamily._()
+    : super(
+        retry: null,
+        name: r'reorderInspectionCategoriesProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ReorderInspectionCategoriesProvider call(
+    String sheetId,
+    List<String> orderedCategoryIds,
+  ) => ReorderInspectionCategoriesProvider._(
+    argument: (sheetId, orderedCategoryIds),
+    from: this,
+  );
+
+  @override
+  String toString() => r'reorderInspectionCategoriesProvider';
 }

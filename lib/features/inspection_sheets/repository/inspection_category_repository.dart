@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pit_check/features/inspection_sheets/models/inspection_category.dart';
 import 'package:pit_check/features/users/models/user.dart';
 import 'package:pit_check/shared/audit_metadata_model.dart';
+import 'package:pit_check/shared/firestore_stream_helpers.dart';
 
 class InspectionCategoryRepository {
   final _firestore = FirebaseFirestore.instance;
@@ -23,45 +24,86 @@ class InspectionCategoryRepository {
     );
   }
 
-  Stream<List<InspectionCategory>> getInspectionCategories(String sheetId) {
-    return _ref(sheetId)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  Stream<List<InspectionCategory>> getInspectionCategories(
+    String sheetId, {
+    bool archived = false,
+  }) {
+    return watchQuery(
+      _ref(sheetId),
+      where: (category) => category.isArchived == archived,
+      compare: _compareCategories,
+    );
   }
 
-  Stream<InspectionCategory> getInspectionCategoryById(
+  Stream<InspectionCategory?> getInspectionCategoryById(
     String sheetId,
     String categoryId,
   ) {
-    return _ref(sheetId)
-        .doc(categoryId)
-        .snapshots()
-        .map((snapshot) => snapshot.data()!);
+    return watchDocument(_ref(sheetId).doc(categoryId));
   }
 
   Future<void> addInspectionCategory(
-    String sheetId,
     InspectionCategory category,
     User currentUser,
   ) {
-    return _rawRef(sheetId).doc(category.id).set({
+    return _rawRef(category.inspectionSheetId).doc(category.id).set({
       ...category.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });
   }
 
   Future<void> updateInspectionCategory(
-    String sheetId,
     InspectionCategory category,
     User currentUser,
   ) {
-    return _rawRef(sheetId).doc(category.id).update({
+    return _rawRef(category.inspectionSheetId).doc(category.id).update({
       ...category.toFirestore(),
       ...AuditMetadata.updateFields(currentUser),
     });
   }
 
-  Future<void> deleteInspectionCategory(String sheetId, String categoryId) {
-    return _ref(sheetId).doc(categoryId).delete();
+  Future<void> setInspectionCategoryArchived(
+    InspectionCategory category,
+    User currentUser, {
+    required bool archived,
+  }) {
+    return _rawRef(category.inspectionSheetId).doc(category.id).update({
+      'archivedAt': archived ? FieldValue.serverTimestamp() : null,
+      ...AuditMetadata.updateFields(currentUser),
+    });
+  }
+
+  Future<void> reorderInspectionCategories(
+    String sheetId,
+    List<String> orderedCategoryIds,
+    User currentUser,
+  ) async {
+    final batch = _firestore.batch();
+    final auditFields = AuditMetadata.updateFields(currentUser);
+
+    for (var order = 0; order < orderedCategoryIds.length; order++) {
+      final categoryId = orderedCategoryIds[order];
+
+      batch.update(_rawRef(sheetId).doc(categoryId), {
+        'order': order,
+        ...auditFields,
+      });
+    }
+
+    await batch.commit();
+  }
+
+  static int _compareCategories(
+    InspectionCategory left,
+    InspectionCategory right,
+  ) {
+    final leftOrder = left.order;
+    final rightOrder = right.order;
+    if (leftOrder == null && rightOrder == null) {
+      return left.type.name.compareTo(right.type.name);
+    }
+    if (leftOrder == null) return 1;
+    if (rightOrder == null) return -1;
+    return leftOrder.compareTo(rightOrder);
   }
 }

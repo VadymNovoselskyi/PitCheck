@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
 import 'package:pit_check/features/users/models/user.dart';
 import 'package:pit_check/shared/audit_metadata_model.dart';
+import 'package:pit_check/shared/firestore_stream_helpers.dart';
 
 class InspectionSheetRepository {
   // Raw documents are used for writes that include Firestore server timestamps.
@@ -15,14 +16,16 @@ class InspectionSheetRepository {
     toFirestore: (InspectionSheet sheet, _) => sheet.toFirestore(),
   );
 
-  Stream<List<InspectionSheet>> getInspectionSheets() {
-    return ref.snapshots().map(
-      (snapshot) => snapshot.docs.map((doc) => doc.data()).toList(),
+  Stream<List<InspectionSheet>> getInspectionSheets({bool archived = false}) {
+    return watchQuery(
+      ref,
+      where: (sheet) => sheet.isArchived == archived,
+      compare: _compareSheets,
     );
   }
 
-  Stream<InspectionSheet> getInspectionSheetById(String id) {
-    return ref.doc(id).snapshots().map((snapshot) => snapshot.data()!);
+  Stream<InspectionSheet?> getInspectionSheetById(String id) {
+    return watchDocument(ref.doc(id));
   }
 
   Future<void> addInspectionSheet(InspectionSheet sheet, User currentUser) {
@@ -40,7 +43,24 @@ class InspectionSheetRepository {
     });
   }
 
-  Future<void> deleteInspectionSheet(String id) {
-    return ref.doc(id).delete();
+  Future<void> setInspectionSheetArchived(
+    InspectionSheet sheet,
+    User currentUser, {
+    required bool archived,
+  }) {
+    return _rawRef.doc(sheet.id).update({
+      'archivedAt': archived ? FieldValue.serverTimestamp() : null,
+      ...AuditMetadata.updateFields(currentUser),
+    });
+  }
+
+  static int _compareSheets(InspectionSheet left, InspectionSheet right) {
+    final yearComparison = right.year.compareTo(left.year);
+    if (yearComparison != 0) {
+      return yearComparison;
+    }
+    return left.competitionName.toLowerCase().compareTo(
+      right.competitionName.toLowerCase(),
+    );
   }
 }

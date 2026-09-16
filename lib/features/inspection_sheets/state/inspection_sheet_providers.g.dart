@@ -10,7 +10,7 @@ part of 'inspection_sheet_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(inspectionSheets)
-final inspectionSheetsProvider = InspectionSheetsProvider._();
+final inspectionSheetsProvider = InspectionSheetsFamily._();
 
 final class InspectionSheetsProvider
     extends
@@ -22,19 +22,26 @@ final class InspectionSheetsProvider
     with
         $FutureModifier<List<InspectionSheet>>,
         $StreamProvider<List<InspectionSheet>> {
-  InspectionSheetsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'inspectionSheetsProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  InspectionSheetsProvider._({
+    required InspectionSheetsFamily super.from,
+    required bool super.argument,
+  }) : super(
+         retry: null,
+         name: r'inspectionSheetsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$inspectionSheetsHash();
+
+  @override
+  String toString() {
+    return r'inspectionSheetsProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -44,11 +51,40 @@ final class InspectionSheetsProvider
 
   @override
   Stream<List<InspectionSheet>> create(Ref ref) {
-    return inspectionSheets(ref);
+    final argument = this.argument as bool;
+    return inspectionSheets(ref, archived: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is InspectionSheetsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-String _$inspectionSheetsHash() => r'1acad69b7cc1ec710a2ad585e2b67c5bb765cf3e';
+String _$inspectionSheetsHash() => r'042af2887cbd66153aa1ad92dce8852b6af9fb86';
+
+final class InspectionSheetsFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<InspectionSheet>>, bool> {
+  InspectionSheetsFamily._()
+    : super(
+        retry: null,
+        name: r'inspectionSheetsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  InspectionSheetsProvider call({bool archived = false}) =>
+      InspectionSheetsProvider._(argument: archived, from: this);
+
+  @override
+  String toString() => r'inspectionSheetsProvider';
+}
 
 @ProviderFor(inspectionSheetById)
 final inspectionSheetByIdProvider = InspectionSheetByIdFamily._();
@@ -56,11 +92,11 @@ final inspectionSheetByIdProvider = InspectionSheetByIdFamily._();
 final class InspectionSheetByIdProvider
     extends
         $FunctionalProvider<
-          AsyncValue<InspectionSheet>,
-          InspectionSheet,
-          Stream<InspectionSheet>
+          AsyncValue<InspectionSheet?>,
+          InspectionSheet?,
+          Stream<InspectionSheet?>
         >
-    with $FutureModifier<InspectionSheet>, $StreamProvider<InspectionSheet> {
+    with $FutureModifier<InspectionSheet?>, $StreamProvider<InspectionSheet?> {
   InspectionSheetByIdProvider._({
     required InspectionSheetByIdFamily super.from,
     required String super.argument,
@@ -84,12 +120,12 @@ final class InspectionSheetByIdProvider
 
   @$internal
   @override
-  $StreamProviderElement<InspectionSheet> $createElement(
+  $StreamProviderElement<InspectionSheet?> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<InspectionSheet> create(Ref ref) {
+  Stream<InspectionSheet?> create(Ref ref) {
     final argument = this.argument as String;
     return inspectionSheetById(ref, argument);
   }
@@ -106,10 +142,10 @@ final class InspectionSheetByIdProvider
 }
 
 String _$inspectionSheetByIdHash() =>
-    r'1efd29c6b7825094c94627c347027f29f942796f';
+    r'0f4ac32b1424d4542e327cdc952a9b887d03c33a';
 
 final class InspectionSheetByIdFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<InspectionSheet>, String> {
+    with $FunctionalFamilyOverride<Stream<InspectionSheet?>, String> {
   InspectionSheetByIdFamily._()
     : super(
         retry: null,
@@ -266,31 +302,31 @@ final class UpdateInspectionSheetFamily extends $Family
   String toString() => r'updateInspectionSheetProvider';
 }
 
-@ProviderFor(deleteInspectionSheet)
-final deleteInspectionSheetProvider = DeleteInspectionSheetFamily._();
+@ProviderFor(setInspectionSheetArchived)
+final setInspectionSheetArchivedProvider = SetInspectionSheetArchivedFamily._();
 
-final class DeleteInspectionSheetProvider
+final class SetInspectionSheetArchivedProvider
     extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
-  DeleteInspectionSheetProvider._({
-    required DeleteInspectionSheetFamily super.from,
-    required String super.argument,
+  SetInspectionSheetArchivedProvider._({
+    required SetInspectionSheetArchivedFamily super.from,
+    required (InspectionSheet, {bool archived}) super.argument,
   }) : super(
          retry: null,
-         name: r'deleteInspectionSheetProvider',
+         name: r'setInspectionSheetArchivedProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$deleteInspectionSheetHash();
+  String debugGetCreateSourceHash() => _$setInspectionSheetArchivedHash();
 
   @override
   String toString() {
-    return r'deleteInspectionSheetProvider'
+    return r'setInspectionSheetArchivedProvider'
         ''
-        '($argument)';
+        '$argument';
   }
 
   @$internal
@@ -300,13 +336,18 @@ final class DeleteInspectionSheetProvider
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument = this.argument as String;
-    return deleteInspectionSheet(ref, argument);
+    final argument = this.argument as (InspectionSheet, {bool archived});
+    return setInspectionSheetArchived(
+      ref,
+      argument.$1,
+      archived: argument.archived,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is DeleteInspectionSheetProvider && other.argument == argument;
+    return other is SetInspectionSheetArchivedProvider &&
+        other.argument == argument;
   }
 
   @override
@@ -315,23 +356,32 @@ final class DeleteInspectionSheetProvider
   }
 }
 
-String _$deleteInspectionSheetHash() =>
-    r'c4fbe73180d7b3d5f81473467fa12967480e5693';
+String _$setInspectionSheetArchivedHash() =>
+    r'717b9660f446c84720305318b3eaaf96d87961e2';
 
-final class DeleteInspectionSheetFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, String> {
-  DeleteInspectionSheetFamily._()
+final class SetInspectionSheetArchivedFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<void>,
+          (InspectionSheet, {bool archived})
+        > {
+  SetInspectionSheetArchivedFamily._()
     : super(
         retry: null,
-        name: r'deleteInspectionSheetProvider',
+        name: r'setInspectionSheetArchivedProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  DeleteInspectionSheetProvider call(String id) =>
-      DeleteInspectionSheetProvider._(argument: id, from: this);
+  SetInspectionSheetArchivedProvider call(
+    InspectionSheet sheet, {
+    required bool archived,
+  }) => SetInspectionSheetArchivedProvider._(
+    argument: (sheet, archived: archived),
+    from: this,
+  );
 
   @override
-  String toString() => r'deleteInspectionSheetProvider';
+  String toString() => r'setInspectionSheetArchivedProvider';
 }
