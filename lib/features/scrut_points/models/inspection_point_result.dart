@@ -49,10 +49,7 @@ class InspectionPointResult {
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
-    final data = snapshot.data();
-    if (data == null) {
-      throw StateError('InspectionPointResult document does not exist');
-    }
+    final data = snapshot.data()!;
 
     return InspectionPointResult(
       id: snapshot.id,
