@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_category.dart';
@@ -32,48 +34,45 @@ Stream<InspectionCategory?> inspectionCategoryById(
   );
 }
 
-@riverpod
-Future<void> addInspectionCategory(Ref ref, InspectionCategory category) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionCategoryRepository.addInspectionCategory(
-    category,
-    currentUser,
-  );
-}
+@Riverpod(keepAlive: true)
+class InspectionCategoryActions extends _$InspectionCategoryActions {
+  @override
+  FutureOr<void> build() {}
 
-@riverpod
-Future<void> updateInspectionCategory(Ref ref, InspectionCategory category) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionCategoryRepository.updateInspectionCategory(
-    category,
-    currentUser,
-  );
-}
+  Future<void> add(InspectionCategory category) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionCategoryRepository.addInspectionCategory(
+      category,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> setInspectionCategoryArchived(
-  Ref ref,
-  InspectionCategory category, {
-  required bool archived,
-}) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionCategoryRepository.setInspectionCategoryArchived(
-    category,
-    currentUser,
-    archived: archived,
-  );
-}
+  Future<void> updateCategory(InspectionCategory category) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionCategoryRepository.updateInspectionCategory(
+      category,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> reorderInspectionCategories(
-  Ref ref,
-  String sheetId,
-  List<String> orderedCategoryIds,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionCategoryRepository.reorderInspectionCategories(
-    sheetId,
-    orderedCategoryIds,
-    currentUser,
-  );
+  Future<void> setArchived(
+    InspectionCategory category, {
+    required bool archived,
+  }) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionCategoryRepository.setInspectionCategoryArchived(
+      category,
+      currentUser,
+      archived: archived,
+    );
+  }
+
+  Future<void> reorder(String sheetId, List<String> orderedCategoryIds) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionCategoryRepository.reorderInspectionCategories(
+      sheetId,
+      orderedCategoryIds,
+      currentUser,
+    );
+  }
 }

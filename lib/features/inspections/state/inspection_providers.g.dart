@@ -159,278 +159,46 @@ final class InspectionByIdFamily extends $Family
   String toString() => r'inspectionByIdProvider';
 }
 
-@ProviderFor(addInspection)
-final addInspectionProvider = AddInspectionFamily._();
+@ProviderFor(InspectionActions)
+final inspectionActionsProvider = InspectionActionsProvider._();
 
-final class AddInspectionProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  AddInspectionProvider._({
-    required AddInspectionFamily super.from,
-    required Inspection super.argument,
-  }) : super(
-         retry: null,
-         name: r'addInspectionProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$addInspectionHash();
+final class InspectionActionsProvider
+    extends $AsyncNotifierProvider<InspectionActions, void> {
+  InspectionActionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'inspectionActionsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
-  String toString() {
-    return r'addInspectionProvider'
-        ''
-        '($argument)';
-  }
+  String debugGetCreateSourceHash() => _$inspectionActionsHash();
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as Inspection;
-    return addInspection(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is AddInspectionProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
+  InspectionActions create() => InspectionActions();
 }
 
-String _$addInspectionHash() => r'735084840d46c38bd060d5aa936185f8c0c03afc';
+String _$inspectionActionsHash() => r'29aa8a69a0322c7b714f82180dc0d19752187848';
 
-final class AddInspectionFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Inspection> {
-  AddInspectionFamily._()
-    : super(
-        retry: null,
-        name: r'addInspectionProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  AddInspectionProvider call(Inspection inspection) =>
-      AddInspectionProvider._(argument: inspection, from: this);
-
+abstract class _$InspectionActions extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
   @override
-  String toString() => r'addInspectionProvider';
-}
-
-@ProviderFor(startInspection)
-final startInspectionProvider = StartInspectionFamily._();
-
-final class StartInspectionProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  StartInspectionProvider._({
-    required StartInspectionFamily super.from,
-    required Inspection super.argument,
-  }) : super(
-         retry: null,
-         name: r'startInspectionProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$startInspectionHash();
-
-  @override
-  String toString() {
-    return r'startInspectionProvider'
-        ''
-        '($argument)';
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
-
-  @$internal
-  @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as Inspection;
-    return startInspection(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is StartInspectionProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$startInspectionHash() => r'168bbf579a153e4ac7e8f130d95b3938b042b617';
-
-final class StartInspectionFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Inspection> {
-  StartInspectionFamily._()
-    : super(
-        retry: null,
-        name: r'startInspectionProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  StartInspectionProvider call(Inspection inspection) =>
-      StartInspectionProvider._(argument: inspection, from: this);
-
-  @override
-  String toString() => r'startInspectionProvider';
-}
-
-@ProviderFor(finishInspection)
-final finishInspectionProvider = FinishInspectionFamily._();
-
-final class FinishInspectionProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  FinishInspectionProvider._({
-    required FinishInspectionFamily super.from,
-    required Inspection super.argument,
-  }) : super(
-         retry: null,
-         name: r'finishInspectionProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$finishInspectionHash();
-
-  @override
-  String toString() {
-    return r'finishInspectionProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as Inspection;
-    return finishInspection(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is FinishInspectionProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$finishInspectionHash() => r'284011cf52143bf5dd801c98928a6f01adc64a68';
-
-final class FinishInspectionFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Inspection> {
-  FinishInspectionFamily._()
-    : super(
-        retry: null,
-        name: r'finishInspectionProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  FinishInspectionProvider call(Inspection inspection) =>
-      FinishInspectionProvider._(argument: inspection, from: this);
-
-  @override
-  String toString() => r'finishInspectionProvider';
-}
-
-@ProviderFor(cancelInspection)
-final cancelInspectionProvider = CancelInspectionFamily._();
-
-final class CancelInspectionProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  CancelInspectionProvider._({
-    required CancelInspectionFamily super.from,
-    required Inspection super.argument,
-  }) : super(
-         retry: null,
-         name: r'cancelInspectionProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$cancelInspectionHash();
-
-  @override
-  String toString() {
-    return r'cancelInspectionProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as Inspection;
-    return cancelInspection(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is CancelInspectionProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$cancelInspectionHash() => r'a6f586710f959cbf1bc6e4a96cf90561599a97fe';
-
-final class CancelInspectionFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Inspection> {
-  CancelInspectionFamily._()
-    : super(
-        retry: null,
-        name: r'cancelInspectionProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  CancelInspectionProvider call(Inspection inspection) =>
-      CancelInspectionProvider._(argument: inspection, from: this);
-
-  @override
-  String toString() => r'cancelInspectionProvider';
 }

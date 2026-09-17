@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
@@ -21,28 +23,27 @@ Stream<InspectionSheet?> inspectionSheetById(Ref ref, String id) {
   return inspectionSheetRepository.getInspectionSheetById(id);
 }
 
-@riverpod
-Future<void> addInspectionSheet(Ref ref, InspectionSheet sheet) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSheetRepository.addInspectionSheet(sheet, currentUser);
-}
+@Riverpod(keepAlive: true)
+class InspectionSheetActions extends _$InspectionSheetActions {
+  @override
+  FutureOr<void> build() {}
 
-@riverpod
-Future<void> updateInspectionSheet(Ref ref, InspectionSheet sheet) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSheetRepository.updateInspectionSheet(sheet, currentUser);
-}
+  Future<void> add(InspectionSheet sheet) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSheetRepository.addInspectionSheet(sheet, currentUser);
+  }
 
-@riverpod
-Future<void> setInspectionSheetArchived(
-  Ref ref,
-  InspectionSheet sheet, {
-  required bool archived,
-}) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSheetRepository.setInspectionSheetArchived(
-    sheet,
-    currentUser,
-    archived: archived,
-  );
+  Future<void> updateSheet(InspectionSheet sheet) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSheetRepository.updateInspectionSheet(sheet, currentUser);
+  }
+
+  Future<void> setArchived(InspectionSheet sheet, {required bool archived}) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSheetRepository.setInspectionSheetArchived(
+      sheet,
+      currentUser,
+      archived: archived,
+    );
+  }
 }

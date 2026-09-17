@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/scrut_points/models/inspection_point_event.dart';
@@ -20,10 +22,16 @@ Stream<List<InspectionPointEvent>> inspectionPointEvents(
   );
 }
 
-@riverpod
-Future<void> addInspectionPointEvent(Ref ref, InspectionPointEvent event) {
-  return inspectionPointEventRepository.addInspectionPointEvent(
-    event,
-    ref.read(currentUserProvider),
-  );
+@Riverpod(keepAlive: true)
+class InspectionPointEventActions extends _$InspectionPointEventActions {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> add(InspectionPointEvent event) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionPointEventRepository.addInspectionPointEvent(
+      event,
+      currentUser,
+    );
+  }
 }

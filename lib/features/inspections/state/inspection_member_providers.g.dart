@@ -169,75 +169,47 @@ final class InspectionMemberByUserIdFamily extends $Family
   String toString() => r'inspectionMemberByUserIdProvider';
 }
 
-@ProviderFor(joinInspection)
-final joinInspectionProvider = JoinInspectionFamily._();
+@ProviderFor(InspectionMemberActions)
+final inspectionMemberActionsProvider = InspectionMemberActionsProvider._();
 
-final class JoinInspectionProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  JoinInspectionProvider._({
-    required JoinInspectionFamily super.from,
-    required (String, InspectionMemberRole) super.argument,
-  }) : super(
-         retry: null,
-         name: r'joinInspectionProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$joinInspectionHash();
+final class InspectionMemberActionsProvider
+    extends $AsyncNotifierProvider<InspectionMemberActions, void> {
+  InspectionMemberActionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'inspectionMemberActionsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
-  String toString() {
-    return r'joinInspectionProvider'
-        ''
-        '$argument';
-  }
+  String debugGetCreateSourceHash() => _$inspectionMemberActionsHash();
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as (String, InspectionMemberRole);
-    return joinInspection(ref, argument.$1, argument.$2);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is JoinInspectionProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
+  InspectionMemberActions create() => InspectionMemberActions();
 }
 
-String _$joinInspectionHash() => r'2cc49caffd2d7b50d374bf59291175dd57e0a28b';
+String _$inspectionMemberActionsHash() =>
+    r'5a888a65d65644a655aac350c0f33458ebc1b638';
 
-final class JoinInspectionFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          (String, InspectionMemberRole)
-        > {
-  JoinInspectionFamily._()
-    : super(
-        retry: null,
-        name: r'joinInspectionProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  JoinInspectionProvider call(String inspectionId, InspectionMemberRole role) =>
-      JoinInspectionProvider._(argument: (inspectionId, role), from: this);
-
+abstract class _$InspectionMemberActions extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
   @override
-  String toString() => r'joinInspectionProvider';
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
 }

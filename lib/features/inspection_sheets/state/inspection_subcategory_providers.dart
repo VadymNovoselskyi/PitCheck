@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_subcategory.dart';
@@ -36,62 +38,57 @@ Stream<InspectionSubcategory?> inspectionSubcategoryById(
   );
 }
 
-@riverpod
-Future<void> addInspectionSubcategory(
-  Ref ref,
-  String sheetId,
-  InspectionSubcategory subcategory,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSubcategoryRepository.addInspectionSubcategory(
-    sheetId,
-    subcategory,
-    currentUser,
-  );
-}
+@Riverpod(keepAlive: true)
+class InspectionSubcategoryActions extends _$InspectionSubcategoryActions {
+  @override
+  FutureOr<void> build() {}
 
-@riverpod
-Future<void> updateInspectionSubcategory(
-  Ref ref,
-  String sheetId,
-  InspectionSubcategory subcategory,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSubcategoryRepository.updateInspectionSubcategory(
-    sheetId,
-    subcategory,
-    currentUser,
-  );
-}
+  Future<void> add(String sheetId, InspectionSubcategory subcategory) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSubcategoryRepository.addInspectionSubcategory(
+      sheetId,
+      subcategory,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> setInspectionSubcategoryArchived(
-  Ref ref,
-  String sheetId,
-  InspectionSubcategory subcategory, {
-  required bool archived,
-}) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSubcategoryRepository.setInspectionSubcategoryArchived(
-    sheetId,
-    subcategory,
-    currentUser,
-    archived: archived,
-  );
-}
+  Future<void> updateSubcategory(
+    String sheetId,
+    InspectionSubcategory subcategory,
+  ) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSubcategoryRepository.updateInspectionSubcategory(
+      sheetId,
+      subcategory,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> reorderInspectionSubcategories(
-  Ref ref,
-  String sheetId,
-  String categoryId,
-  List<String> orderedSubcategoryIds,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return inspectionSubcategoryRepository.reorderInspectionSubcategories(
-    sheetId,
-    categoryId,
-    orderedSubcategoryIds,
-    currentUser,
-  );
+  Future<void> setArchived(
+    String sheetId,
+    InspectionSubcategory subcategory, {
+    required bool archived,
+  }) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSubcategoryRepository.setInspectionSubcategoryArchived(
+      sheetId,
+      subcategory,
+      currentUser,
+      archived: archived,
+    );
+  }
+
+  Future<void> reorder(
+    String sheetId,
+    String categoryId,
+    List<String> orderedSubcategoryIds,
+  ) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionSubcategoryRepository.reorderInspectionSubcategories(
+      sheetId,
+      categoryId,
+      orderedSubcategoryIds,
+      currentUser,
+    );
+  }
 }

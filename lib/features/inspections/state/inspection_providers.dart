@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/inspections/models/inspection.dart';
@@ -18,31 +20,26 @@ Stream<Inspection?> inspectionById(Ref ref, String inspectionId) {
   return inspectionRepository.getInspectionById(inspectionId);
 }
 
-@riverpod
-Future<void> addInspection(Ref ref, Inspection inspection) {
-  return inspectionRepository.addInspection(
-    inspection,
-    ref.read(currentUserProvider),
-  );
-}
+@Riverpod(keepAlive: true)
+class InspectionActions extends _$InspectionActions {
+  @override
+  FutureOr<void> build() {}
 
-@riverpod
-Future<void> startInspection(Ref ref, Inspection inspection) {
-  return inspectionRepository.startInspection(
-    inspection,
-    ref.read(currentUserProvider),
-  );
-}
+  Future<void> add(Inspection inspection) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionRepository.addInspection(inspection, currentUser);
+  }
 
-@riverpod
-Future<void> finishInspection(Ref ref, Inspection inspection) {
-  return inspectionRepository.finishInspection(
-    inspection,
-    ref.read(currentUserProvider),
-  );
-}
+  Future<void> start(Inspection inspection) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionRepository.startInspection(inspection, currentUser);
+  }
 
-@riverpod
-Future<void> cancelInspection(Ref ref, Inspection inspection) {
-  return inspectionRepository.cancelInspection(inspection);
+  Future<void> finish(Inspection inspection) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionRepository.finishInspection(inspection, currentUser);
+  }
+
+  Future<void> cancel(Inspection inspection) =>
+      inspectionRepository.cancelInspection(inspection);
 }

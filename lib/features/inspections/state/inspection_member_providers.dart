@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/inspections/models/inspection_member.dart';
@@ -25,15 +27,17 @@ Stream<InspectionMember?> inspectionMemberByUserId(
   );
 }
 
-@riverpod
-Future<void> joinInspection(
-  Ref ref,
-  String inspectionId,
-  InspectionMemberRole role,
-) {
-  return inspectionMemberRepository.joinInspection(
-    inspectionId,
-    role,
-    ref.read(currentUserProvider),
-  );
+@Riverpod(keepAlive: true)
+class InspectionMemberActions extends _$InspectionMemberActions {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> join(String inspectionId, InspectionMemberRole role) {
+    final currentUser = ref.read(currentUserProvider);
+    return inspectionMemberRepository.joinInspection(
+      inspectionId,
+      role,
+      currentUser,
+    );
+  }
 }

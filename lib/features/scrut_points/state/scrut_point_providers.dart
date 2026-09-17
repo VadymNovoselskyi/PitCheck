@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/scrut_points/repository/scrut_point_repository.dart';
@@ -40,70 +42,64 @@ Stream<ScrutPoint?> scrutPointById(
   );
 }
 
-@riverpod
-Future<void> addScrutPoint(
-  Ref ref,
-  String sheetId,
-  String categoryId,
-  ScrutPoint point,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return scrutPointRepository.addScrutPoint(
-    sheetId,
-    categoryId,
-    point,
-    currentUser,
-  );
-}
+@Riverpod(keepAlive: true)
+class ScrutPointActions extends _$ScrutPointActions {
+  @override
+  FutureOr<void> build() {}
 
-@riverpod
-Future<void> updateScrutPoint(
-  Ref ref,
-  String sheetId,
-  String categoryId,
-  ScrutPoint point,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return scrutPointRepository.updateScrutPoint(
-    sheetId,
-    categoryId,
-    point,
-    currentUser,
-  );
-}
+  Future<void> add(String sheetId, String categoryId, ScrutPoint point) {
+    final currentUser = ref.read(currentUserProvider);
+    return scrutPointRepository.addScrutPoint(
+      sheetId,
+      categoryId,
+      point,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> setScrutPointArchived(
-  Ref ref,
-  String sheetId,
-  String categoryId,
-  ScrutPoint point, {
-  required bool archived,
-}) {
-  final currentUser = ref.read(currentUserProvider);
-  return scrutPointRepository.setScrutPointArchived(
-    sheetId,
-    categoryId,
-    point,
-    currentUser,
-    archived: archived,
-  );
-}
+  Future<void> updatePoint(
+    String sheetId,
+    String categoryId,
+    ScrutPoint point,
+  ) {
+    final currentUser = ref.read(currentUserProvider);
+    return scrutPointRepository.updateScrutPoint(
+      sheetId,
+      categoryId,
+      point,
+      currentUser,
+    );
+  }
 
-@riverpod
-Future<void> reorderScrutPoints(
-  Ref ref,
-  String sheetId,
-  String categoryId,
-  String subcategoryId,
-  List<String> orderedPointIds,
-) {
-  final currentUser = ref.read(currentUserProvider);
-  return scrutPointRepository.reorderScrutPoints(
-    sheetId,
-    categoryId,
-    subcategoryId,
-    orderedPointIds,
-    currentUser,
-  );
+  Future<void> setArchived(
+    String sheetId,
+    String categoryId,
+    ScrutPoint point, {
+    required bool archived,
+  }) {
+    final currentUser = ref.read(currentUserProvider);
+    return scrutPointRepository.setScrutPointArchived(
+      sheetId,
+      categoryId,
+      point,
+      currentUser,
+      archived: archived,
+    );
+  }
+
+  Future<void> reorder(
+    String sheetId,
+    String categoryId,
+    String subcategoryId,
+    List<String> orderedPointIds,
+  ) {
+    final currentUser = ref.read(currentUserProvider);
+    return scrutPointRepository.reorderScrutPoints(
+      sheetId,
+      categoryId,
+      subcategoryId,
+      orderedPointIds,
+      currentUser,
+    );
+  }
 }

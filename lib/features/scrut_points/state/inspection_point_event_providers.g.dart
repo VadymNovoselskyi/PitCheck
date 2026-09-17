@@ -96,73 +96,48 @@ final class InspectionPointEventsFamily extends $Family
   String toString() => r'inspectionPointEventsProvider';
 }
 
-@ProviderFor(addInspectionPointEvent)
-final addInspectionPointEventProvider = AddInspectionPointEventFamily._();
+@ProviderFor(InspectionPointEventActions)
+final inspectionPointEventActionsProvider =
+    InspectionPointEventActionsProvider._();
 
-final class AddInspectionPointEventProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
-    with $FutureModifier<void>, $FutureProvider<void> {
-  AddInspectionPointEventProvider._({
-    required AddInspectionPointEventFamily super.from,
-    required InspectionPointEvent super.argument,
-  }) : super(
-         retry: null,
-         name: r'addInspectionPointEventProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$addInspectionPointEventHash();
+final class InspectionPointEventActionsProvider
+    extends $AsyncNotifierProvider<InspectionPointEventActions, void> {
+  InspectionPointEventActionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'inspectionPointEventActionsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
-  String toString() {
-    return r'addInspectionPointEventProvider'
-        ''
-        '($argument)';
-  }
+  String debugGetCreateSourceHash() => _$inspectionPointEventActionsHash();
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<void> create(Ref ref) {
-    final argument = this.argument as InspectionPointEvent;
-    return addInspectionPointEvent(ref, argument);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is AddInspectionPointEventProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
+  InspectionPointEventActions create() => InspectionPointEventActions();
 }
 
-String _$addInspectionPointEventHash() =>
-    r'6392c69649b0944483a37680c548f114f812c145';
+String _$inspectionPointEventActionsHash() =>
+    r'6b13cdb8f3ff8d2d4c4d461450bc85c13f385ca3';
 
-final class AddInspectionPointEventFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, InspectionPointEvent> {
-  AddInspectionPointEventFamily._()
-    : super(
-        retry: null,
-        name: r'addInspectionPointEventProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  AddInspectionPointEventProvider call(InspectionPointEvent event) =>
-      AddInspectionPointEventProvider._(argument: event, from: this);
-
+abstract class _$InspectionPointEventActions extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
   @override
-  String toString() => r'addInspectionPointEventProvider';
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
 }
