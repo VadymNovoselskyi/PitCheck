@@ -29,7 +29,7 @@ class InspectionSheetRepository {
   }
 
   Future<void> addInspectionSheet(InspectionSheet sheet, User currentUser) {
-    return _rawRef.doc(sheet.id).set({
+    return _rawRef.doc().set({
       ...sheet.toFirestore(),
       // Adds creator data and server timestamps under the nested audit field.
       ...AuditMetadata.createFields(currentUser),

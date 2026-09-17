@@ -31,7 +31,7 @@ class InspectionRepository {
   }
 
   Future<void> addInspection(Inspection inspection, User currentUser) {
-    return _rawRef.doc(inspection.id).set({
+    return _rawRef.doc().set({
       ...inspection.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });

@@ -46,7 +46,7 @@ class InspectionCategoryRepository {
     InspectionCategory category,
     User currentUser,
   ) {
-    return _rawRef(category.inspectionSheetId).doc(category.id).set({
+    return _rawRef(category.inspectionSheetId).doc().set({
       ...category.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });

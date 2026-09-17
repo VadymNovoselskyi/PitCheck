@@ -62,7 +62,7 @@ class ScrutPointRepository {
     ScrutPoint point,
     User currentUser,
   ) {
-    return _rawRef(sheetId, categoryId, point.subcategoryId).doc(point.id).set({
+    return _rawRef(sheetId, categoryId, point.subcategoryId).doc().set({
       ...point.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });

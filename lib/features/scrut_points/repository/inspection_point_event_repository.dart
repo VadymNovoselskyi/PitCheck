@@ -42,10 +42,10 @@ class InspectionPointEventRepository {
     User currentUser,
   ) async {
     final batch = _firestore.batch();
-    batch.set(
-      _rawEventsRef(event.inspectionId, event.scrutPointId).doc(event.id),
-      {...event.toFirestore(), 'occurredAt': FieldValue.serverTimestamp()},
-    );
+    batch.set(_rawEventsRef(event.inspectionId, event.scrutPointId).doc(), {
+      ...event.toFirestore(),
+      'occurredAt': FieldValue.serverTimestamp(),
+    });
 
     final resultFields = <String, dynamic>{
       ...AuditMetadata.updateFields(currentUser),
