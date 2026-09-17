@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class InspectionSheetScreen extends ConsumerStatefulWidget {
-  const new({super.key, required this.id});
+  const new({super.key, required this.sheetId});
 
-  final String id;
+  final String sheetId;
 
   @override
   ConsumerState<InspectionSheetScreen> createState() =>
@@ -24,7 +24,7 @@ class _InspectionSheetScreenState extends ConsumerState<InspectionSheetScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Here you will be able to see the details of the inspection sheet ID: ${widget.id}",
+                "Here you will be able to see the details of the inspection sheet ID: ${widget.sheetId}",
               ),
               const SizedBox(height: 20),
               const Text("Here you will be able to edit an inspection sheet"),
