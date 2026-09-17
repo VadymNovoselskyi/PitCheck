@@ -50,12 +50,17 @@ class InspectionPointResult {
     SnapshotOptions? options,
   ) {
     final data = snapshot.data()!;
+    final rawPointRef =
+        data['pointRef'] as DocumentReference<Map<String, dynamic>>;
 
     return InspectionPointResult(
       id: snapshot.id,
       inspectionId: data['inspectionId'],
       scrutPointId: data['scrutPointId'],
-      pointRef: data['pointRef'],
+      pointRef: rawPointRef.withConverter(
+        fromFirestore: ScrutPoint.fromFirestore,
+        toFirestore: (point, _) => point.toFirestore(),
+      ),
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
       currentStatus: InspectionPointStatus.values.byName(data['currentStatus']),
       latestJudgeId: data['latestJudgeId'],
