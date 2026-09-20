@@ -28,14 +28,18 @@ class InspectionSheetActions extends _$InspectionSheetActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> add(InspectionSheet sheet) {
+  Future<void> add(InspectionSheetInput input) {
     final currentUser = ref.read(currentUserProvider);
-    return inspectionSheetRepository.addInspectionSheet(sheet, currentUser);
+    return inspectionSheetRepository.addInspectionSheet(input, currentUser);
   }
 
-  Future<void> updateSheet(InspectionSheet sheet) {
+  Future<void> updateSheet(String sheetId, InspectionSheetInput input) {
     final currentUser = ref.read(currentUserProvider);
-    return inspectionSheetRepository.updateInspectionSheet(sheet, currentUser);
+    return inspectionSheetRepository.updateInspectionSheet(
+      sheetId,
+      input,
+      currentUser,
+    );
   }
 
   Future<void> setArchived(InspectionSheet sheet, {required bool archived}) {

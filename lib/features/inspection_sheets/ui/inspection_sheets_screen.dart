@@ -5,8 +5,6 @@ import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dar
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
 import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_form.dart';
 import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheets_content.dart';
-import 'package:pit_check/features/users/state/user_providers.dart';
-import 'package:pit_check/shared/audit_metadata_model.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
 class InspectionSheetsScreen extends ConsumerStatefulWidget {
@@ -68,35 +66,21 @@ class _InspectionSheetsScreenState
   }
 
   Future<void> _showSheetForm([InspectionSheet? sheet]) async {
-    final result = await showModalBottomSheet<InspectionSheetFormData>(
+    final result = await showModalBottomSheet<InspectionSheetInput>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => InspectionSheetForm(sheet: sheet),
+      builder: (context) => InspectionSheetForm(initialValue: sheet?.toInput()),
     );
 
     if (result == null || !mounted) return;
 
-    final currentUser = ref.read(currentUserProvider);
-    final updatedSheet = InspectionSheet(
-      id: sheet?.id ?? '',
-      competitionName: result.competitionName,
-      year: result.year,
-      description: result.description,
-      sourceUrl: result.sourceUrl,
-      auditMetadata:
-          sheet?.auditMetadata ?? AuditMetadata.localFor(currentUser),
-      archivedAt: sheet?.archivedAt,
-    );
-
     try {
       if (sheet == null) {
-        await ref
-            .read(inspectionSheetActionsProvider.notifier)
-            .add(updatedSheet);
+        await ref.read(inspectionSheetActionsProvider.notifier).add(result);
       } else {
         await ref
             .read(inspectionSheetActionsProvider.notifier)
-            .updateSheet(updatedSheet);
+            .updateSheet(sheet.id, result);
       }
       _showMessage(sheet == null ? 'Inspection sheet added' : 'Changes saved');
     } catch (_) {

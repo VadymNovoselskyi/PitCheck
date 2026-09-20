@@ -22,14 +22,17 @@ class InspectionSheet {
 
   bool get isArchived => archivedAt != null;
 
+  InspectionSheetInput toInput() {
+    return InspectionSheetInput(
+      competitionName: competitionName,
+      year: year,
+      description: description,
+      sourceUrl: sourceUrl,
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
-    return {
-      'competitionName': competitionName,
-      'year': year,
-      'description': description,
-      'sourceUrl': sourceUrl,
-      'archivedAt': archivedAt,
-    };
+    return {...toInput().toFirestore(), 'archivedAt': archivedAt};
   }
 
   factory InspectionSheet.fromFirestore(
@@ -47,5 +50,28 @@ class InspectionSheet {
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
       archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
+  }
+}
+
+class InspectionSheetInput {
+  const new({
+    required this.competitionName,
+    required this.year,
+    required this.description,
+    required this.sourceUrl,
+  });
+
+  final String competitionName;
+  final int year;
+  final String description;
+  final String? sourceUrl;
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'competitionName': competitionName,
+      'year': year,
+      'description': description,
+      'sourceUrl': sourceUrl,
+    };
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
 
 class InspectionSheetForm extends StatefulWidget {
-  const InspectionSheetForm({super.key, this.sheet});
+  const InspectionSheetForm({super.key, this.initialValue});
 
-  final InspectionSheet? sheet;
+  final InspectionSheetInput? initialValue;
 
   @override
   State<InspectionSheetForm> createState() => _InspectionSheetFormState();
@@ -59,7 +59,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
 
     Navigator.pop(
       context,
-      InspectionSheetFormData(
+      InspectionSheetInput(
         competitionName: _competitionName,
         year: _year,
         description: _description,
@@ -70,7 +70,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
 
   @override
   Widget build(BuildContext context) {
-    final sheet = widget.sheet;
+    final initialValue = widget.initialValue;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -85,7 +85,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
           child: Column(
             children: [
               Text(
-                sheet == null
+                initialValue == null
                     ? 'Add inspection sheet'
                     : 'Edit inspection sheet',
                 style: Theme.of(context).textTheme.titleLarge,
@@ -93,7 +93,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
               const SizedBox(height: 26),
 
               TextFormField(
-                initialValue: sheet?.competitionName,
+                initialValue: initialValue?.competitionName,
                 decoration: const InputDecoration(
                   labelText: 'Competition name',
                 ),
@@ -106,7 +106,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
               const SizedBox(height: 16),
 
               TextFormField(
-                initialValue: sheet?.year.toString(),
+                initialValue: initialValue?.year.toString(),
                 decoration: const InputDecoration(labelText: 'Year'),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
@@ -118,7 +118,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
               const SizedBox(height: 16),
 
               TextFormField(
-                initialValue: sheet?.description,
+                initialValue: initialValue?.description,
                 decoration: const InputDecoration(labelText: 'Description'),
                 minLines: 1,
                 maxLines: 5,
@@ -131,7 +131,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
               const SizedBox(height: 16),
 
               TextFormField(
-                initialValue: sheet?.sourceUrl,
+                initialValue: initialValue?.sourceUrl,
                 decoration: const InputDecoration(
                   labelText: 'Source URL (optional)',
                 ),
@@ -156,7 +156,7 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
                   const SizedBox(width: 10),
                   FilledButton(
                     onPressed: _submit,
-                    child: Text(sheet == null ? 'Add' : 'Save'),
+                    child: Text(initialValue == null ? 'Add' : 'Save'),
                   ),
                 ],
               ),
@@ -166,18 +166,4 @@ class _InspectionSheetFormState extends State<InspectionSheetForm> {
       ),
     );
   }
-}
-
-class InspectionSheetFormData {
-  const InspectionSheetFormData({
-    required this.competitionName,
-    required this.year,
-    required this.description,
-    required this.sourceUrl,
-  });
-
-  final String competitionName;
-  final int year;
-  final String description;
-  final String? sourceUrl;
 }

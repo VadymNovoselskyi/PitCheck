@@ -28,17 +28,25 @@ class InspectionSheetRepository {
     return watchDocument(ref.doc(id));
   }
 
-  Future<void> addInspectionSheet(InspectionSheet sheet, User currentUser) {
+  Future<void> addInspectionSheet(
+    InspectionSheetInput input,
+    User currentUser,
+  ) {
     return _rawRef.doc().set({
-      ...sheet.toFirestore(),
+      ...input.toFirestore(),
+      'archivedAt': null,
       // Adds creator data and server timestamps under the nested audit field.
       ...AuditMetadata.createFields(currentUser),
     });
   }
 
-  Future<void> updateInspectionSheet(InspectionSheet sheet, User currentUser) {
-    return _rawRef.doc(sheet.id).update({
-      ...sheet.toFirestore(),
+  Future<void> updateInspectionSheet(
+    String sheetId,
+    InspectionSheetInput input,
+    User currentUser,
+  ) {
+    return _rawRef.doc(sheetId).update({
+      ...input.toFirestore(),
       ...AuditMetadata.updateFields(currentUser),
     });
   }
