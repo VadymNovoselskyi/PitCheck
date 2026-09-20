@@ -103,9 +103,9 @@ class InspectionSubcategoryRepository {
     final auditFields = AuditMetadata.updateFields(currentUser);
 
     for (var order = 0; order < orderedSubcategoryIds.length; order++) {
-      final categoryId = orderedSubcategoryIds[order];
+      final subcategoryId = orderedSubcategoryIds[order];
 
-      batch.update(_rawRef(sheetId, categoryId).doc(categoryId), {
+      batch.update(_rawRef(sheetId, categoryId).doc(subcategoryId), {
         'order': order,
         ...auditFields,
       });
