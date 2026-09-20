@@ -47,13 +47,16 @@ class Inspection {
     return (endedAt ?? now).difference(start);
   }
 
+  CreateInspectionInput toCreateInput() {
+    return CreateInspectionInput(
+      inspectionSheetId: inspectionSheetId,
+      categoryId: categoryId,
+      selectedSubcategoryIds: selectedSubcategoryIds,
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
-    return {
-      'inspectionSheetId': inspectionSheetId,
-      'categoryId': categoryId,
-      // An empty list includes every subcategory in the selected category.
-      'selectedSubcategoryIds': selectedSubcategoryIds,
-    };
+    return toCreateInput().toFirestore();
   }
 
   factory Inspection.fromFirestore(
@@ -73,6 +76,27 @@ class Inspection {
       startedAt: (data['startedAt'] as Timestamp?)?.toDate(),
       endedAt: (data['endedAt'] as Timestamp?)?.toDate(),
     );
+  }
+}
+
+class CreateInspectionInput {
+  const new({
+    required this.inspectionSheetId,
+    required this.categoryId,
+    this.selectedSubcategoryIds = const [],
+  });
+
+  final String inspectionSheetId;
+  final String categoryId;
+
+  final List<String> selectedSubcategoryIds;
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'inspectionSheetId': inspectionSheetId,
+      'categoryId': categoryId,
+      'selectedSubcategoryIds': selectedSubcategoryIds,
+    };
   }
 }
 

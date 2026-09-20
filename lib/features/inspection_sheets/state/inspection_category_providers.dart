@@ -39,18 +39,25 @@ class InspectionCategoryActions extends _$InspectionCategoryActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> add(InspectionCategory category) {
+  Future<void> add(String sheetId, InspectionCategoryInput input) {
     final currentUser = ref.read(currentUserProvider);
     return inspectionCategoryRepository.addInspectionCategory(
-      category,
+      sheetId,
+      input,
       currentUser,
     );
   }
 
-  Future<void> updateCategory(InspectionCategory category) {
+  Future<void> updateCategory(
+    String sheetId,
+    String categoryId,
+    InspectionCategoryInput input,
+  ) {
     final currentUser = ref.read(currentUserProvider);
     return inspectionCategoryRepository.updateInspectionCategory(
-      category,
+      sheetId,
+      categoryId,
+      input,
       currentUser,
     );
   }

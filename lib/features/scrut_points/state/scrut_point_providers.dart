@@ -47,12 +47,18 @@ class ScrutPointActions extends _$ScrutPointActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> add(String sheetId, String categoryId, ScrutPoint point) {
+  Future<void> add(
+    String sheetId,
+    String categoryId,
+    String subcategoryId,
+    ScrutPointInput input,
+  ) {
     final currentUser = ref.read(currentUserProvider);
     return scrutPointRepository.addScrutPoint(
       sheetId,
       categoryId,
-      point,
+      subcategoryId,
+      input,
       currentUser,
     );
   }
@@ -60,13 +66,17 @@ class ScrutPointActions extends _$ScrutPointActions {
   Future<void> updatePoint(
     String sheetId,
     String categoryId,
-    ScrutPoint point,
+    String subcategoryId,
+    String pointId,
+    ScrutPointInput input,
   ) {
     final currentUser = ref.read(currentUserProvider);
     return scrutPointRepository.updateScrutPoint(
       sheetId,
       categoryId,
-      point,
+      subcategoryId,
+      pointId,
+      input,
       currentUser,
     );
   }

@@ -20,10 +20,14 @@ class InspectionCategory {
 
   bool get isArchived => archivedAt != null;
 
+  InspectionCategoryInput toInput() {
+    return InspectionCategoryInput(type: type);
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
+      ...toInput().toFirestore(),
       'inspectionSheetId': inspectionSheetId,
-      'type': type.name,
       'order': order,
       'archivedAt': archivedAt,
     };
@@ -45,6 +49,16 @@ class InspectionCategory {
       order: data['order'],
       archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
+  }
+}
+
+class InspectionCategoryInput {
+  const new({required this.type});
+
+  final InspectionCategoryType type;
+
+  Map<String, dynamic> toFirestore() {
+    return {'type': type.name};
   }
 }
 

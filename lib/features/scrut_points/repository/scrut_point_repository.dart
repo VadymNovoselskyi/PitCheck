@@ -59,11 +59,15 @@ class ScrutPointRepository {
   Future<void> addScrutPoint(
     String sheetId,
     String categoryId,
-    ScrutPoint point,
+    String subcategoryId,
+    ScrutPointInput input,
     User currentUser,
   ) {
-    return _rawRef(sheetId, categoryId, point.subcategoryId).doc().set({
-      ...point.toFirestore(),
+    return _rawRef(sheetId, categoryId, subcategoryId).doc().set({
+      ...input.toFirestore(),
+      'subcategoryId': subcategoryId,
+      'order': null,
+      'archivedAt': null,
       ...AuditMetadata.createFields(currentUser),
     });
   }
@@ -71,15 +75,13 @@ class ScrutPointRepository {
   Future<void> updateScrutPoint(
     String sheetId,
     String categoryId,
-    ScrutPoint point,
+    String subcategoryId,
+    String pointId,
+    ScrutPointInput input,
     User currentUser,
   ) {
-    return _rawRef(
-      sheetId,
-      categoryId,
-      point.subcategoryId,
-    ).doc(point.id).update({
-      ...point.toFirestore(),
+    return _rawRef(sheetId, categoryId, subcategoryId).doc(pointId).update({
+      ...input.toFirestore(),
       ...AuditMetadata.updateFields(currentUser),
     });
   }

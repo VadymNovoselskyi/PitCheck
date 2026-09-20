@@ -63,4 +63,42 @@ class InspectionPointEvent {
   }
 }
 
+class InspectionPointDecisionInput {
+  const new({
+    required this.status,
+    this.comment = '',
+    this.attachmentUrls = const [],
+  });
+
+  final InspectionPointStatus status;
+  final String comment;
+  final List<String> attachmentUrls;
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'type': InspectionPointEventType.decision.name,
+      'status': status.name,
+      'comment': comment,
+      'attachmentUrls': attachmentUrls,
+    };
+  }
+}
+
+class InspectionPointAddressInput {
+  const new({required this.addressed, this.comment = ''});
+
+  final bool addressed;
+  final String comment;
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'type': addressed
+          ? InspectionPointEventType.markedAddressed.name
+          : InspectionPointEventType.markedUnaddressed.name,
+      'comment': comment,
+      'attachmentUrls': <String>[],
+    };
+  }
+}
+
 enum InspectionPointEventType { decision, markedAddressed, markedUnaddressed }

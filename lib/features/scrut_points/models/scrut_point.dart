@@ -23,11 +23,14 @@ class ScrutPoint {
 
   final int? order;
 
+  ScrutPointInput toInput() {
+    return ScrutPointInput(name: name, description: description);
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
+      ...toInput().toFirestore(),
       'subcategoryId': subcategoryId,
-      'name': name,
-      'description': description,
       'order': order,
       'archivedAt': archivedAt,
     };
@@ -48,5 +51,16 @@ class ScrutPoint {
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
       archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
+  }
+}
+
+class ScrutPointInput {
+  const new({required this.name, this.description = ''});
+
+  final String name;
+  final String description;
+
+  Map<String, dynamic> toFirestore() {
+    return {'name': name, 'description': description};
   }
 }

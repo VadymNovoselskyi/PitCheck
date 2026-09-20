@@ -24,11 +24,14 @@ class InspectionSubcategory {
   // Index in its category
   final int? order;
 
+  InspectionSubcategoryInput toInput() {
+    return InspectionSubcategoryInput(name: name, description: description);
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
+      ...toInput().toFirestore(),
       'inspectionCategoryId': inspectionCategoryId,
-      'name': name,
-      'description': description,
       'order': order,
       'archivedAt': archivedAt,
     };
@@ -49,5 +52,16 @@ class InspectionSubcategory {
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
       archivedAt: (data['archivedAt'] as Timestamp?)?.toDate(),
     );
+  }
+}
+
+class InspectionSubcategoryInput {
+  const new({required this.name, required this.description});
+
+  final String name;
+  final String description;
+
+  Map<String, dynamic> toFirestore() {
+    return {'name': name, 'description': description};
   }
 }

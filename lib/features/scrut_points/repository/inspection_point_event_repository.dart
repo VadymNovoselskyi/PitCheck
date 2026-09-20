@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:pit_check/features/scrut_points/models/inspection_point_event.dart';
+import 'package:pit_check/features/scrut_points/models/inspection_point_status.dart';
 import 'package:pit_check/features/users/models/user.dart';
 import 'package:pit_check/shared/audit_metadata_model.dart';
 import 'package:pit_check/shared/firestore_stream_helpers.dart';
@@ -37,42 +38,55 @@ class InspectionPointEventRepository {
     );
   }
 
-  Future<void> addInspectionPointEvent(
-    InspectionPointEvent event,
+  Future<void> recordDecision(
+    String inspectionId,
+    String scrutPointId,
+    InspectionPointDecisionInput input,
     User currentUser,
   ) async {
     final batch = _firestore.batch();
-    batch.set(_rawEventsRef(event.inspectionId, event.scrutPointId).doc(), {
-      ...event.toFirestore(),
+    batch.set(_rawEventsRef(inspectionId, scrutPointId).doc(), {
+      'inspectionId': inspectionId,
+      'scrutPointId': scrutPointId,
+      ...input.toFirestore(),
+      'actorId': currentUser.id,
+      'actorName': currentUser.fullName,
       'occurredAt': FieldValue.serverTimestamp(),
     });
 
-    final resultFields = <String, dynamic>{
+    batch.update(_rawResultsRef(inspectionId).doc(scrutPointId), {
+      'currentStatus': input.status.name,
+      'latestJudgeId': currentUser.id,
+      'latestJudgeName': currentUser.fullName,
+      'latestDecisionAt': FieldValue.serverTimestamp(),
       ...AuditMetadata.updateFields(currentUser),
-    };
-    switch (event.type) {
-      case InspectionPointEventType.decision:
-        resultFields.addAll({
-          'currentStatus': event.status.name,
-          'latestJudgeId': event.actorId,
-          'latestJudgeName': event.actorName,
-          'latestDecisionAt': FieldValue.serverTimestamp(),
-        });
-      case InspectionPointEventType.markedAddressed:
-        resultFields.addAll({
-          'isAddressed': true,
-          'addressedNote': event.comment,
-        });
-      case InspectionPointEventType.markedUnaddressed:
-        resultFields.addAll({
-          'isAddressed': false,
-          'addressedNote': event.comment,
-        });
-    }
-    batch.update(
-      _rawResultsRef(event.inspectionId).doc(event.scrutPointId),
-      resultFields,
-    );
+    });
+    await batch.commit();
+  }
+
+  Future<void> setAddressed(
+    String inspectionId,
+    String scrutPointId,
+    InspectionPointStatus currentStatus,
+    InspectionPointAddressInput input,
+    User currentUser,
+  ) async {
+    final batch = _firestore.batch();
+    batch.set(_rawEventsRef(inspectionId, scrutPointId).doc(), {
+      'inspectionId': inspectionId,
+      'scrutPointId': scrutPointId,
+      ...input.toFirestore(),
+      'status': currentStatus.name,
+      'actorId': currentUser.id,
+      'actorName': currentUser.fullName,
+      'occurredAt': FieldValue.serverTimestamp(),
+    });
+
+    batch.update(_rawResultsRef(inspectionId).doc(scrutPointId), {
+      'isAddressed': input.addressed,
+      'addressedNote': input.comment,
+      ...AuditMetadata.updateFields(currentUser),
+    });
     await batch.commit();
   }
 

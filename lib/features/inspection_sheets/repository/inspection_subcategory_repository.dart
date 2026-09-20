@@ -55,25 +55,28 @@ class InspectionSubcategoryRepository {
 
   Future<void> addInspectionSubcategory(
     String sheetId,
-    InspectionSubcategory subcategory,
+    String categoryId,
+    InspectionSubcategoryInput input,
     User currentUser,
   ) {
-    return _rawRef(sheetId, subcategory.inspectionCategoryId).doc().set({
-      ...subcategory.toFirestore(),
+    return _rawRef(sheetId, categoryId).doc().set({
+      ...input.toFirestore(),
+      'inspectionCategoryId': categoryId,
+      'order': null,
+      'archivedAt': null,
       ...AuditMetadata.createFields(currentUser),
     });
   }
 
   Future<void> updateInspectionSubcategory(
     String sheetId,
-    InspectionSubcategory subcategory,
+    String categoryId,
+    String subcategoryId,
+    InspectionSubcategoryInput input,
     User currentUser,
   ) {
-    return _rawRef(
-      sheetId,
-      subcategory.inspectionCategoryId,
-    ).doc(subcategory.id).update({
-      ...subcategory.toFirestore(),
+    return _rawRef(sheetId, categoryId).doc(subcategoryId).update({
+      ...input.toFirestore(),
       ...AuditMetadata.updateFields(currentUser),
     });
   }

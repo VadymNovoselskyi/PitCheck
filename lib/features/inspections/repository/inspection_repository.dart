@@ -30,9 +30,9 @@ class InspectionRepository {
     return watchDocument(_ref.doc(id));
   }
 
-  Future<void> addInspection(Inspection inspection, User currentUser) {
+  Future<void> addInspection(CreateInspectionInput input, User currentUser) {
     return _rawRef.doc().set({
-      ...inspection.toFirestore(),
+      ...input.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });
   }

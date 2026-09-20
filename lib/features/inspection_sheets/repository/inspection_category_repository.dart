@@ -43,21 +43,27 @@ class InspectionCategoryRepository {
   }
 
   Future<void> addInspectionCategory(
-    InspectionCategory category,
+    String sheetId,
+    InspectionCategoryInput input,
     User currentUser,
   ) {
-    return _rawRef(category.inspectionSheetId).doc().set({
-      ...category.toFirestore(),
+    return _rawRef(sheetId).doc().set({
+      ...input.toFirestore(),
+      'inspectionSheetId': sheetId,
+      'order': null,
+      'archivedAt': null,
       ...AuditMetadata.createFields(currentUser),
     });
   }
 
   Future<void> updateInspectionCategory(
-    InspectionCategory category,
+    String sheetId,
+    String categoryId,
+    InspectionCategoryInput input,
     User currentUser,
   ) {
-    return _rawRef(category.inspectionSheetId).doc(category.id).update({
-      ...category.toFirestore(),
+    return _rawRef(sheetId).doc(categoryId).update({
+      ...input.toFirestore(),
       ...AuditMetadata.updateFields(currentUser),
     });
   }
