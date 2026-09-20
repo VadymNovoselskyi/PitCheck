@@ -20,6 +20,13 @@ final router = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [GoRoute(path: '/', builder: (_, _) => const HomeScreen())],
+          // routes: [
+          //   GoRoute(
+          //     path: '/',
+          //     builder: (_, _) =>
+          //         ErrorView(message: 'An error occurred', onRetry: () {}),
+          //   ),
+          // ],
         ),
         StatefulShellBranch(
           routes: [
