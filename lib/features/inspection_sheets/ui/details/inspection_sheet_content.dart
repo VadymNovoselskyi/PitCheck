@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_categories_section.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_header.dart';
+import 'package:pit_check/features/inspection_sheets/ui/details/inspection_categories_section.dart';
+import 'package:pit_check/features/inspection_sheets/ui/details/inspection_sheet_header.dart';
 
 class InspectionSheetContent extends StatelessWidget {
   const InspectionSheetContent({super.key, required this.sheet});

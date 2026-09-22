@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_content.dart';
+import 'package:pit_check/features/inspection_sheets/ui/details/inspection_sheet_content.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
-class InspectionSheetScreen extends ConsumerWidget {
+class InspectionSheetDetailsScreen extends ConsumerWidget {
   const new({super.key, required this.sheetId});
 
   final String sheetId;

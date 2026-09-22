@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_category.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_subcategory_providers.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_subcategory_tile.dart';
+import 'package:pit_check/features/inspection_sheets/ui/details/inspection_subcategory_tile.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 
 class InspectionCategoryCard extends ConsumerStatefulWidget {

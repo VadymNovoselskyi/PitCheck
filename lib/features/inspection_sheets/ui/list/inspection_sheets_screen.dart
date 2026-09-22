@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_form.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheets_content.dart';
+import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheet_form.dart';
+import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_content.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
 class InspectionSheetsScreen extends ConsumerStatefulWidget {

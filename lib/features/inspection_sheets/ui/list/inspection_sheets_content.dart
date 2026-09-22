@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
-import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_card.dart';
+import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheet_card.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 
 class InspectionSheetsContent extends StatelessWidget {
