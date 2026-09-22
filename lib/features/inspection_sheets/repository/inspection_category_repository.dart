@@ -106,7 +106,7 @@ class InspectionCategoryRepository {
     final leftOrder = left.order;
     final rightOrder = right.order;
     if (leftOrder == null && rightOrder == null) {
-      return left.type.name.compareTo(right.type.name);
+      return left.type.label.compareTo(right.type.label);
     }
     if (leftOrder == null) return 1;
     if (rightOrder == null) return -1;

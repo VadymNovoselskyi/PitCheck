@@ -63,26 +63,19 @@ class InspectionCategoryInput {
 }
 
 enum InspectionCategoryType {
-  preInspection(
-    name: "Pre-inspection",
-    description: "Pre-inspection before the drive",
-  ),
-  postInspection(
-    name: "Post-inspection",
-    description: "Post-inspection after the drive",
-  ),
-  egress(name: "Egress", description: "Egress inspection"),
-  accumulator(name: "Accumulator", description: "Accumulator inspection"),
-  electrical(name: "Electrical", description: "Electrical inspection"),
-  lv(name: "LV", description: "Low Voltage inspection"),
-  mech(name: "Mech", description: "Mechanical inspection"),
-  hv(name: "HV", description: "High Voltage inspection"),
-  rain(name: "Rain Test", description: "Rain inspection"),
-  brake(name: "Brake Test", description: "Brake inspection"),
-  tilt(name: "Tilt Test", description: "Tilt inspection");
+  preInspection(label: "Pre-inspection"),
+  postInspection(label: "Post-inspection"),
+  egress(label: "Egress"),
+  accumulator(label: "Accumulator"),
+  electrical(label: "Electrical"),
+  lv(label: "LV"),
+  mech(label: "Mech"),
+  hv(label: "HV"),
+  rain(label: "Rain Test"),
+  brake(label: "Brake Test"),
+  tilt(label: "Tilt Test");
 
-  const new({required this.name, required this.description});
+  const new({required this.label});
 
-  final String name;
-  final String description;
+  final String label;
 }
