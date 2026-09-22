@@ -7,6 +7,7 @@ class AppColors {
   static const Color accent = Color(0xFFFF4800);
   static const Color text = Color(0xFFF1F4F8);
   static const Color secondaryText = Color(0xFFB5BFCE);
+  static const Color divider = Color.fromARGB(255, 80, 82, 84);
 }
 
 const _roundedShape = RoundedRectangleBorder(
@@ -35,6 +36,11 @@ final appTheme = ThemeData(
     titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
     bodyLarge: TextStyle(fontSize: 16, height: 1.5),
     bodyMedium: TextStyle(fontSize: 14, height: 1.5),
+    bodySmall: TextStyle(
+      fontSize: 13,
+      height: 1.4,
+      color: AppColors.secondaryText,
+    ),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.background,
@@ -91,7 +97,7 @@ final appTheme = ThemeData(
     childrenPadding: EdgeInsets.only(left: 16),
   ),
   dividerTheme: const DividerThemeData(
-    color: AppColors.secondaryText,
+    color: AppColors.divider,
     space: 1,
     thickness: 1,
   ),

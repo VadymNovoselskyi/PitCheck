@@ -1,46 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-class InspectionSheetScreen extends ConsumerStatefulWidget {
+import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
+import 'package:pit_check/features/inspection_sheets/ui/components/inspection_sheet_content.dart';
+import 'package:pit_check/shared/ui/components/empty_view.dart';
+import 'package:pit_check/shared/ui/components/error_view.dart';
+
+class InspectionSheetScreen extends ConsumerWidget {
   const new({super.key, required this.sheetId});
 
   final String sheetId;
 
   @override
-  ConsumerState<InspectionSheetScreen> createState() =>
-      _InspectionSheetScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sheet = ref.watch(inspectionSheetByIdProvider(sheetId));
 
-class _InspectionSheetScreenState extends ConsumerState<InspectionSheetScreen> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Inspection Sheet Details')),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Here you will be able to see the details of the inspection sheet ID: ${widget.sheetId}",
-              ),
-              const SizedBox(height: 20),
-              const Text("Here you will be able to edit an inspection sheet"),
-              const SizedBox(height: 20),
-              const Text(
-                "Here you will be able to create a new inspection sheet",
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  context.go('/');
-                },
-                child: const Text("Go back to home page"),
-              ),
-            ],
-          ),
+      body: sheet.when(
+        data: (value) => value == null
+            ? const EmptyView(
+                icon: Icons.checklist_outlined,
+                title: 'Inspection sheet not found',
+                message: 'This inspection sheet may have been removed',
+              )
+            : InspectionSheetContent(sheet: value),
+
+        loading: () => const Center(child: CircularProgressIndicator()),
+
+        error: (error, _) => ErrorView(
+          message: 'Could not load the inspection sheet ($error)',
+          onRetry: () => ref.invalidate(inspectionSheetByIdProvider(sheetId)),
         ),
       ),
     );

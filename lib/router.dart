@@ -6,6 +6,7 @@ import 'package:pit_check/home_screen.dart';
 
 import 'package:pit_check/features/inspection_sheets/ui/inspection_sheets_screen.dart';
 import 'package:pit_check/features/inspection_sheets/ui/inspection_sheet_screen.dart';
+import 'package:pit_check/features/scrut_points/ui/scrut_point_screen.dart';
 
 import 'package:pit_check/features/inspections/ui/inspections_archive_screen.dart';
 
@@ -39,6 +40,17 @@ final router = GoRouter(
                   builder: (_, state) => InspectionSheetScreen(
                     sheetId: state.pathParameters['sheetId']!,
                   ),
+                  routes: [
+                    GoRoute(
+                      path: 'categories/:categoryId/subcategories/:subcategoryId/points/:pointId',
+                      builder: (_, state) => ScrutPointScreen(
+                        sheetId: state.pathParameters['sheetId']!,
+                        categoryId: state.pathParameters['categoryId']!,
+                        subcategoryId: state.pathParameters['subcategoryId']!,
+                        pointId: state.pathParameters['pointId']!,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
