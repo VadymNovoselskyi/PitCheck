@@ -78,6 +78,7 @@ enum InspectionCategoryType {
   mech(name: "Mech", description: "Mechanical inspection"),
   hv(name: "HV", description: "High Voltage inspection"),
   rain(name: "Rain Test", description: "Rain inspection"),
+  brake(name: "Brake Test", description: "Brake inspection"),
   tilt(name: "Tilt Test", description: "Tilt inspection");
 
   const new({required this.name, required this.description});
