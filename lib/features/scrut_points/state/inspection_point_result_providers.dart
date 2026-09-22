@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
+import 'package:pit_check/features/scrut_points/models/scrut_point_history.dart';
 import 'package:pit_check/features/scrut_points/repository/inspection_point_result_repository.dart';
 
 part 'inspection_point_result_providers.g.dart';
@@ -30,9 +31,14 @@ Stream<InspectionPointResult?> inspectionPointResultByPointId(
 }
 
 @riverpod
-Stream<List<InspectionPointResult>> scrutPointResults(
+Stream<ScrutPointHistory> scrutPointHistory(
   Ref ref,
-  String scrutPointId,
+  String sheetId,
+  String categoryId,
+  String subcategoryId,
+  String pointId,
 ) {
-  return inspectionPointResultRepository.getResultsForScrutPoint(scrutPointId);
+  return inspectionPointResultRepository
+      .getResultsForScrutPoint(sheetId, categoryId, subcategoryId, pointId)
+      .map(ScrutPointHistory.fromResults);
 }

@@ -57,11 +57,17 @@ class InspectionRepository {
           toFirestore: (scrutPoint, _) => scrutPoint.toFirestore(),
         ),
         auditMetadata: AuditMetadata.localFor(currentUser),
+        inspectionStartedAt: null,
+        pointOrder: point.data()['order'] as int?,
       );
 
       batch.set(
         _rawRef.doc(inspection.id).collection('results').doc(point.id),
-        {...result.toFirestore(), ...AuditMetadata.createFields(currentUser)},
+        {
+          ...result.toFirestore(),
+          'inspectionStartedAt': FieldValue.serverTimestamp(),
+          ...AuditMetadata.createFields(currentUser),
+        },
       );
     }
 

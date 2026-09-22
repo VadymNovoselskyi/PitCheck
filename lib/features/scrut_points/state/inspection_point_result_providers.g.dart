@@ -178,55 +178,61 @@ final class InspectionPointResultByPointIdFamily extends $Family
   String toString() => r'inspectionPointResultByPointIdProvider';
 }
 
-@ProviderFor(scrutPointResults)
-final scrutPointResultsProvider = ScrutPointResultsFamily._();
+@ProviderFor(scrutPointHistory)
+final scrutPointHistoryProvider = ScrutPointHistoryFamily._();
 
-final class ScrutPointResultsProvider
+final class ScrutPointHistoryProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<InspectionPointResult>>,
-          List<InspectionPointResult>,
-          Stream<List<InspectionPointResult>>
+          AsyncValue<ScrutPointHistory>,
+          ScrutPointHistory,
+          Stream<ScrutPointHistory>
         >
     with
-        $FutureModifier<List<InspectionPointResult>>,
-        $StreamProvider<List<InspectionPointResult>> {
-  ScrutPointResultsProvider._({
-    required ScrutPointResultsFamily super.from,
-    required String super.argument,
+        $FutureModifier<ScrutPointHistory>,
+        $StreamProvider<ScrutPointHistory> {
+  ScrutPointHistoryProvider._({
+    required ScrutPointHistoryFamily super.from,
+    required (String, String, String, String) super.argument,
   }) : super(
          retry: null,
-         name: r'scrutPointResultsProvider',
+         name: r'scrutPointHistoryProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$scrutPointResultsHash();
+  String debugGetCreateSourceHash() => _$scrutPointHistoryHash();
 
   @override
   String toString() {
-    return r'scrutPointResultsProvider'
+    return r'scrutPointHistoryProvider'
         ''
-        '($argument)';
+        '$argument';
   }
 
   @$internal
   @override
-  $StreamProviderElement<List<InspectionPointResult>> $createElement(
+  $StreamProviderElement<ScrutPointHistory> $createElement(
     $ProviderPointer pointer,
   ) => $StreamProviderElement(pointer);
 
   @override
-  Stream<List<InspectionPointResult>> create(Ref ref) {
-    final argument = this.argument as String;
-    return scrutPointResults(ref, argument);
+  Stream<ScrutPointHistory> create(Ref ref) {
+    final argument = this.argument as (String, String, String, String);
+    return scrutPointHistory(
+      ref,
+      argument.$1,
+      argument.$2,
+      argument.$3,
+      argument.$4,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ScrutPointResultsProvider && other.argument == argument;
+    return other is ScrutPointHistoryProvider && other.argument == argument;
   }
 
   @override
@@ -235,23 +241,33 @@ final class ScrutPointResultsProvider
   }
 }
 
-String _$scrutPointResultsHash() => r'8cd2387f32b793bcc6093ec0605e2e2af60e2bb7';
+String _$scrutPointHistoryHash() => r'29c40186ee383e4d36737726711d4b797973f3a1';
 
-final class ScrutPointResultsFamily extends $Family
+final class ScrutPointHistoryFamily extends $Family
     with
-        $FunctionalFamilyOverride<Stream<List<InspectionPointResult>>, String> {
-  ScrutPointResultsFamily._()
+        $FunctionalFamilyOverride<
+          Stream<ScrutPointHistory>,
+          (String, String, String, String)
+        > {
+  ScrutPointHistoryFamily._()
     : super(
         retry: null,
-        name: r'scrutPointResultsProvider',
+        name: r'scrutPointHistoryProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  ScrutPointResultsProvider call(String scrutPointId) =>
-      ScrutPointResultsProvider._(argument: scrutPointId, from: this);
+  ScrutPointHistoryProvider call(
+    String sheetId,
+    String categoryId,
+    String subcategoryId,
+    String pointId,
+  ) => ScrutPointHistoryProvider._(
+    argument: (sheetId, categoryId, subcategoryId, pointId),
+    from: this,
+  );
 
   @override
-  String toString() => r'scrutPointResultsProvider';
+  String toString() => r'scrutPointHistoryProvider';
 }

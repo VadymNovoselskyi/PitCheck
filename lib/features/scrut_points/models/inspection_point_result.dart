@@ -10,6 +10,8 @@ class InspectionPointResult {
     required this.scrutPointId,
     required this.pointRef,
     required this.auditMetadata,
+    required this.inspectionStartedAt,
+    required this.pointOrder,
     this.currentStatus = InspectionPointStatus.pending,
     this.latestJudgeId,
     this.latestJudgeName,
@@ -23,6 +25,8 @@ class InspectionPointResult {
   final String scrutPointId;
   final DocumentReference<ScrutPoint> pointRef;
   final AuditMetadata auditMetadata;
+  final DateTime? inspectionStartedAt;
+  final int? pointOrder;
 
   final InspectionPointStatus currentStatus;
   final String? latestJudgeId;
@@ -37,6 +41,8 @@ class InspectionPointResult {
       'inspectionId': inspectionId,
       'scrutPointId': scrutPointId,
       'pointRef': pointRef,
+      'inspectionStartedAt': inspectionStartedAt,
+      'pointOrder': pointOrder,
       'currentStatus': currentStatus.name,
       'latestJudgeId': latestJudgeId,
       'latestJudgeName': latestJudgeName,
@@ -62,6 +68,9 @@ class InspectionPointResult {
         toFirestore: (point, _) => point.toFirestore(),
       ),
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
+      inspectionStartedAt: (data['inspectionStartedAt'] as Timestamp?)
+          ?.toDate(),
+      pointOrder: data['pointOrder'] as int?,
       currentStatus: InspectionPointStatus.values.byName(data['currentStatus']),
       latestJudgeId: data['latestJudgeId'],
       latestJudgeName: data['latestJudgeName'],

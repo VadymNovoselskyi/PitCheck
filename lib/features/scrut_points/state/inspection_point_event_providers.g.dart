@@ -122,7 +122,7 @@ final class InspectionPointEventActionsProvider
 }
 
 String _$inspectionPointEventActionsHash() =>
-    r'6b13cdb8f3ff8d2d4c4d461450bc85c13f385ca3';
+    r'c1cff76074575cc8fd65ba972c9b969fdf398584';
 
 abstract class _$InspectionPointEventActions extends $AsyncNotifier<void> {
   FutureOr<void> build();
