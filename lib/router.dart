@@ -6,7 +6,8 @@ import 'package:pit_check/home_screen.dart';
 
 import 'package:pit_check/features/inspection_sheets/ui/details/inspection_sheet_details_screen.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_screen.dart';
-import 'package:pit_check/features/scrut_points/ui/scrut_point_screen.dart';
+import 'package:pit_check/features/scrut_points/ui/point_details/scrut_point_details_screen.dart';
+import 'package:pit_check/features/scrut_points/ui/result_details/inspection_point_result_details_screen.dart';
 
 import 'package:pit_check/features/inspections/ui/inspections_archive_screen.dart';
 
@@ -43,7 +44,7 @@ final router = GoRouter(
                   routes: [
                     GoRoute(
                       path: 'categories/:categoryId/subcategories/:subcategoryId/points/:pointId',
-                      builder: (_, state) => ScrutPointScreen(
+                      builder: (_, state) => ScrutPointDetailsScreen(
                         sheetId: state.pathParameters['sheetId']!,
                         categoryId: state.pathParameters['categoryId']!,
                         subcategoryId: state.pathParameters['subcategoryId']!,
@@ -73,6 +74,14 @@ final router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/inspections/:inspectionId/results/:pointId',
+      name: inspectionPointResultRouteName,
+      builder: (_, state) => InspectionPointResultDetailsScreen(
+        inspectionId: state.pathParameters['inspectionId']!,
+        pointId: state.pathParameters['pointId']!,
+      ),
     ),
   ],
 );
