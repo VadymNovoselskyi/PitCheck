@@ -84,6 +84,9 @@ class _InspectionLobbyScreenState extends ConsumerState<InspectionLobbyScreen> {
 
     if (!confirmed || !mounted) return;
 
+    // If the user canclled the lobby, it will be deleted, and firestore pushed local update synchronously or smth
+    // and it deletes the inspection and dismounts the current screen or smth, so the context goes away
+    // and we are stuck on an error screen. So we need to capture the router before context destruction
     final router = GoRouter.of(context);
     try {
       await ref

@@ -41,6 +41,7 @@ class InspectionMemberRepository {
       'inspectionId': inspectionId,
       'userId': currentUser.id,
       'displayName': currentUser.fullName,
+      'image': currentUser.image,
       'role': role.name,
       'joinedAt': FieldValue.serverTimestamp(),
     });

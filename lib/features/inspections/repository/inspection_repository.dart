@@ -53,6 +53,7 @@ class InspectionRepository {
       'inspectionId': inspectionReference.id,
       'userId': currentUser.id,
       'displayName': currentUser.fullName,
+      'image': currentUser.image,
       'role': InspectionMemberRole.judge.name,
       'joinedAt': FieldValue.serverTimestamp(),
     });

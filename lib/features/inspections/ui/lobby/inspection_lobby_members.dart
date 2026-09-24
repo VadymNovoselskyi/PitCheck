@@ -37,8 +37,22 @@ class InspectionLobbyMembers extends ConsumerWidget {
                     for (final member in items)
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: const CircleAvatar(
-                          child: Icon(Icons.person_outline),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          child: member.image.isNotEmpty
+                              ? ClipOval(
+                                  child: Image.network(
+                                    member.image,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, _, _) => const Icon(
+                                      Icons.person_outline,
+                                      size: 36,
+                                    ),
+                                  ),
+                                )
+                              : const Icon(Icons.person_outline, size: 36),
                         ),
                         title: Text(member.displayName),
                         subtitle: Text(switch (member.role) {

@@ -13,7 +13,7 @@ User currentUser(Ref ref) {
     firstName: 'Test',
     lastName: 'User',
     email: 'test.user@example.com',
-    image: '',
+    image: 'https://lh3.googleusercontent.com/a/ACg8ocIF_Nsx1zI0gu28OrXuVTIgVr8fBCtHZ6bjzZDbqdEB-EroWtbp=s96-c',
     role: Role.user,
   );
 }
