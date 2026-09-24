@@ -10,6 +10,7 @@ import 'package:pit_check/features/scrut_points/ui/point_details/scrut_point_res
 import 'package:pit_check/features/scrut_points/ui/point_details/scrut_point_summary.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
+import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class ScrutPointDetailsScreen extends ConsumerWidget {
   const ScrutPointDetailsScreen({
@@ -113,6 +114,7 @@ class ScrutPointDetailsScreen extends ConsumerWidget {
     WidgetRef ref,
     ScrutPoint point,
   ) async {
+    final messenger = ScaffoldMessenger.of(context);
     final input = await showModalBottomSheet<ScrutPointInput>(
       context: context,
       isScrollControlled: true,
@@ -125,17 +127,9 @@ class ScrutPointDetailsScreen extends ConsumerWidget {
       await ref
           .read(scrutPointActionsProvider.notifier)
           .updatePoint(sheetId, categoryId, subcategoryId, pointId, input);
-      if (context.mounted) _showMessage(context, 'Changes saved');
+      showAppSnackBar(messenger, 'Changes saved');
     } catch (_) {
-      if (context.mounted) {
-        _showMessage(context, 'Could not save the scrut point');
-      }
+      showAppSnackBar(messenger, 'Could not save the scrut point');
     }
-  }
-
-  void _showMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
   }
 }
