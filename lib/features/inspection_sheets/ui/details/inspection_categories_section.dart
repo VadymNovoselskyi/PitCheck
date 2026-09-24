@@ -18,7 +18,7 @@ class InspectionCategoriesSection extends ConsumerWidget {
       data: (items) {
         if (items.isEmpty) {
           return const InlineEmpty(
-            message: 'No active categories in this inspection sheet.',
+            message: 'No active categories in this inspection sheet',
           );
         }
 

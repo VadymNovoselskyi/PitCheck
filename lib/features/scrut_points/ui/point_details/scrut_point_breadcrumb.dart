@@ -43,7 +43,7 @@ class ScrutPointBreadcrumb extends ConsumerWidget {
               ),
             ),
         },
-        child: _text(context, 'Could not load context. Tap to retry.'),
+        child: _text(context, 'Could not load context. Tap to retry'),
       );
     }
 
@@ -57,7 +57,7 @@ class ScrutPointBreadcrumb extends ConsumerWidget {
     if (loadedSheet == null ||
         loadedCategory == null ||
         loadedSubcategory == null) {
-      return _text(context, 'Inspection context unavailable.');
+      return _text(context, 'Inspection context unavailable');
     }
     final sheetLocation = Uri(path: '/sheets/$sheetId').toString();
 

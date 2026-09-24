@@ -64,7 +64,7 @@ class _InspectionCategoryCardState
           data: (items) {
             if (items.isEmpty) {
               return const InlineEmpty(
-                message: 'No active subcategories in this category.',
+                message: 'No active subcategories in this category',
               );
             }
 

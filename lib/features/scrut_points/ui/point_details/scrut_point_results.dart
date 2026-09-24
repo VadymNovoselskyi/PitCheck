@@ -27,7 +27,7 @@ class ScrutPointResults extends StatelessWidget {
           return const EmptyView(
             icon: Icons.history_outlined,
             title: 'No previous results',
-            message: 'No previous inspection results for this point.',
+            message: 'No previous inspection results for this point',
           );
         }
 
@@ -45,7 +45,7 @@ class ScrutPointResults extends StatelessWidget {
 
       error: (_, _) => ErrorView(
         title: 'Could not load previous results',
-        message: 'Could not load previous results.',
+        message: 'Could not load previous results',
         onRetry: onRetry,
       ),
     );

@@ -88,7 +88,7 @@ class ScrutPointSummary extends StatelessWidget {
 
       error: (_, _) => ErrorView(
         title: 'Could not load summary',
-        message: 'Could not load point summary.',
+        message: 'Could not load point summary',
         onRetry: onRetry,
       ),
     );

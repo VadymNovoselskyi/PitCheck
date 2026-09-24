@@ -71,7 +71,7 @@ class _InspectionSubcategoryTileState
           data: (items) {
             if (items.isEmpty) {
               return const InlineEmpty(
-                message: 'No active scrut points in this subcategory.',
+                message: 'No active scrut points in this subcategory',
               );
             }
 

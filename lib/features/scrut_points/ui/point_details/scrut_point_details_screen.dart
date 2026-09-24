@@ -64,7 +64,7 @@ class ScrutPointDetailsScreen extends ConsumerWidget {
       return const EmptyView(
         icon: Icons.rule_outlined,
         title: 'Scrut point not found',
-        message: 'This scrut point may have been removed.',
+        message: 'This scrut point may have been removed',
       );
     }
 
