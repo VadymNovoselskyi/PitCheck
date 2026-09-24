@@ -25,9 +25,9 @@ class InspectionActions extends _$InspectionActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> add(CreateInspectionInput input) {
+  Future<String> createLobby(CreateInspectionInput input) {
     final currentUser = ref.read(currentUserProvider);
-    return inspectionRepository.addInspection(input, currentUser);
+    return inspectionRepository.createLobby(input, currentUser);
   }
 
   Future<void> start(Inspection inspection) {

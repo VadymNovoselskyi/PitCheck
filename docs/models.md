@@ -46,7 +46,7 @@ An inspection currently covers one category. Categories can be ordered and archi
 
 Groups related points within a category. It contains a name, description, and order within its parent category.
 
-Users choose which subcategories are included when creating an inspection. An empty selection means that all active subcategories in the selected category are included.
+All active subcategories are selected by default when creating an inspection. The inspection stores the IDs of the selected subcategories explicitly; an empty list does not mean "all".
 
 ### ScrutPoint
 

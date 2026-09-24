@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:pit_check/features/inspections/models/inspection.dart';
+import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
 import 'package:pit_check/features/scrut_points/models/scrut_point.dart';
 import 'package:pit_check/features/users/models/user.dart';
@@ -30,11 +31,34 @@ class InspectionRepository {
     return watchDocument(_ref.doc(id));
   }
 
-  Future<void> addInspection(CreateInspectionInput input, User currentUser) {
-    return _rawRef.doc().set({
+  Future<String> createLobby(
+    CreateInspectionInput input,
+    User currentUser,
+  ) async {
+    if (input.selectedSubcategoryIds.isEmpty) {
+      throw ArgumentError('Select at least one subcategory');
+    }
+
+    final inspectionReference = _rawRef.doc();
+    final memberReference = inspectionReference
+        .collection('members')
+        .doc(currentUser.id);
+    final batch = _firestore.batch();
+
+    batch.set(inspectionReference, {
       ...input.toFirestore(),
       ...AuditMetadata.createFields(currentUser),
     });
+    batch.set(memberReference, {
+      'inspectionId': inspectionReference.id,
+      'userId': currentUser.id,
+      'displayName': currentUser.fullName,
+      'role': InspectionMemberRole.judge.name,
+      'joinedAt': FieldValue.serverTimestamp(),
+    });
+
+    await batch.commit();
+    return inspectionReference.id;
   }
 
   Future<void> startInspection(Inspection inspection, User currentUser) async {
@@ -111,10 +135,6 @@ class InspectionRepository {
         .where((subcategory) => subcategory.data()['archivedAt'] == null)
         .map((subcategory) => subcategory.id)
         .toList();
-
-    if (inspection.selectedSubcategoryIds.isEmpty) {
-      return activeIds;
-    }
 
     return activeIds.where(inspection.selectedSubcategoryIds.contains).toList();
   }

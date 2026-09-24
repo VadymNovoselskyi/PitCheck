@@ -6,6 +6,7 @@ import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_prov
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheet_form.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_content.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
+import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class InspectionSheetsScreen extends ConsumerStatefulWidget {
   const new({super.key});
@@ -66,6 +67,7 @@ class _InspectionSheetsScreenState
   }
 
   Future<void> _showSheetForm([InspectionSheet? sheet]) async {
+    final messenger = ScaffoldMessenger.of(context);
     final result = await showModalBottomSheet<InspectionSheetInput>(
       context: context,
       isScrollControlled: true,
@@ -82,13 +84,17 @@ class _InspectionSheetsScreenState
             .read(inspectionSheetActionsProvider.notifier)
             .updateSheet(sheet.id, result);
       }
-      _showMessage(sheet == null ? 'Inspection sheet added' : 'Changes saved');
+      showAppSnackBar(
+        messenger,
+        sheet == null ? 'Inspection sheet added' : 'Changes saved',
+      );
     } catch (_) {
-      _showMessage('Could not save the inspection sheet');
+      showAppSnackBar(messenger, 'Could not save the inspection sheet');
     }
   }
 
   Future<void> _confirmArchive(InspectionSheet sheet) async {
+    final messenger = ScaffoldMessenger.of(context);
     final archive = !sheet.isArchived;
     final confirmed =
         await showDialog<bool>(
@@ -120,17 +126,15 @@ class _InspectionSheetsScreenState
       await ref
           .read(inspectionSheetActionsProvider.notifier)
           .setArchived(sheet, archived: archive);
-      _showMessage('Inspection sheet ${archive ? 'archived' : 'restored'}');
+      showAppSnackBar(
+        messenger,
+        'Inspection sheet ${archive ? 'archived' : 'restored'}',
+      );
     } catch (_) {
-      _showMessage('Could not ${archive ? 'archive' : 'restore'} the sheet');
+      showAppSnackBar(
+        messenger,
+        'Could not ${archive ? 'archive' : 'restore'} the sheet',
+      );
     }
-  }
-
-  void _showMessage(String message) {
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
   }
 }

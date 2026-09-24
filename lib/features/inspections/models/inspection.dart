@@ -7,7 +7,7 @@ class Inspection {
     required this.inspectionSheetId,
     required this.categoryId,
     required this.auditMetadata,
-    this.selectedSubcategoryIds = const [],
+    required this.selectedSubcategoryIds,
     this.startedAt,
     this.endedAt,
   });
@@ -70,9 +70,7 @@ class Inspection {
       inspectionSheetId: data['inspectionSheetId'],
       categoryId: data['categoryId'],
       auditMetadata: AuditMetadata.fromFirestore(data['audit']),
-      selectedSubcategoryIds: List<String>.from(
-        data['selectedSubcategoryIds'] ?? const [],
-      ),
+      selectedSubcategoryIds: List<String>.from(data['selectedSubcategoryIds']),
       startedAt: (data['startedAt'] as Timestamp?)?.toDate(),
       endedAt: (data['endedAt'] as Timestamp?)?.toDate(),
     );
@@ -83,7 +81,7 @@ class CreateInspectionInput {
   const new({
     required this.inspectionSheetId,
     required this.categoryId,
-    this.selectedSubcategoryIds = const [],
+    required this.selectedSubcategoryIds,
   });
 
   final String inspectionSheetId;
