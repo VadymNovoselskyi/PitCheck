@@ -202,7 +202,9 @@ class _StartInspectionFormState extends ConsumerState<StartInspectionForm> {
           ],
         );
       },
+
       loading: () => const InlineLoading(),
+
       error: (error, _) => InlineError(
         message: 'Could not load subcategories ($error)',
         onRetry: () => ref.invalidate(provider),
