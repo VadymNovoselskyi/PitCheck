@@ -7,6 +7,7 @@ import 'package:pit_check/home_screen.dart';
 import 'package:pit_check/features/inspection_sheets/ui/details/inspection_sheet_details_screen.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_screen.dart';
 import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
+import 'package:pit_check/features/inspections/ui/judge/judge_screen.dart';
 import 'package:pit_check/features/scrut_points/ui/point_details/scrut_point_details_screen.dart';
 import 'package:pit_check/features/scrut_points/ui/result_details/inspection_point_result_details_screen.dart';
 
@@ -23,14 +24,42 @@ final router = GoRouter(
       },
       branches: [
         StatefulShellBranch(
-          routes: [GoRoute(path: '/', builder: (_, _) => const HomeScreen())],
-          // routes: [
-          //   GoRoute(
-          //     path: '/',
-          //     builder: (_, _) =>
-          //         ErrorView(message: 'An error occurred', onRetry: () {}),
-          //   ),
-          // ],
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (_, _) => const HomeScreen(),
+              routes: [
+                GoRoute(
+                  path: 'inspections/new',
+                  name: startInspectionRouteName,
+                  builder: (_, _) => const StartInspectionScreen(),
+                ),
+                GoRoute(
+                  path: 'inspections/:inspectionId/results/:pointId',
+                  name: inspectionPointResultRouteName,
+                  builder: (_, state) => InspectionPointResultDetailsScreen(
+                    inspectionId: state.pathParameters['inspectionId']!,
+                    pointId: state.pathParameters['pointId']!,
+                  ),
+                ),
+                GoRoute(
+                  path: 'inspections/:inspectionId/judge',
+                  name: judgeRouteName,
+                  builder: (_, state) => JudgeScreen(
+                    inspectionId: state.pathParameters['inspectionId']!,
+                    initialPointId: state.uri.queryParameters['pointId'],
+                  ),
+                ),
+                GoRoute(
+                  path: 'inspections/:inspectionId',
+                  name: inspectionRouteName,
+                  builder: (_, state) => InspectionScreen(
+                    inspectionId: state.pathParameters['inspectionId']!,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         StatefulShellBranch(
           routes: [
@@ -62,7 +91,7 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/archive',
+              path: '/inspections-archive',
               builder: (_, _) => const InspectionsArchiveScreen(),
             ),
           ],
@@ -76,25 +105,6 @@ final router = GoRouter(
           ],
         ),
       ],
-    ),
-    GoRoute(
-      path: '/inspections/new',
-      name: startInspectionRouteName,
-      builder: (_, _) => const StartInspectionScreen(),
-    ),
-    GoRoute(
-      path: '/inspections/:inspectionId/results/:pointId',
-      name: inspectionPointResultRouteName,
-      builder: (_, state) => InspectionPointResultDetailsScreen(
-        inspectionId: state.pathParameters['inspectionId']!,
-        pointId: state.pathParameters['pointId']!,
-      ),
-    ),
-    GoRoute(
-      path: '/inspections/:inspectionId',
-      name: inspectionRouteName,
-      builder: (_, state) =>
-          InspectionScreen(inspectionId: state.pathParameters['inspectionId']!),
     ),
   ],
 );

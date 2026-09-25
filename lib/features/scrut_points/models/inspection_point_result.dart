@@ -13,6 +13,7 @@ class InspectionPointResult {
     required this.inspectionStartedAt,
     required this.pointOrder,
     this.currentStatus = InspectionPointStatus.pending,
+    this.currentNote = '',
     this.latestJudgeId,
     this.latestJudgeName,
     this.latestDecisionAt,
@@ -29,6 +30,7 @@ class InspectionPointResult {
   final int? pointOrder;
 
   final InspectionPointStatus currentStatus;
+  final String currentNote;
   final String? latestJudgeId;
   final String? latestJudgeName;
   final DateTime? latestDecisionAt;
@@ -46,6 +48,7 @@ class InspectionPointResult {
       'inspectionStartedAt': inspectionStartedAt,
       'pointOrder': pointOrder,
       'currentStatus': currentStatus.name,
+      'currentNote': currentNote,
       'latestJudgeId': latestJudgeId,
       'latestJudgeName': latestJudgeName,
       'isAddressed': isAddressed,
@@ -74,6 +77,7 @@ class InspectionPointResult {
           ?.toDate(),
       pointOrder: data['pointOrder'] as int?,
       currentStatus: InspectionPointStatus.values.byName(data['currentStatus']),
+      currentNote: data['currentNote'] ?? '',
       latestJudgeId: data['latestJudgeId'],
       latestJudgeName: data['latestJudgeName'],
       latestDecisionAt: (data['latestDecisionAt'] as Timestamp?)?.toDate(),

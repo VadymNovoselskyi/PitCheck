@@ -56,6 +56,7 @@ class InspectionPointEventRepository {
 
     batch.update(_rawResultsRef(inspectionId).doc(scrutPointId), {
       'currentStatus': input.status.name,
+      'currentNote': input.comment,
       'latestJudgeId': currentUser.id,
       'latestJudgeName': currentUser.fullName,
       'latestDecisionAt': FieldValue.serverTimestamp(),

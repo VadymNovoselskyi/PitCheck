@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
 import 'package:pit_check/features/inspections/ui/details/inspection_details_screen.dart';
+import 'package:pit_check/features/inspections/ui/inspection_scaffold.dart';
 import 'package:pit_check/features/inspections/ui/lobby/inspection_lobby_screen.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
@@ -17,13 +18,15 @@ class InspectionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final inspection = ref.watch(inspectionByIdProvider(inspectionId));
+    final inspectionProvider = inspectionByIdProvider(inspectionId);
+    final inspection = ref.watch(inspectionProvider);
     final loadedInspection = inspection.hasValue
         ? inspection.requireValue
         : null;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(_titleFor(loadedInspection))),
+    return InspectionScaffold(
+      inspectionId: inspectionId,
+      title: _titleFor(loadedInspection),
       body: inspection.when(
         data: (value) {
           if (value == null) {
@@ -47,7 +50,7 @@ class InspectionScreen extends ConsumerWidget {
 
         error: (error, _) => ErrorView(
           message: 'Could not load the inspection ($error)',
-          onRetry: () => ref.invalidate(inspectionByIdProvider(inspectionId)),
+          onRetry: () => ref.invalidate(inspectionProvider),
         ),
       ),
     );

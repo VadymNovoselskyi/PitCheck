@@ -62,16 +62,9 @@ class InspectionSetupReview extends ConsumerWidget {
             else
               _ReviewRow(label: 'Scrut points', value: '$pointCount'),
 
-            if (!isLoading && pointError == null && pointCount == 0)
-              const Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Text('The selected scope has no active scrut points'),
-              ),
             const SizedBox(height: 16),
             FilledButton(
-              onPressed: isLoading || pointError != null || pointCount == 0
-                  ? null
-                  : onCreate,
+              onPressed: onCreate,
               child: Text(
                 'Create lobby',
                 style: Theme.of(context).textTheme.bodyLarge

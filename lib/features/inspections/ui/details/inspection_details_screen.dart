@@ -20,7 +20,7 @@ class InspectionDetailsScreen extends ConsumerWidget {
 
     return ListView(
       key: PageStorageKey<String>('inspection-details-${inspection.id}'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 60),
       children: [
         InspectionDetailsHeader(inspection: inspection),
         const SizedBox(height: 24),
