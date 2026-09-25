@@ -8,6 +8,7 @@ import 'package:pit_check/features/scrut_points/ui/components/inspection_point_s
 import 'package:pit_check/features/scrut_points/ui/result_details/inspection_point_result_details_screen.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
+import 'package:pit_check/shared/ui/time_format.dart';
 
 class ScrutPointResults extends StatelessWidget {
   const ScrutPointResults({
@@ -84,7 +85,7 @@ class _ResultCard extends StatelessWidget {
                     child: Text(
                       result.inspectionStartedAt == null
                           ? 'Inspection date pending'
-                          : _formatDateTime(
+                          : formatLocalDateTime(
                               context,
                               result.inspectionStartedAt!,
                             ),
@@ -103,7 +104,7 @@ class _ResultCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Latest decision: '
-                  '${_formatDateTime(context, result.latestDecisionAt!)}',
+                  '${formatLocalDateTime(context, result.latestDecisionAt!)}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -126,12 +127,4 @@ class _ResultCard extends StatelessWidget {
       ),
     );
   }
-}
-
-String _formatDateTime(BuildContext context, DateTime dateTime) {
-  final localizations = MaterialLocalizations.of(context);
-  final localTime = dateTime.toLocal();
-  final date = localizations.formatMediumDate(localTime);
-  final time = localizations.formatTimeOfDay(TimeOfDay.fromDateTime(localTime));
-  return '$date, $time';
 }

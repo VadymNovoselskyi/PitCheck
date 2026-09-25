@@ -32,6 +32,6 @@ extension InspectionPointStatusPresentation on InspectionPointStatus {
   Color tintedSurface(BuildContext context, Color baseColor) {
     if (this == InspectionPointStatus.pending) return baseColor;
 
-    return Color.alphaBlend(color(context).withValues(alpha: 0.08), baseColor);
+    return Color.alphaBlend(color(context).withValues(alpha: 0.16), baseColor);
   }
 }

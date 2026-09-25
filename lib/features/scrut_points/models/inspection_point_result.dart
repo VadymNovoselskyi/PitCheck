@@ -36,6 +36,8 @@ class InspectionPointResult {
   final bool isAddressed;
   final String addressedNote;
 
+  String get subcategoryId => pointRef.parent.parent!.id;
+
   Map<String, dynamic> toFirestore() {
     return {
       'inspectionId': inspectionId,

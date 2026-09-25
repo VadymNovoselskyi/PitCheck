@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
+import 'package:pit_check/features/inspections/ui/details/inspection_details_screen.dart';
 import 'package:pit_check/features/inspections/ui/lobby/inspection_lobby_screen.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
@@ -37,12 +38,8 @@ class InspectionScreen extends ConsumerWidget {
             InspectionLifecycle.lobby => InspectionLobbyScreen(
               inspection: value,
             ),
-            InspectionLifecycle.running => const Text(
-              'Judge view for the inspection TBI',
-            ),
-            InspectionLifecycle.completed => const Text(
-              'Inspection details TBI',
-            ),
+            InspectionLifecycle.running || InspectionLifecycle.completed =>
+              InspectionDetailsScreen(inspection: value),
           };
         },
 
