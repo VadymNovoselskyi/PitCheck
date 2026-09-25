@@ -2,14 +2,15 @@
 """One-time importer for the FSG26 Electric inspection check points.
 
 Only numbered points marked with the ordinary `○` symbol are imported.
-The source item number is used only while preserving source order and is not
-stored in the imported point name or description.
+Source item numbers are used in stable IDs and to preserve source order; they
+are not stored in the imported point name or description.
 
 Dry run:
-    python3 tool/import_fsg26_check_points.py
+    python3 scripts/import_fsg26_check_points.py
 
 Write to Firestore:
-    FIREBASE_ACCESS_TOKEN='...' python3 tool/import_fsg26_check_points.py --execute
+    firebase login --reauth
+    python3 scripts/import_fsg26_check_points.py --execute
 """
 
 from __future__ import annotations
@@ -18,7 +19,9 @@ import argparse
 import json
 import os
 import re
+import shutil
 import sys
+import subprocess
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -179,6 +182,19 @@ def update(path: str, fields: dict[str, Any]) -> dict[str, Any]:
     return {"update": {"name": document_name(path), "fields": fields}}
 
 
+def subcategory_document_id(category_id: str, name: str) -> str:
+    """Build a stable subcategory ID that is unique across categories."""
+    name_slug = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+    if not name_slug:
+        raise RuntimeError(f"Cannot create a stable ID for subcategory {name!r}.")
+    return f"{category_id}_{name_slug}"
+
+
+def point_document_id(subcategory_id: str, source_number: int) -> str:
+    """Build a stable point ID from its stable subcategory and source number."""
+    return f"{subcategory_id}_p{source_number:03d}"
+
+
 def build_writes(
     categories: tuple[ImportedCategory, ...],
     actor_id: str,
@@ -200,7 +216,7 @@ def build_writes(
         writes.append(update(f"inspectionSheets/{SHEET_ID}/categories/{category_id}", category_fields))
 
         for subcategory_order, subcategory in enumerate(category.subcategories):
-            subcategory_id = f"s{subcategory_order + 1:03d}"
+            subcategory_id = subcategory_document_id(category_id, subcategory.name)
             subcategory_fields = {
                 "inspectionCategoryId": string_value(category_id),
                 "name": string_value(subcategory.name),
@@ -216,7 +232,7 @@ def build_writes(
             writes.append(update(subcategory_path, subcategory_fields))
 
             for point_order, point in enumerate(subcategory.points):
-                point_id = f"p{point_order + 1:03d}"
+                point_id = point_document_id(subcategory_id, point.source_number)
                 point_fields = {
                     "subcategoryId": string_value(subcategory_id),
                     "name": string_value(point.name),
@@ -249,6 +265,60 @@ def firestore_request(method: str, url: str, access_token: str, body: Any = None
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"Firestore request failed ({error.code}): {detail}") from error
+
+
+def firebase_cli_access_token() -> str:
+    """Get a short-lived Google access token from the Firebase CLI login."""
+    firebase_executable = shutil.which("firebase")
+    node_executable = shutil.which("node")
+    if not firebase_executable or not node_executable:
+        raise RuntimeError(
+            "Firebase CLI and Node.js are required for --execute. "
+            "Run 'firebase login --reauth' and try again."
+        )
+
+    firebase_entrypoint = Path(firebase_executable).resolve()
+    package_root = next(
+        (
+            parent
+            for parent in firebase_entrypoint.parents
+            if (parent / "package.json").is_file()
+            and json.loads((parent / "package.json").read_text()).get("name") == "firebase-tools"
+        ),
+        None,
+    )
+    if package_root is None:
+        raise RuntimeError("Could not locate the installed Firebase CLI package.")
+
+    auth_module = package_root / "lib" / "auth.js"
+    scopes_module = package_root / "lib" / "scopes.js"
+    node_script = """
+const auth = require(process.argv[1]);
+const scopes = require(process.argv[2]);
+(async () => {
+  const account = auth.getGlobalDefaultAccount();
+  const refreshToken = account && account.tokens && account.tokens.refresh_token;
+  if (!refreshToken) throw new Error('No Firebase CLI login found.');
+  const token = await auth.getAccessToken(refreshToken, [scopes.CLOUD_PLATFORM]);
+  if (!token || !token.access_token) throw new Error('Firebase CLI did not return an access token.');
+  process.stdout.write(token.access_token);
+})().catch((error) => {
+  process.stderr.write(error.message || String(error));
+  process.exitCode = 1;
+});
+"""
+    result = subprocess.run(
+        [node_executable, "-e", node_script, str(auth_module), str(scopes_module)],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or not result.stdout.strip():
+        detail = result.stderr.strip() or "Firebase CLI authentication failed."
+        raise RuntimeError(
+            f"{detail} Run 'firebase login --reauth' and try again."
+        )
+    return result.stdout.strip()
 
 
 def ensure_target_is_ready(access_token: str) -> None:
@@ -315,6 +385,27 @@ def main() -> int:
         for subcategory in category.subcategories
     )
     subcategory_count = sum(len(category.subcategories) for category in categories)
+    subcategory_ids = [
+        subcategory_document_id(category.type_name, subcategory.name)
+        for category in categories
+        for subcategory in category.subcategories
+    ]
+    point_ids = [
+        point_document_id(
+            subcategory_document_id(category.type_name, subcategory.name),
+            point.source_number,
+        )
+        for category in categories
+        for subcategory in category.subcategories
+        for point in subcategory.points
+    ]
+    category_ids = [category.type_name for category in categories]
+    if len(category_ids) != len(set(category_ids)):
+        raise RuntimeError("Category IDs are not unique within the sheet.")
+    if len(subcategory_ids) != len(set(subcategory_ids)):
+        raise RuntimeError("Subcategory IDs are not unique within the sheet.")
+    if len(point_ids) != len(set(point_ids)):
+        raise RuntimeError("Point IDs are not unique within the sheet.")
     category_point_counts = {
         category.type_name: sum(len(subcategory.points) for subcategory in category.subcategories)
         for category in categories
@@ -325,6 +416,9 @@ def main() -> int:
     print(f"Categories: {len(categories)}")
     print(f"Subcategories: {subcategory_count}")
     print(f"Ordinary ○ points: {point_count}")
+    print(f"Unique category IDs: {len(set(category_ids))}/{len(category_ids)}")
+    print(f"Unique subcategory IDs: {len(set(subcategory_ids))}/{len(subcategory_ids)}")
+    print(f"Unique point IDs: {len(set(point_ids))}/{len(point_ids)}")
     for category in categories:
         print(f"  {category.type_name}: {category_point_counts[category.type_name]}")
 
@@ -336,12 +430,10 @@ def main() -> int:
         )
 
     if not args.execute:
-        print("Dry run only. Re-run with --execute and FIREBASE_ACCESS_TOKEN to write.")
+        print("Dry run only. Re-run with --execute to write using the Firebase CLI login.")
         return 0
 
-    access_token = os.environ.get("FIREBASE_ACCESS_TOKEN")
-    if not access_token:
-        raise RuntimeError("FIREBASE_ACCESS_TOKEN is required with --execute.")
+    access_token = os.environ.get("FIREBASE_ACCESS_TOKEN") or firebase_cli_access_token()
 
     actor_id = os.environ.get("IMPORT_ACTOR_ID", "123456789")
     actor_name = os.environ.get("IMPORT_ACTOR_NAME", "Test User")
