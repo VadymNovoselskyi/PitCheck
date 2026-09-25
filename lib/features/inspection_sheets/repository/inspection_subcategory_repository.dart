@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_subcategory.dart';
 import 'package:pit_check/features/users/models/user.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 import 'package:pit_check/shared/audit_metadata_model.dart';
 import 'package:pit_check/shared/firestore_stream_helpers.dart';
 
@@ -36,11 +37,11 @@ class InspectionSubcategoryRepository {
   Stream<List<InspectionSubcategory>> getInspectionSubcategories(
     String sheetId,
     String categoryId, {
-    bool archived = false,
+    ArchiveFilter filter = ArchiveFilter.active,
   }) {
     return watchQuery(
       _ref(sheetId, categoryId),
-      where: (subcategory) => subcategory.isArchived == archived,
+      where: (subcategory) => filter.includes(subcategory.isArchived),
       compare: _compareSubcategories,
     );
   }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:pit_check/features/scrut_points/models/scrut_point.dart';
 import 'package:pit_check/features/users/models/user.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 import 'package:pit_check/shared/audit_metadata_model.dart';
 import 'package:pit_check/shared/firestore_stream_helpers.dart';
 
@@ -38,11 +39,11 @@ class ScrutPointRepository {
     String sheetId,
     String categoryId,
     String subcategoryId, {
-    bool archived = false,
+    ArchiveFilter filter = ArchiveFilter.active,
   }) {
     return watchQuery(
       _ref(sheetId, categoryId, subcategoryId),
-      where: (point) => point.isArchived == archived,
+      where: (point) => filter.includes(point.isArchived),
       compare: _comparePoints,
     );
   }

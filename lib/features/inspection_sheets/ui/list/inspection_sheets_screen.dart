@@ -5,6 +5,7 @@ import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dar
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheet_form.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_content.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
@@ -22,7 +23,8 @@ class _InspectionSheetsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final sheets = ref.watch(inspectionSheetsProvider(archived: showArchived));
+    final filter = showArchived ? ArchiveFilter.archived : ArchiveFilter.active;
+    final sheets = ref.watch(inspectionSheetsProvider(filter: filter));
 
     return Scaffold(
       appBar: AppBar(
@@ -54,8 +56,7 @@ class _InspectionSheetsScreenState
 
         error: (error, _) => ErrorView(
           message: 'Could not load inspection sheets ($error)',
-          onRetry: () =>
-              ref.refresh(inspectionSheetsProvider(archived: showArchived)),
+          onRetry: () => ref.refresh(inspectionSheetsProvider(filter: filter)),
         ),
       ),
 

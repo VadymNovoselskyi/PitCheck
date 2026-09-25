@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pit_check/features/inspection_sheets/models/inspection_category.dart';
 import 'package:pit_check/features/inspection_sheets/repository/inspection_category_repository.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 
 part 'inspection_category_providers.g.dart';
 
@@ -14,11 +15,11 @@ final inspectionCategoryRepository = InspectionCategoryRepository();
 Stream<List<InspectionCategory>> inspectionCategories(
   Ref ref,
   String sheetId, {
-  bool archived = false,
+  ArchiveFilter filter = ArchiveFilter.active,
 }) {
   return inspectionCategoryRepository.getInspectionCategories(
     sheetId,
-    archived: archived,
+    filter: filter,
   );
 }
 

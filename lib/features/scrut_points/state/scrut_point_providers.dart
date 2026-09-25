@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pit_check/features/scrut_points/repository/scrut_point_repository.dart';
 import 'package:pit_check/features/scrut_points/models/scrut_point.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 
 part 'scrut_point_providers.g.dart';
 
@@ -16,13 +17,13 @@ Stream<List<ScrutPoint>> scrutPoints(
   String sheetId,
   String categoryId,
   String subcategoryId, {
-  bool archived = false,
+  ArchiveFilter filter = ArchiveFilter.active,
 }) {
   return scrutPointRepository.getScrutPoints(
     sheetId,
     categoryId,
     subcategoryId,
-    archived: archived,
+    filter: filter,
   );
 }
 

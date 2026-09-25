@@ -24,7 +24,7 @@ final class InspectionSubcategoriesProvider
         $StreamProvider<List<InspectionSubcategory>> {
   InspectionSubcategoriesProvider._({
     required InspectionSubcategoriesFamily super.from,
-    required (String, String, {bool archived}) super.argument,
+    required (String, String, {ArchiveFilter filter}) super.argument,
   }) : super(
          retry: null,
          name: r'inspectionSubcategoriesProvider',
@@ -51,12 +51,12 @@ final class InspectionSubcategoriesProvider
 
   @override
   Stream<List<InspectionSubcategory>> create(Ref ref) {
-    final argument = this.argument as (String, String, {bool archived});
+    final argument = this.argument as (String, String, {ArchiveFilter filter});
     return inspectionSubcategories(
       ref,
       argument.$1,
       argument.$2,
-      archived: argument.archived,
+      filter: argument.filter,
     );
   }
 
@@ -73,13 +73,13 @@ final class InspectionSubcategoriesProvider
 }
 
 String _$inspectionSubcategoriesHash() =>
-    r'1f69adbfab4067de9e83bdce20a017c33f5fd270';
+    r'e3c77678bb5020f3a30f59e14e808e3c96b805ee';
 
 final class InspectionSubcategoriesFamily extends $Family
     with
         $FunctionalFamilyOverride<
           Stream<List<InspectionSubcategory>>,
-          (String, String, {bool archived})
+          (String, String, {ArchiveFilter filter})
         > {
   InspectionSubcategoriesFamily._()
     : super(
@@ -93,9 +93,9 @@ final class InspectionSubcategoriesFamily extends $Family
   InspectionSubcategoriesProvider call(
     String sheetId,
     String categoryId, {
-    bool archived = false,
+    ArchiveFilter filter = ArchiveFilter.active,
   }) => InspectionSubcategoriesProvider._(
-    argument: (sheetId, categoryId, archived: archived),
+    argument: (sheetId, categoryId, filter: filter),
     from: this,
   );
 

@@ -24,7 +24,7 @@ final class InspectionSheetsProvider
         $StreamProvider<List<InspectionSheet>> {
   InspectionSheetsProvider._({
     required InspectionSheetsFamily super.from,
-    required bool super.argument,
+    required ArchiveFilter super.argument,
   }) : super(
          retry: null,
          name: r'inspectionSheetsProvider',
@@ -51,8 +51,8 @@ final class InspectionSheetsProvider
 
   @override
   Stream<List<InspectionSheet>> create(Ref ref) {
-    final argument = this.argument as bool;
-    return inspectionSheets(ref, archived: argument);
+    final argument = this.argument as ArchiveFilter;
+    return inspectionSheets(ref, filter: argument);
   }
 
   @override
@@ -66,10 +66,14 @@ final class InspectionSheetsProvider
   }
 }
 
-String _$inspectionSheetsHash() => r'042af2887cbd66153aa1ad92dce8852b6af9fb86';
+String _$inspectionSheetsHash() => r'697e7806bb93dd84b173d931f89e6a2764301e23';
 
 final class InspectionSheetsFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<InspectionSheet>>, bool> {
+    with
+        $FunctionalFamilyOverride<
+          Stream<List<InspectionSheet>>,
+          ArchiveFilter
+        > {
   InspectionSheetsFamily._()
     : super(
         retry: null,
@@ -79,8 +83,9 @@ final class InspectionSheetsFamily extends $Family
         isAutoDispose: true,
       );
 
-  InspectionSheetsProvider call({bool archived = false}) =>
-      InspectionSheetsProvider._(argument: archived, from: this);
+  InspectionSheetsProvider call({
+    ArchiveFilter filter = ArchiveFilter.active,
+  }) => InspectionSheetsProvider._(argument: filter, from: this);
 
   @override
   String toString() => r'inspectionSheetsProvider';

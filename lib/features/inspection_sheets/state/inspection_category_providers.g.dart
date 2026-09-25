@@ -24,7 +24,7 @@ final class InspectionCategoriesProvider
         $StreamProvider<List<InspectionCategory>> {
   InspectionCategoriesProvider._({
     required InspectionCategoriesFamily super.from,
-    required (String, {bool archived}) super.argument,
+    required (String, {ArchiveFilter filter}) super.argument,
   }) : super(
          retry: null,
          name: r'inspectionCategoriesProvider',
@@ -51,8 +51,8 @@ final class InspectionCategoriesProvider
 
   @override
   Stream<List<InspectionCategory>> create(Ref ref) {
-    final argument = this.argument as (String, {bool archived});
-    return inspectionCategories(ref, argument.$1, archived: argument.archived);
+    final argument = this.argument as (String, {ArchiveFilter filter});
+    return inspectionCategories(ref, argument.$1, filter: argument.filter);
   }
 
   @override
@@ -67,13 +67,13 @@ final class InspectionCategoriesProvider
 }
 
 String _$inspectionCategoriesHash() =>
-    r'87fcac45e89e303555db592399da595acb11b363';
+    r'32a77a16928afefc112c29273c333026d76ddf38';
 
 final class InspectionCategoriesFamily extends $Family
     with
         $FunctionalFamilyOverride<
           Stream<List<InspectionCategory>>,
-          (String, {bool archived})
+          (String, {ArchiveFilter filter})
         > {
   InspectionCategoriesFamily._()
     : super(
@@ -84,11 +84,13 @@ final class InspectionCategoriesFamily extends $Family
         isAutoDispose: true,
       );
 
-  InspectionCategoriesProvider call(String sheetId, {bool archived = false}) =>
-      InspectionCategoriesProvider._(
-        argument: (sheetId, archived: archived),
-        from: this,
-      );
+  InspectionCategoriesProvider call(
+    String sheetId, {
+    ArchiveFilter filter = ArchiveFilter.active,
+  }) => InspectionCategoriesProvider._(
+    argument: (sheetId, filter: filter),
+    from: this,
+  );
 
   @override
   String toString() => r'inspectionCategoriesProvider';

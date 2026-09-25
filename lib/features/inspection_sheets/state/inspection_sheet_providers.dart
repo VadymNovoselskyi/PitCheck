@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
 import 'package:pit_check/features/inspection_sheets/repository/inspection_sheet_repository.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/archive_filter.dart';
 
 part 'inspection_sheet_providers.g.dart';
 
@@ -13,9 +14,9 @@ final inspectionSheetRepository = InspectionSheetRepository();
 @riverpod
 Stream<List<InspectionSheet>> inspectionSheets(
   Ref ref, {
-  bool archived = false,
+  ArchiveFilter filter = ArchiveFilter.active,
 }) {
-  return inspectionSheetRepository.getInspectionSheets(archived: archived);
+  return inspectionSheetRepository.getInspectionSheets(filter: filter);
 }
 
 @riverpod

@@ -22,7 +22,7 @@ final class ScrutPointsProvider
     with $FutureModifier<List<ScrutPoint>>, $StreamProvider<List<ScrutPoint>> {
   ScrutPointsProvider._({
     required ScrutPointsFamily super.from,
-    required (String, String, String, {bool archived}) super.argument,
+    required (String, String, String, {ArchiveFilter filter}) super.argument,
   }) : super(
          retry: null,
          name: r'scrutPointsProvider',
@@ -49,13 +49,14 @@ final class ScrutPointsProvider
 
   @override
   Stream<List<ScrutPoint>> create(Ref ref) {
-    final argument = this.argument as (String, String, String, {bool archived});
+    final argument =
+        this.argument as (String, String, String, {ArchiveFilter filter});
     return scrutPoints(
       ref,
       argument.$1,
       argument.$2,
       argument.$3,
-      archived: argument.archived,
+      filter: argument.filter,
     );
   }
 
@@ -70,13 +71,13 @@ final class ScrutPointsProvider
   }
 }
 
-String _$scrutPointsHash() => r'970dbcd20b00e38bc2de44f81af6394ed68dec7c';
+String _$scrutPointsHash() => r'd49e364398e76df60f314af2de99c9b0cba247cd';
 
 final class ScrutPointsFamily extends $Family
     with
         $FunctionalFamilyOverride<
           Stream<List<ScrutPoint>>,
-          (String, String, String, {bool archived})
+          (String, String, String, {ArchiveFilter filter})
         > {
   ScrutPointsFamily._()
     : super(
@@ -91,9 +92,9 @@ final class ScrutPointsFamily extends $Family
     String sheetId,
     String categoryId,
     String subcategoryId, {
-    bool archived = false,
+    ArchiveFilter filter = ArchiveFilter.active,
   }) => ScrutPointsProvider._(
-    argument: (sheetId, categoryId, subcategoryId, archived: archived),
+    argument: (sheetId, categoryId, subcategoryId, filter: filter),
     from: this,
   );
 
