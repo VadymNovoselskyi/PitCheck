@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsScreen extends ConsumerStatefulWidget {
-  const new({super.key});
+import 'package:pit_check/features/settings/ui/appearance_picker.dart';
 
-  @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
-}
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Settings')),
+      body: const AppearancePicker(),
+    );
   }
 }
