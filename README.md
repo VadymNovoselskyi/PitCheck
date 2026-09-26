@@ -11,6 +11,18 @@
 dart run build_runner watch
 ```
 
+## Code Architecture
+
+PitCheck uses a feature-first structure: `lib/features/` groups code by
+`inspection sheets`, `inspections`, `scrutineering points`, and `users`. Each feature
+separates `ui/` (widgets), `state/` (Riverpod providers and actions),
+`models/` (data types), and `repository/` (Firestore access). For example,
+`InspectionSheetsScreen` reads through `inspectionSheetsProvider`, which gets
+its data from `InspectionSheetRepository`.
+
+This structure is based on [feature-first organization](https://codewithandrea.com/articles/flutter-project-structure/)
+and the [repository pattern](https://codewithandrea.com/articles/flutter-repository-pattern/).
+
 ## App Description
 
 ### The main idea
