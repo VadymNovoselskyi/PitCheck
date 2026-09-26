@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_decision_form.dart';
-import 'package:pit_check/features/inspections/ui/judge/judge_history.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_navigation.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_point_header.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_event_providers.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_result_providers.dart';
+import 'package:pit_check/features/scrut_points/ui/components/inspection_decision_history.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 
 class JudgeContent extends ConsumerStatefulWidget {
@@ -97,7 +97,7 @@ class _JudgeContentState extends ConsumerState<JudgeContent> {
                 ),
                 const SizedBox(height: 24),
 
-                JudgeHistory(
+                InspectionDecisionHistory(
                   events: events,
                   onRetry: () => ref.invalidate(eventsProvider),
                 ),

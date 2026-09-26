@@ -6,8 +6,12 @@ import 'package:pit_check/features/scrut_points/ui/components/inspection_point_s
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 import 'package:pit_check/shared/ui/time_format.dart';
 
-class JudgeHistory extends StatelessWidget {
-  const JudgeHistory({super.key, required this.events, required this.onRetry});
+class InspectionDecisionHistory extends StatelessWidget {
+  const InspectionDecisionHistory({
+    super.key,
+    required this.events,
+    required this.onRetry,
+  });
 
   final AsyncValue<List<InspectionPointEvent>> events;
   final VoidCallback onRetry;
@@ -39,9 +43,6 @@ class JudgeHistory extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Decision recorded'),
-                          const SizedBox(height: 4),
-
                           InspectionPointStatusChip(
                             status: decisions[index].status,
                           ),
