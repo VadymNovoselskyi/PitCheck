@@ -37,13 +37,31 @@ class InspectionMemberRepository {
     InspectionMemberRole role,
     User currentUser,
   ) {
-    return _rawRef(inspectionId).doc(currentUser.id).set({
-      'inspectionId': inspectionId,
-      'userId': currentUser.id,
-      'displayName': currentUser.fullName,
-      'image': currentUser.image,
-      'role': role.name,
-      'joinedAt': FieldValue.serverTimestamp(),
+    final inspectionRef = _firestore
+        .collection('inspections')
+        .doc(inspectionId);
+    final memberRef = _rawRef(inspectionId).doc(currentUser.id);
+
+    return _firestore.runTransaction<void>((transaction) async {
+      final inspection = await transaction.get(inspectionRef);
+      if (!inspection.exists) {
+        throw StateError('Inspection not found');
+      }
+      if (inspection.data()?['endedAt'] != null) {
+        throw StateError('Cannot join a completed inspection');
+      }
+
+      final member = await transaction.get(memberRef);
+      if (member.exists) return;
+
+      transaction.set(memberRef, {
+        'inspectionId': inspectionId,
+        'userId': currentUser.id,
+        'displayName': currentUser.fullName,
+        'image': currentUser.image,
+        'role': role.name,
+        'joinedAt': FieldValue.serverTimestamp(),
+      });
     });
   }
 
