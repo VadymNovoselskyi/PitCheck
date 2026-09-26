@@ -7,6 +7,7 @@ class _AppPalette {
     required this.primary,
     required this.onPrimary,
     required this.accent,
+    required this.onAccent,
     required this.text,
     required this.secondaryText,
     required this.divider,
@@ -17,6 +18,7 @@ class _AppPalette {
   final Color primary;
   final Color onPrimary;
   final Color accent;
+  final Color onAccent;
   final Color text;
   final Color secondaryText;
   final Color divider;
@@ -28,17 +30,19 @@ const _darkPalette = _AppPalette(
   primary: Color(0xFF00AAFF),
   onPrimary: Color(0xFF11151C),
   accent: Color(0xFFFF4800),
+  onAccent: Color(0xFF11151C),
   text: Color(0xFFF1F4F8),
   secondaryText: Color(0xFFB5BFCE),
   divider: Color(0xFF505254),
 );
 
 const _lightPalette = _AppPalette(
-  background: Color(0xFFF5F7FA),
+  background: Color.fromARGB(255, 224, 234, 243),
   card: Color(0xFFFFFFFF),
-  primary: Color(0xFF006BA6),
-  onPrimary: Color(0xFFFFFFFF),
+  primary: Color(0xFF00AAFF),
+  onPrimary: Color(0xFF11151C),
   accent: Color(0xFFB54017),
+  onAccent: Color(0xFFFFFFFF),
   text: Color(0xFF17212B),
   secondaryText: Color(0xFF536274),
   divider: Color(0xFFD8E0E8),
@@ -60,7 +64,7 @@ ThemeData _buildTheme(Brightness brightness, _AppPalette palette) {
         primary: palette.primary,
         onPrimary: palette.onPrimary,
         secondary: palette.accent,
-        onSecondary: palette.onPrimary,
+        onSecondary: palette.onAccent,
         surface: palette.background,
         onSurface: palette.text,
         onSurfaceVariant: palette.secondaryText,

@@ -68,7 +68,7 @@ class InspectionSetupReview extends ConsumerWidget {
               child: Text(
                 'Create lobby',
                 style: Theme.of(context).textTheme.bodyLarge
-                    ?.copyWith(color: Colors.black),
+                    ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
           ],
