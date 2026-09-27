@@ -55,11 +55,11 @@ class InspectionSheetRepository {
   }
 
   Future<void> setInspectionSheetArchived(
-    InspectionSheet sheet,
+    String sheetId,
     User currentUser, {
     required bool archived,
   }) {
-    return _rawRef.doc(sheet.id).update({
+    return _rawRef.doc(sheetId).update({
       'archivedAt': archived ? FieldValue.serverTimestamp() : null,
       ...AuditMetadata.updateFields(currentUser),
     });

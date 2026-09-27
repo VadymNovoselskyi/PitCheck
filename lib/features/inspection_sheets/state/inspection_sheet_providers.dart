@@ -43,10 +43,10 @@ class InspectionSheetActions extends _$InspectionSheetActions {
     );
   }
 
-  Future<void> setArchived(InspectionSheet sheet, {required bool archived}) {
+  Future<void> setArchived(String sheetId, {required bool archived}) {
     final currentUser = ref.read(currentUserProvider);
     return inspectionSheetRepository.setInspectionSheetArchived(
-      sheet,
+      sheetId,
       currentUser,
       archived: archived,
     );

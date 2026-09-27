@@ -207,7 +207,7 @@ final class InspectionCategoryActionsProvider
 }
 
 String _$inspectionCategoryActionsHash() =>
-    r'18685dd6e25fbfb5d55888a0b3c43bbcfc4bec0c';
+    r'dbd260bd196fc61866a357c3c1436de66f2eb3ee';
 
 abstract class _$InspectionCategoryActions extends $AsyncNotifier<void> {
   FutureOr<void> build();

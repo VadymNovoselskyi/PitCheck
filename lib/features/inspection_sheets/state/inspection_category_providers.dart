@@ -64,12 +64,14 @@ class InspectionCategoryActions extends _$InspectionCategoryActions {
   }
 
   Future<void> setArchived(
-    InspectionCategory category, {
+    String sheetId,
+    String categoryId, {
     required bool archived,
   }) {
     final currentUser = ref.read(currentUserProvider);
     return inspectionCategoryRepository.setInspectionCategoryArchived(
-      category,
+      sheetId,
+      categoryId,
       currentUser,
       archived: archived,
     );

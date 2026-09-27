@@ -85,14 +85,16 @@ class ScrutPointActions extends _$ScrutPointActions {
   Future<void> setArchived(
     String sheetId,
     String categoryId,
-    ScrutPoint point, {
+    String subcategoryId,
+    String pointId, {
     required bool archived,
   }) {
     final currentUser = ref.read(currentUserProvider);
     return scrutPointRepository.setScrutPointArchived(
       sheetId,
       categoryId,
-      point,
+      subcategoryId,
+      pointId,
       currentUser,
       archived: archived,
     );

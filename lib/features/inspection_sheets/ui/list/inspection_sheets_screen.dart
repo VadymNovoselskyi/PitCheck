@@ -129,7 +129,7 @@ class _InspectionSheetsScreenState
     try {
       await ref
           .read(inspectionSheetActionsProvider.notifier)
-          .setArchived(sheet, archived: archive);
+          .setArchived(sheet.id, archived: archive);
       AppAnalytics.log(
         'inspection_sheet_archived',
         parameters: {'action': archive ? 'archive' : 'restore'},

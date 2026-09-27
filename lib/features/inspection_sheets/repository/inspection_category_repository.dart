@@ -70,11 +70,12 @@ class InspectionCategoryRepository {
   }
 
   Future<void> setInspectionCategoryArchived(
-    InspectionCategory category,
+    String sheetId,
+    String categoryId,
     User currentUser, {
     required bool archived,
   }) {
-    return _rawRef(category.inspectionSheetId).doc(category.id).update({
+    return _rawRef(sheetId).doc(categoryId).update({
       'archivedAt': archived ? FieldValue.serverTimestamp() : null,
       ...AuditMetadata.updateFields(currentUser),
     });

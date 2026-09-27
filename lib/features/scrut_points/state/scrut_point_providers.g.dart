@@ -218,7 +218,7 @@ final class ScrutPointActionsProvider
   ScrutPointActions create() => ScrutPointActions();
 }
 
-String _$scrutPointActionsHash() => r'50b621891bed5773fa04f947ff8ffeca4733bc4e';
+String _$scrutPointActionsHash() => r'cbcd7bdf52d5ce7b8bbcf2164dd2141c45177187';
 
 abstract class _$ScrutPointActions extends $AsyncNotifier<void> {
   FutureOr<void> build();

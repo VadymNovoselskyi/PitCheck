@@ -90,15 +90,12 @@ class ScrutPointRepository {
   Future<void> setScrutPointArchived(
     String sheetId,
     String categoryId,
-    ScrutPoint point,
+    String subcategoryId,
+    String pointId,
     User currentUser, {
     required bool archived,
   }) {
-    return _rawRef(
-      sheetId,
-      categoryId,
-      point.subcategoryId,
-    ).doc(point.id).update({
+    return _rawRef(sheetId, categoryId, subcategoryId).doc(pointId).update({
       'archivedAt': archived ? FieldValue.serverTimestamp() : null,
       ...AuditMetadata.updateFields(currentUser),
     });
