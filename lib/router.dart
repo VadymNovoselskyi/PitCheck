@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import 'package:pit_check/app_shell.dart';
+import 'package:pit_check/route_names.dart';
 
 import 'package:pit_check/home_screen.dart';
 
@@ -27,16 +28,17 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/',
+              name: RouteNames.home,
               builder: (_, _) => const HomeScreen(),
               routes: [
                 GoRoute(
                   path: 'inspections/new',
-                  name: startInspectionRouteName,
+                  name: RouteNames.startInspection,
                   builder: (_, _) => const StartInspectionScreen(),
                 ),
                 GoRoute(
                   path: 'inspections/:inspectionId/results/:pointId',
-                  name: inspectionPointResultRouteName,
+                  name: RouteNames.inspectionPointResult,
                   builder: (_, state) => InspectionPointResultDetailsScreen(
                     inspectionId: state.pathParameters['inspectionId']!,
                     pointId: state.pathParameters['pointId']!,
@@ -44,7 +46,7 @@ final router = GoRouter(
                 ),
                 GoRoute(
                   path: 'inspections/:inspectionId/judge',
-                  name: judgeRouteName,
+                  name: RouteNames.judge,
                   builder: (_, state) => JudgeScreen(
                     inspectionId: state.pathParameters['inspectionId']!,
                     initialPointId: state.uri.queryParameters['pointId'],
@@ -52,7 +54,7 @@ final router = GoRouter(
                 ),
                 GoRoute(
                   path: 'inspections/:inspectionId',
-                  name: inspectionRouteName,
+                  name: RouteNames.inspection,
                   builder: (_, state) => InspectionScreen(
                     inspectionId: state.pathParameters['inspectionId']!,
                   ),
@@ -65,16 +67,19 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/sheets',
+              name: RouteNames.sheets,
               builder: (_, _) => const InspectionSheetsScreen(),
               routes: [
                 GoRoute(
                   path: ':sheetId',
+                  name: RouteNames.sheetDetails,
                   builder: (_, state) => InspectionSheetDetailsScreen(
                     sheetId: state.pathParameters['sheetId']!,
                   ),
                   routes: [
                     GoRoute(
                       path: 'categories/:categoryId/subcategories/:subcategoryId/points/:pointId',
+                      name: RouteNames.scrutPointDetails,
                       builder: (_, state) => ScrutPointDetailsScreen(
                         sheetId: state.pathParameters['sheetId']!,
                         categoryId: state.pathParameters['categoryId']!,
@@ -92,6 +97,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/inspections-archive',
+              name: RouteNames.inspectionsArchive,
               builder: (_, _) => const InspectionsArchiveScreen(),
             ),
           ],
@@ -100,6 +106,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/settings',
+              name: RouteNames.settings,
               builder: (_, _) => const SettingsScreen(),
             ),
           ],

@@ -7,8 +7,8 @@ import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/inspections/state/inspection_member_providers.dart';
 import 'package:pit_check/features/inspections/ui/details/inspection_details_header.dart';
 import 'package:pit_check/features/inspections/ui/home/home_join_sheet.dart';
-import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
@@ -62,7 +62,7 @@ class HomeActiveInspection extends ConsumerWidget {
       parameters: {'phase': inspection.lifecycle.name},
     );
     context.pushNamed(
-      inspectionRouteName,
+      RouteNames.inspection,
       pathParameters: {'inspectionId': inspection.id},
     );
   }

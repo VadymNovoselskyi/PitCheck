@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
 import 'package:pit_check/features/scrut_points/models/scrut_point_history.dart';
 import 'package:pit_check/features/scrut_points/ui/components/inspection_point_status_chip.dart';
-import 'package:pit_check/features/scrut_points/ui/result_details/inspection_point_result_details_screen.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 import 'package:pit_check/shared/ui/time_format.dart';
@@ -67,7 +67,7 @@ class _ResultCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => context.pushNamed(
-          inspectionPointResultRouteName,
+          RouteNames.inspectionPointResult,
           pathParameters: {
             'inspectionId': result.inspectionId,
             'pointId': result.scrutPointId,

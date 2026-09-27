@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_subcategory.dart';
 import 'package:pit_check/features/scrut_points/state/scrut_point_providers.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 
 class InspectionSubcategoryTile extends ConsumerStatefulWidget {
@@ -80,9 +81,14 @@ class _InspectionSubcategoryTileState
               children: [
                 for (var index = 0; index < items.length; index++) ...[
                   InkWell(
-                    onTap: () => context.go(
-                      '/sheets/${widget.sheetId}/categories/${widget.categoryId}/subcategories/'
-                      '${widget.subcategory.id}/points/${items[index].id}',
+                    onTap: () => context.goNamed(
+                      RouteNames.scrutPointDetails,
+                      pathParameters: {
+                        'sheetId': widget.sheetId,
+                        'categoryId': widget.categoryId,
+                        'subcategoryId': widget.subcategory.id,
+                        'pointId': items[index].id,
+                      },
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

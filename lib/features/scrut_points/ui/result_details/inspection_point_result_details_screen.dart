@@ -6,8 +6,6 @@ import 'package:pit_check/features/scrut_points/ui/result_details/inspection_poi
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
-const inspectionPointResultRouteName = 'inspection-point-result-details';
-
 class InspectionPointResultDetailsScreen extends ConsumerWidget {
   const InspectionPointResultDetailsScreen({
     super.key,

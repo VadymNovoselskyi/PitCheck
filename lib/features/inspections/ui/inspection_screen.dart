@@ -9,8 +9,6 @@ import 'package:pit_check/features/inspections/ui/lobby/inspection_lobby_screen.
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
-const inspectionRouteName = 'inspection';
-
 class InspectionScreen extends ConsumerWidget {
   const InspectionScreen({super.key, required this.inspectionId});
 

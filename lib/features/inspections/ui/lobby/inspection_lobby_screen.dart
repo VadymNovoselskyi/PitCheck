@@ -7,6 +7,7 @@ import 'package:pit_check/features/inspections/state/inspection_providers.dart';
 import 'package:pit_check/features/inspections/ui/lobby/inspection_lobby_members.dart';
 import 'package:pit_check/features/inspections/ui/lobby/inspection_lobby_scope.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class InspectionLobbyScreen extends ConsumerStatefulWidget {
@@ -92,7 +93,7 @@ class _InspectionLobbyScreenState extends ConsumerState<InspectionLobbyScreen> {
       await ref
           .read(inspectionActionsProvider.notifier)
           .cancel(widget.inspection);
-      router.go('/');
+      router.goNamed(RouteNames.home);
     } catch (_) {
       showAppSnackBar(messenger, 'Could not cancel the inspection lobby');
     }

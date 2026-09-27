@@ -5,13 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
 import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
-import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
 import 'package:pit_check/features/inspections/ui/setup/start_inspection_form.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
-
-const startInspectionRouteName = 'start-inspection';
 
 class StartInspectionScreen extends ConsumerWidget {
   const StartInspectionScreen({super.key});
@@ -58,7 +56,7 @@ class StartInspectionScreen extends ConsumerWidget {
 
       if (!context.mounted) return;
       context.goNamed(
-        inspectionRouteName,
+        RouteNames.inspection,
         pathParameters: {'inspectionId': inspectionId},
       );
     } catch (_) {

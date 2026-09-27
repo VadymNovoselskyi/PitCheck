@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/app_analytics.dart';
 
 class InspectionSheetCard extends StatelessWidget {
@@ -23,7 +24,10 @@ class InspectionSheetCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           AppAnalytics.log('inspection_sheet_opened');
-          context.go('/sheets/${sheet.id}');
+          context.goNamed(
+            RouteNames.sheetDetails,
+            pathParameters: {'sheetId': sheet.id},
+          );
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 16, top: 8, right: 4, bottom: 8),

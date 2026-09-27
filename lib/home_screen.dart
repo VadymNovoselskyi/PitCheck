@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
 import 'package:pit_check/features/inspections/ui/archive/inspection_archive_card.dart';
 import 'package:pit_check/features/inspections/ui/home/home_active_inspection.dart';
-import 'package:pit_check/features/inspections/ui/setup/start_inspection_screen.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -34,7 +34,7 @@ class HomeScreen extends ConsumerWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     onPressed: () =>
-                        context.pushNamed(startInspectionRouteName),
+                        context.pushNamed(RouteNames.startInspection),
                     icon: const Icon(Icons.play_arrow),
                     label: const Text('Start inspection'),
                   ),

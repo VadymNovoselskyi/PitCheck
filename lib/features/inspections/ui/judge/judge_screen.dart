@@ -5,14 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/inspections/state/inspection_member_providers.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
-import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_content.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
-
-const judgeRouteName = 'inspection-judge';
 
 class JudgeScreen extends ConsumerWidget {
   const JudgeScreen({
@@ -47,7 +45,7 @@ class JudgeScreen extends ConsumerWidget {
                 parameters: {'phase': 'running'},
               );
               context.goNamed(
-                inspectionRouteName,
+                RouteNames.inspection,
                 pathParameters: {'inspectionId': inspectionId},
               );
             },

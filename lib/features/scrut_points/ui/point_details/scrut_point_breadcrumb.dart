@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_category_providers.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_subcategory_providers.dart';
+import 'package:pit_check/route_names.dart';
 
 class ScrutPointBreadcrumb extends ConsumerWidget {
   const ScrutPointBreadcrumb({
@@ -59,29 +60,24 @@ class ScrutPointBreadcrumb extends ConsumerWidget {
         loadedSubcategory == null) {
       return _text(context, 'Inspection context unavailable');
     }
-    final sheetLocation = Uri(path: '/sheets/$sheetId').toString();
-
     return Row(
       children: [
         Flexible(
           child: _link(
             context,
             '${loadedSheet.competitionName} ${loadedSheet.year}',
-            sheetLocation,
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3),
           child: Text('/', style: Theme.of(context).textTheme.bodySmall),
         ),
-        Flexible(
-          child: _link(context, loadedCategory.type.label, sheetLocation),
-        ),
+        Flexible(child: _link(context, loadedCategory.type.label)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3),
           child: Text('/', style: Theme.of(context).textTheme.bodySmall),
         ),
-        Flexible(child: _link(context, loadedSubcategory.name, sheetLocation)),
+        Flexible(child: _link(context, loadedSubcategory.name)),
       ],
     );
   }
@@ -96,11 +92,14 @@ class ScrutPointBreadcrumb extends ConsumerWidget {
     );
   }
 
-  Widget _link(BuildContext context, String label, String location) {
+  Widget _link(BuildContext context, String label) {
     return Semantics(
       link: true,
       child: InkWell(
-        onTap: () => context.go(location),
+        onTap: () => context.goNamed(
+          RouteNames.sheetDetails,
+          pathParameters: {'sheetId': sheetId},
+        ),
         child: Text(
           label,
           maxLines: 1,

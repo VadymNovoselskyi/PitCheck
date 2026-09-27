@@ -6,8 +6,8 @@ import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/inspections/state/inspection_member_providers.dart';
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
-import 'package:pit_check/features/inspections/ui/judge/judge_screen.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/route_names.dart';
 import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
@@ -47,7 +47,7 @@ class InspectionScaffold extends ConsumerWidget {
               onPressed: () {
                 AppAnalytics.log('judge_view_opened');
                 context.goNamed(
-                  judgeRouteName,
+                  RouteNames.judge,
                   pathParameters: {'inspectionId': inspectionId},
                 );
               },
