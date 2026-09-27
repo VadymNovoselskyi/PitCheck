@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 
 class InspectionSheetCard extends StatelessWidget {
   const InspectionSheetCard({
@@ -20,7 +21,10 @@ class InspectionSheetCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.go('/sheets/${sheet.id}'),
+        onTap: () {
+          AppAnalytics.log('inspection_sheet_opened');
+          context.go('/sheets/${sheet.id}');
+        },
         child: Padding(
           padding: const EdgeInsets.only(left: 16, top: 8, right: 4, bottom: 8),
           child: Row(

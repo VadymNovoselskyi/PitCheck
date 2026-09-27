@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
 import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 import 'package:pit_check/shared/ui/time_format.dart';
 
@@ -24,10 +25,16 @@ class InspectionArchiveCard extends ConsumerWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.pushNamed(
-          inspectionRouteName,
-          pathParameters: {'inspectionId': inspection.id},
-        ),
+        onTap: () {
+          AppAnalytics.log(
+            'inspection_details_opened',
+            parameters: {'phase': inspection.lifecycle.name},
+          );
+          context.pushNamed(
+            inspectionRouteName,
+            pathParameters: {'inspectionId': inspection.id},
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

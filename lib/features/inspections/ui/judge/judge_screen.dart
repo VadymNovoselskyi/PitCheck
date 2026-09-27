@@ -8,6 +8,7 @@ import 'package:pit_check/features/inspections/state/inspection_providers.dart';
 import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_content.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/empty_view.dart';
 import 'package:pit_check/shared/ui/components/error_view.dart';
 
@@ -40,10 +41,16 @@ class JudgeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Overview',
-            onPressed: () => context.goNamed(
-              inspectionRouteName,
-              pathParameters: {'inspectionId': inspectionId},
-            ),
+            onPressed: () {
+              AppAnalytics.log(
+                'inspection_details_opened',
+                parameters: {'phase': 'running'},
+              );
+              context.goNamed(
+                inspectionRouteName,
+                pathParameters: {'inspectionId': inspectionId},
+              );
+            },
             icon: const Icon(Icons.view_list_outlined),
           ),
         ],

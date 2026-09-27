@@ -9,6 +9,7 @@ import 'package:pit_check/features/inspections/ui/details/inspection_details_hea
 import 'package:pit_check/features/inspections/ui/home/home_join_sheet.dart';
 import 'package:pit_check/features/inspections/ui/inspection_screen.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
@@ -56,6 +57,10 @@ class HomeActiveInspection extends ConsumerWidget {
   }
 
   void _open(BuildContext context) {
+    AppAnalytics.log(
+      'inspection_details_opened',
+      parameters: {'phase': inspection.lifecycle.name},
+    );
     context.pushNamed(
       inspectionRouteName,
       pathParameters: {'inspectionId': inspection.id},
@@ -74,6 +79,7 @@ class HomeActiveInspection extends ConsumerWidget {
       await ref
           .read(inspectionMemberActionsProvider.notifier)
           .join(inspection.id, role);
+      AppAnalytics.log('inspection_joined', parameters: {'role': role.name});
       if (!context.mounted) return;
       _open(context);
     } catch (_) {

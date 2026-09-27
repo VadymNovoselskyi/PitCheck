@@ -6,6 +6,7 @@ import 'package:pit_check/features/scrut_points/models/inspection_point_result.d
 import 'package:pit_check/features/scrut_points/models/inspection_point_status.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_event_providers.dart';
 import 'package:pit_check/features/scrut_points/ui/components/inspection_point_status_presentation.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class JudgeDecisionForm extends ConsumerStatefulWidget {
@@ -46,6 +47,7 @@ class _JudgeDecisionFormState extends ConsumerState<JudgeDecisionForm> {
             widget.result.scrutPointId,
             InspectionPointDecisionInput(status: _status, comment: _note),
           );
+      AppAnalytics.log('decision_saved', parameters: {'status': _status.name});
       showAppSnackBar(messenger, 'Decision saved');
     } catch (_) {
       showAppSnackBar(messenger, 'Could not save the decision');

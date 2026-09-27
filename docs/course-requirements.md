@@ -1,10 +1,10 @@
-# Kurskrav som PitCheck uppfyller
+# Projektkrav som PitCheck uppfyller
 
 | Kategori              | Krav | Poäng |
 | --------------------- | ---: | ----: |
 | Tekniska krav         |    6 |     8 |
-| Entreprenöriella krav |    3 |     4 |
-| Totalt                |    9 |    12 |
+| Entreprenöriella krav |    4 |     6 |
+| Totalt                |   10 |    14 |
 
 ## Tekniska krav (8 p)
 
@@ -44,7 +44,7 @@ Firestore `snapshots()` stream:ar listor och dokument. När ett inspection sheet
 
 [firestore_stream_helpers.dart](../lib/shared/firestore_stream_helpers.dart), [InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart)
 
-## Entreprenöriella krav (4 p)
+## Entreprenöriella krav (6 p)
 
 ### Cloud Firestore (2 p)
 
@@ -63,3 +63,15 @@ Användaren kan välja `System`, `Light` eller `Dark` i Settings. Valet sparas p
 Firebase Performance Monitoring är aktiverat i appen. SDK:t mäter starttid automatiskt enligt [Firebase-dokumentationen](https://firebase.google.com/docs/perf-mon/flutter/get-started)
 
 `firebase_performance` finns i [pubspec.yaml](../pubspec.yaml). Androids Performance plugin är aktiverat i [build.gradle.kts](../android/app/build.gradle.kts)
+
+### Analytics (2 p)
+
+`AppAnalytics` loggar custom events till Firebase Analytics när användaren gör actions i appen. Fem exempel:
+
+- `inspection_sheet_created` när ett sheet skapas i [InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart)
+- `inspection_sheet_archived` när ett sheet arkiveras eller aktivers i [InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart)
+- `scrut_point_edited` när en punkt ändras i [ScrutPointDetailsScreen](../lib/features/scrut_points/ui/point_details/scrut_point_details_screen.dart)
+- `inspection_joined` när en användare går med i en inspection i [HomeActiveInspection](../lib/features/inspections/ui/home/home_active_inspection.dart)
+- `decision_saved` när en judge sparar ett beslut i [JudgeDecisionForm](../lib/features/inspections/ui/judge/judge_decision_form.dart)
+
+[AppAnalytics](../lib/shared/app_analytics.dart)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/settings/state/theme_mode_provider.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class AppearancePicker extends ConsumerWidget {
@@ -85,9 +86,11 @@ class AppearancePicker extends ConsumerWidget {
     WidgetRef ref,
     ThemeMode mode,
   ) async {
+    if (ref.read(themeModeControllerProvider) == mode) return;
     final messenger = ScaffoldMessenger.of(context);
     try {
       await ref.read(themeModeControllerProvider.notifier).setMode(mode);
+      AppAnalytics.log('theme_changed', parameters: {'mode': mode.name});
     } catch (_) {
       showAppSnackBar(messenger, 'Could not save appearance setting');
     }

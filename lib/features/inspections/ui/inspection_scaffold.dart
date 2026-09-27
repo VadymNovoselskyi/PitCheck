@@ -8,6 +8,7 @@ import 'package:pit_check/features/inspections/state/inspection_member_providers
 import 'package:pit_check/features/inspections/state/inspection_providers.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_screen.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class InspectionScaffold extends ConsumerWidget {
@@ -43,10 +44,13 @@ class InspectionScaffold extends ConsumerWidget {
           if (showJudgeActions)
             IconButton(
               tooltip: 'Judge view',
-              onPressed: () => context.goNamed(
-                judgeRouteName,
-                pathParameters: {'inspectionId': inspectionId},
-              ),
+              onPressed: () {
+                AppAnalytics.log('judge_view_opened');
+                context.goNamed(
+                  judgeRouteName,
+                  pathParameters: {'inspectionId': inspectionId},
+                );
+              },
               icon: const Icon(Icons.rate_review_outlined),
             ),
         ],

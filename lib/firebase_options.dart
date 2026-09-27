@@ -47,6 +47,7 @@ class DefaultFirebaseOptions {
     projectId: 'scrutineering-app',
     authDomain: 'scrutineering-app.firebaseapp.com',
     storageBucket: 'scrutineering-app.firebasestorage.app',
+    measurementId: 'G-BGE807359Q',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -80,5 +81,6 @@ class DefaultFirebaseOptions {
     projectId: 'scrutineering-app',
     authDomain: 'scrutineering-app.firebaseapp.com',
     storageBucket: 'scrutineering-app.firebasestorage.app',
+    measurementId: 'G-62H7ENL4PF',
   );
 }

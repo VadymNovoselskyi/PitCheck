@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/features/scrut_points/models/scrut_point.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_result_providers.dart';
 import 'package:pit_check/features/scrut_points/state/scrut_point_providers.dart';
@@ -127,6 +128,7 @@ class ScrutPointDetailsScreen extends ConsumerWidget {
       await ref
           .read(scrutPointActionsProvider.notifier)
           .updatePoint(sheetId, categoryId, subcategoryId, pointId, input);
+      AppAnalytics.log('scrut_point_edited');
       showAppSnackBar(messenger, 'Changes saved');
     } catch (_) {
       showAppSnackBar(messenger, 'Could not save the scrut point');

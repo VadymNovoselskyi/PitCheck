@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/inspection_sheets/models/inspection_sheet.dart';
 import 'package:pit_check/features/inspection_sheets/state/inspection_sheet_providers.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheet_form.dart';
 import 'package:pit_check/features/inspection_sheets/ui/list/inspection_sheets_content.dart';
 import 'package:pit_check/shared/archive_filter.dart';
@@ -80,10 +81,12 @@ class _InspectionSheetsScreenState
     try {
       if (sheet == null) {
         await ref.read(inspectionSheetActionsProvider.notifier).add(result);
+        AppAnalytics.log('inspection_sheet_created');
       } else {
         await ref
             .read(inspectionSheetActionsProvider.notifier)
             .updateSheet(sheet.id, result);
+        AppAnalytics.log('inspection_sheet_edited');
       }
       showAppSnackBar(
         messenger,
@@ -127,6 +130,10 @@ class _InspectionSheetsScreenState
       await ref
           .read(inspectionSheetActionsProvider.notifier)
           .setArchived(sheet, archived: archive);
+      AppAnalytics.log(
+        'inspection_sheet_archived',
+        parameters: {'action': archive ? 'archive' : 'restore'},
+      );
       showAppSnackBar(
         messenger,
         'Inspection sheet ${archive ? 'archived' : 'restored'}',
