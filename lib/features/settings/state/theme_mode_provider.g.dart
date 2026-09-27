@@ -48,7 +48,7 @@ final class ThemeModeStoreProvider
   }
 }
 
-String _$themeModeStoreHash() => r'c3e8c41296ca773f596015f8313324a626c65a0d';
+String _$themeModeStoreHash() => r'a3f8c76e477e6466aba465a5c8d050c23887fd74';
 
 @ProviderFor(initialThemeMode)
 final initialThemeModeProvider = InitialThemeModeProvider._();

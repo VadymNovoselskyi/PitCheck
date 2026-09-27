@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/users/models/user.dart';
 import 'package:pit_check/shared/firestore_stream_helpers.dart';
@@ -33,35 +34,25 @@ class InspectionMemberRepository {
   }
 
   Future<void> joinInspection(
-    String inspectionId,
+    Inspection inspection,
     InspectionMemberRole role,
     User currentUser,
-  ) {
-    final inspectionRef = _firestore
-        .collection('inspections')
-        .doc(inspectionId);
-    final memberRef = _rawRef(inspectionId).doc(currentUser.id);
+  ) async {
+    if (inspection.isCompleted) {
+      throw StateError('Cannot join a completed inspection');
+    }
 
-    return _firestore.runTransaction<void>((transaction) async {
-      final inspection = await transaction.get(inspectionRef);
-      if (!inspection.exists) {
-        throw StateError('Inspection not found');
-      }
-      if (inspection.data()?['endedAt'] != null) {
-        throw StateError('Cannot join a completed inspection');
-      }
+    final memberRef = _rawRef(inspection.id).doc(currentUser.id);
+    final member = await memberRef.get();
+    if (member.exists) return;
 
-      final member = await transaction.get(memberRef);
-      if (member.exists) return;
-
-      transaction.set(memberRef, {
-        'inspectionId': inspectionId,
-        'userId': currentUser.id,
-        'displayName': currentUser.fullName,
-        'image': currentUser.image,
-        'role': role.name,
-        'joinedAt': FieldValue.serverTimestamp(),
-      });
+    await memberRef.set({
+      'inspectionId': inspection.id,
+      'userId': currentUser.id,
+      'displayName': currentUser.fullName,
+      'image': currentUser.image,
+      'role': role.name,
+      'joinedAt': FieldValue.serverTimestamp(),
     });
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/models/inspection_member.dart';
 import 'package:pit_check/features/inspections/repository/inspection_member_repository.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
@@ -32,10 +33,10 @@ class InspectionMemberActions extends _$InspectionMemberActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> join(String inspectionId, InspectionMemberRole role) {
+  Future<void> join(Inspection inspection, InspectionMemberRole role) {
     final currentUser = ref.read(currentUserProvider);
     return inspectionMemberRepository.joinInspection(
-      inspectionId,
+      inspection,
       role,
       currentUser,
     );

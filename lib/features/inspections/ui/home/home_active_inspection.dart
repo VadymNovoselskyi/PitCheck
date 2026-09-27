@@ -78,7 +78,7 @@ class HomeActiveInspection extends ConsumerWidget {
     try {
       await ref
           .read(inspectionMemberActionsProvider.notifier)
-          .join(inspection.id, role);
+          .join(inspection, role);
       AppAnalytics.log('inspection_joined', parameters: {'role': role.name});
       if (!context.mounted) return;
       _open(context);
