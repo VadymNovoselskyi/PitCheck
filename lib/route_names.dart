@@ -1,5 +1,7 @@
 abstract final class RouteNames {
   static const login = 'login';
+  static const signUp = 'sign-up';
+  static const resetPassword = 'reset-password';
   static const authLoading = 'auth-loading';
   static const accountError = 'account-error';
   static const home = 'home';

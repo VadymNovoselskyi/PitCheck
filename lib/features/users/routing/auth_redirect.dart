@@ -18,6 +18,7 @@ String? authRedirect(AsyncValue<AppUser?> user, Uri location) {
   if (authPath == null) {
     return _isAuthRoute(location.path) ? _target(location) : null;
   }
+  if (authPath == '/login' && _isLoginRoute(location.path)) return null;
   if (location.path == authPath) return null;
 
   // Save the requested page so the user can return to it after authentication.
@@ -47,5 +48,10 @@ String _target(Uri location) {
   return candidate;
 }
 
+bool _isLoginRoute(String path) =>
+    path == '/login' ||
+    path == '/login/signup' ||
+    path == '/login/reset-password';
+
 bool _isAuthRoute(String path) =>
-    path == '/login' || path == '/loading' || path == '/account-error';
+    _isLoginRoute(path) || path == '/loading' || path == '/account-error';

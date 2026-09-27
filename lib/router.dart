@@ -5,9 +5,11 @@ import 'package:pit_check/app_shell.dart';
 import 'package:pit_check/route_names.dart';
 import 'package:pit_check/features/users/routing/auth_redirect.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
-import 'package:pit_check/features/users/ui/account_error_screen.dart';
-import 'package:pit_check/features/users/ui/auth_loading_screen.dart';
-import 'package:pit_check/features/users/ui/login_screen.dart';
+import 'package:pit_check/features/users/ui/auth/account_error_screen.dart';
+import 'package:pit_check/features/users/ui/auth/auth_loading_screen.dart';
+import 'package:pit_check/features/users/ui/auth/login_screen.dart';
+import 'package:pit_check/features/users/ui/auth/reset_password_screen.dart';
+import 'package:pit_check/features/users/ui/auth/sign_up_screen.dart';
 
 import 'package:pit_check/home_screen.dart';
 
@@ -131,7 +133,20 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: '/login',
         name: RouteNames.login,
-        builder: (_, _) => const LoginScreen(),
+        builder: (_, state) =>
+            LoginScreen(from: state.uri.queryParameters['from']),
+        routes: [
+          GoRoute(
+            path: 'signup',
+            name: RouteNames.signUp,
+            builder: (_, _) => const SignUpScreen(),
+          ),
+          GoRoute(
+            path: 'reset-password',
+            name: RouteNames.resetPassword,
+            builder: (_, _) => const ResetPasswordScreen(),
+          ),
+        ],
       ),
       GoRoute(
         path: '/loading',
