@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,11 +7,14 @@ import 'package:pit_check/features/inspections/models/inspection.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_decision_form.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_navigation.dart';
 import 'package:pit_check/features/inspections/ui/judge/judge_point_header.dart';
+import 'package:pit_check/features/scrut_points/models/inspection_point_event.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_event_providers.dart';
 import 'package:pit_check/features/scrut_points/state/inspection_point_result_providers.dart';
 import 'package:pit_check/features/scrut_points/ui/components/inspection_decision_history.dart';
+import 'package:pit_check/shared/app_analytics.dart';
 import 'package:pit_check/shared/ui/components/inline_async_states.dart';
+import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
 class JudgeContent extends ConsumerStatefulWidget {
   const JudgeContent({
@@ -94,6 +99,8 @@ class _JudgeContentState extends ConsumerState<JudgeContent> {
                     selected.currentNote,
                   )),
                   result: selected,
+                  onSubmit: (input) =>
+                      unawaited(_recordDecision(selected, input)),
                 ),
                 const SizedBox(height: 24),
 
@@ -115,5 +122,24 @@ class _JudgeContentState extends ConsumerState<JudgeContent> {
         ),
       ),
     );
+  }
+
+  Future<void> _recordDecision(
+    InspectionPointResult result,
+    InspectionPointDecisionInput input,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref
+          .read(inspectionPointEventActionsProvider.notifier)
+          .recordDecision(result.inspectionId, result.scrutPointId, input);
+      AppAnalytics.log(
+        'decision_saved',
+        parameters: {'status': input.status.name},
+      );
+      showAppSnackBar(messenger, 'Decision saved');
+    } catch (_) {
+      showAppSnackBar(messenger, 'Could not save the decision');
+    }
   }
 }

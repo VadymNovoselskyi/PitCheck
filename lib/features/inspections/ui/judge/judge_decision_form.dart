@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pit_check/features/scrut_points/models/inspection_point_event.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_result.dart';
 import 'package:pit_check/features/scrut_points/models/inspection_point_status.dart';
-import 'package:pit_check/features/scrut_points/state/inspection_point_event_providers.dart';
 import 'package:pit_check/features/scrut_points/ui/components/inspection_point_status_presentation.dart';
-import 'package:pit_check/shared/app_analytics.dart';
-import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
 
-class JudgeDecisionForm extends ConsumerStatefulWidget {
-  const JudgeDecisionForm({super.key, required this.result});
+class JudgeDecisionForm extends StatefulWidget {
+  const JudgeDecisionForm({
+    super.key,
+    required this.result,
+    required this.onSubmit,
+  });
 
   final InspectionPointResult result;
+  final ValueChanged<InspectionPointDecisionInput> onSubmit;
 
   @override
-  ConsumerState<JudgeDecisionForm> createState() => _JudgeDecisionFormState();
+  State<JudgeDecisionForm> createState() => _JudgeDecisionFormState();
 }
 
-class _JudgeDecisionFormState extends ConsumerState<JudgeDecisionForm> {
+class _JudgeDecisionFormState extends State<JudgeDecisionForm> {
   final _formKey = GlobalKey<FormState>();
   late String _note;
   late InspectionPointStatus _status;
@@ -34,24 +35,13 @@ class _JudgeDecisionFormState extends ConsumerState<JudgeDecisionForm> {
     _note = _initialNote;
   }
 
-  Future<void> _save() async {
+  void _save() {
     _formKey.currentState!.save();
     if (_status == _initialStatus && _note == _initialNote) return;
 
-    final messenger = ScaffoldMessenger.of(context);
-    try {
-      await ref
-          .read(inspectionPointEventActionsProvider.notifier)
-          .recordDecision(
-            widget.result.inspectionId,
-            widget.result.scrutPointId,
-            InspectionPointDecisionInput(status: _status, comment: _note),
-          );
-      AppAnalytics.log('decision_saved', parameters: {'status': _status.name});
-      showAppSnackBar(messenger, 'Decision saved');
-    } catch (_) {
-      showAppSnackBar(messenger, 'Could not save the decision');
-    }
+    widget.onSubmit(
+      InspectionPointDecisionInput(status: _status, comment: _note),
+    );
   }
 
   @override
