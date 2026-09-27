@@ -39,20 +39,22 @@ class InspectionLobbyMembers extends ConsumerWidget {
                         contentPadding: EdgeInsets.zero,
                         leading: CircleAvatar(
                           radius: 30,
-                          child: member.image.isNotEmpty
-                              ? ClipOval(
-                                  child: Image.network(
-                                    member.image,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) => const Icon(
-                                      Icons.person_outline,
-                                      size: 36,
-                                    ),
+                          child: switch (member.image) {
+                            final String image when image.isNotEmpty =>
+                              ClipOval(
+                                child: Image.network(
+                                  image,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, _, _) => const Icon(
+                                    Icons.person_outline,
+                                    size: 36,
                                   ),
-                                )
-                              : const Icon(Icons.person_outline, size: 36),
+                                ),
+                              ),
+                            _ => const Icon(Icons.person_outline, size: 36),
+                          },
                         ),
                         title: Text(member.displayName),
                         subtitle: Text(switch (member.role) {

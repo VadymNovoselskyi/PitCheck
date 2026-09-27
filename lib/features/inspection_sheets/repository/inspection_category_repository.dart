@@ -46,7 +46,7 @@ class InspectionCategoryRepository {
   Future<void> addInspectionCategory(
     String sheetId,
     InspectionCategoryInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId).doc().set({
       ...input.toFirestore(),
@@ -61,7 +61,7 @@ class InspectionCategoryRepository {
     String sheetId,
     String categoryId,
     InspectionCategoryInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId).doc(categoryId).update({
       ...input.toFirestore(),
@@ -72,7 +72,7 @@ class InspectionCategoryRepository {
   Future<void> setInspectionCategoryArchived(
     String sheetId,
     String categoryId,
-    User currentUser, {
+    AppUser currentUser, {
     required bool archived,
   }) {
     return _rawRef(sheetId).doc(categoryId).update({
@@ -84,7 +84,7 @@ class InspectionCategoryRepository {
   Future<void> reorderInspectionCategories(
     String sheetId,
     List<String> orderedCategoryIds,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     final batch = _firestore.batch();
     final auditFields = AuditMetadata.updateFields(currentUser);

@@ -36,7 +36,7 @@ class InspectionMemberRepository {
   Future<void> joinInspection(
     Inspection inspection,
     InspectionMemberRole role,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     if (inspection.isCompleted) {
       throw StateError('Cannot join a completed inspection');
@@ -49,7 +49,7 @@ class InspectionMemberRepository {
     await memberRef.set({
       'inspectionId': inspection.id,
       'userId': currentUser.id,
-      'displayName': currentUser.fullName,
+      'displayName': currentUser.displayName,
       'image': currentUser.image,
       'role': role.name,
       'joinedAt': FieldValue.serverTimestamp(),

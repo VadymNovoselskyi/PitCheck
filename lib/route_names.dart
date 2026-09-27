@@ -1,4 +1,7 @@
 abstract final class RouteNames {
+  static const login = 'login';
+  static const authLoading = 'auth-loading';
+  static const accountError = 'account-error';
   static const home = 'home';
   static const startInspection = 'start-inspection';
   static const inspectionPointResult = 'inspection-point-result-details';

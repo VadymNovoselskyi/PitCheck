@@ -1,45 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class AppUser {
   const new({
     required this.id,
-    required this.firstName,
-    required this.lastName,
+    required this.displayName,
     required this.email,
     required this.image,
     required this.role,
   });
 
   final String id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String image;
+  final String displayName;
+  final String? email;
+  final String? image;
 
   final Role role;
 
-  String get fullName => '$firstName $lastName'.trim();
-
   Map<String, dynamic> toFirestore() {
     return {
-      'firstName': firstName,
-      'lastName': lastName,
+      'displayName': displayName,
       'email': email,
       'image': image,
       'role': role.name,
     };
   }
 
-  factory User.fromFirestore(
+  factory AppUser.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data()!;
 
-    return User(
+    return AppUser(
       id: snapshot.id,
-      firstName: data['firstName'],
-      lastName: data['lastName'],
+      displayName: data['displayName'],
       email: data['email'],
       image: data['image'],
       role: Role.values.byName(data['role']),

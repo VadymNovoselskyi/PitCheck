@@ -42,7 +42,7 @@ class InspectionPointEventRepository {
     String inspectionId,
     String scrutPointId,
     InspectionPointDecisionInput input,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     final batch = _firestore.batch();
     batch.set(_rawEventsRef(inspectionId, scrutPointId).doc(), {
@@ -50,7 +50,7 @@ class InspectionPointEventRepository {
       'scrutPointId': scrutPointId,
       ...input.toFirestore(),
       'actorId': currentUser.id,
-      'actorName': currentUser.fullName,
+      'actorName': currentUser.displayName,
       'occurredAt': FieldValue.serverTimestamp(),
     });
 
@@ -58,7 +58,7 @@ class InspectionPointEventRepository {
       'currentStatus': input.status.name,
       'currentNote': input.comment,
       'latestJudgeId': currentUser.id,
-      'latestJudgeName': currentUser.fullName,
+      'latestJudgeName': currentUser.displayName,
       'latestDecisionAt': FieldValue.serverTimestamp(),
       ...AuditMetadata.updateFields(currentUser),
     });
@@ -70,7 +70,7 @@ class InspectionPointEventRepository {
     String scrutPointId,
     InspectionPointStatus currentStatus,
     InspectionPointAddressInput input,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     final batch = _firestore.batch();
     batch.set(_rawEventsRef(inspectionId, scrutPointId).doc(), {
@@ -79,7 +79,7 @@ class InspectionPointEventRepository {
       ...input.toFirestore(),
       'status': currentStatus.name,
       'actorId': currentUser.id,
-      'actorName': currentUser.fullName,
+      'actorName': currentUser.displayName,
       'occurredAt': FieldValue.serverTimestamp(),
     });
 

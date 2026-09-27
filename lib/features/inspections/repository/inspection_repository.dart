@@ -33,7 +33,7 @@ class InspectionRepository {
 
   Future<String> createLobby(
     CreateInspectionInput input,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     if (input.selectedSubcategoryIds.isEmpty) {
       throw ArgumentError('Select at least one subcategory');
@@ -52,7 +52,7 @@ class InspectionRepository {
     batch.set(memberReference, {
       'inspectionId': inspectionReference.id,
       'userId': currentUser.id,
-      'displayName': currentUser.fullName,
+      'displayName': currentUser.displayName,
       'image': currentUser.image,
       'role': InspectionMemberRole.judge.name,
       'joinedAt': FieldValue.serverTimestamp(),
@@ -62,7 +62,10 @@ class InspectionRepository {
     return inspectionReference.id;
   }
 
-  Future<void> startInspection(Inspection inspection, User currentUser) async {
+  Future<void> startInspection(
+    Inspection inspection,
+    AppUser currentUser,
+  ) async {
     final subcategoryIds = await _activeSubcategoryIds(inspection);
     final activePoints = await _activePoints(inspection, subcategoryIds);
 
@@ -99,7 +102,7 @@ class InspectionRepository {
     await batch.commit();
   }
 
-  Future<void> finishInspection(Inspection inspection, User currentUser) {
+  Future<void> finishInspection(Inspection inspection, AppUser currentUser) {
     return _rawRef.doc(inspection.id).update({
       'endedAt': FieldValue.serverTimestamp(),
       ...AuditMetadata.updateFields(currentUser),

@@ -62,7 +62,7 @@ class ScrutPointRepository {
     String categoryId,
     String subcategoryId,
     ScrutPointInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId, categoryId, subcategoryId).doc().set({
       ...input.toFirestore(),
@@ -79,7 +79,7 @@ class ScrutPointRepository {
     String subcategoryId,
     String pointId,
     ScrutPointInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId, categoryId, subcategoryId).doc(pointId).update({
       ...input.toFirestore(),
@@ -92,7 +92,7 @@ class ScrutPointRepository {
     String categoryId,
     String subcategoryId,
     String pointId,
-    User currentUser, {
+    AppUser currentUser, {
     required bool archived,
   }) {
     return _rawRef(sheetId, categoryId, subcategoryId).doc(pointId).update({
@@ -106,7 +106,7 @@ class ScrutPointRepository {
     String categoryId,
     String subcategoryId,
     List<String> orderedPointIds,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     final batch = _firestore.batch();
     final auditFields = AuditMetadata.updateFields(currentUser);

@@ -11,15 +11,15 @@ class AuditMetadata {
     required this.updatedAt,
   });
 
-  factory AuditMetadata.localFor(User user, {DateTime? localTimestamp}) {
+  factory AuditMetadata.localFor(AppUser user, {DateTime? localTimestamp}) {
     final timestamp = localTimestamp ?? DateTime.now();
 
     return AuditMetadata(
       createdById: user.id,
-      createdByName: user.fullName,
+      createdByName: user.displayName,
       createdAt: timestamp,
       updatedById: user.id,
-      updatedByName: user.fullName,
+      updatedByName: user.displayName,
       updatedAt: timestamp,
     );
   }
@@ -31,23 +31,23 @@ class AuditMetadata {
   final String updatedByName;
   final DateTime? updatedAt;
 
-  static Map<String, dynamic> createFields(User user) {
+  static Map<String, dynamic> createFields(AppUser user) {
     return {
       'audit': {
         'createdById': user.id,
-        'createdByName': user.fullName,
+        'createdByName': user.displayName,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedById': user.id,
-        'updatedByName': user.fullName,
+        'updatedByName': user.displayName,
         'updatedAt': FieldValue.serverTimestamp(),
       },
     };
   }
 
-  static Map<String, dynamic> updateFields(User user) {
+  static Map<String, dynamic> updateFields(AppUser user) {
     return {
       'audit.updatedById': user.id,
-      'audit.updatedByName': user.fullName,
+      'audit.updatedByName': user.displayName,
       'audit.updatedAt': FieldValue.serverTimestamp(),
     };
   }

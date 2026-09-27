@@ -44,7 +44,7 @@ class ScrutApp extends ConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ref.watch(themeModeControllerProvider),
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
     );
   }
 }

@@ -58,7 +58,7 @@ class InspectionSubcategoryRepository {
     String sheetId,
     String categoryId,
     InspectionSubcategoryInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId, categoryId).doc().set({
       ...input.toFirestore(),
@@ -74,7 +74,7 @@ class InspectionSubcategoryRepository {
     String categoryId,
     String subcategoryId,
     InspectionSubcategoryInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef(sheetId, categoryId).doc(subcategoryId).update({
       ...input.toFirestore(),
@@ -86,7 +86,7 @@ class InspectionSubcategoryRepository {
     String sheetId,
     String categoryId,
     String subcategoryId,
-    User currentUser, {
+    AppUser currentUser, {
     required bool archived,
   }) {
     return _rawRef(sheetId, categoryId).doc(subcategoryId).update({
@@ -99,7 +99,7 @@ class InspectionSubcategoryRepository {
     String sheetId,
     String categoryId,
     List<String> orderedSubcategoryIds,
-    User currentUser,
+    AppUser currentUser,
   ) async {
     final batch = _firestore.batch();
     final auditFields = AuditMetadata.updateFields(currentUser);

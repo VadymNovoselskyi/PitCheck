@@ -33,7 +33,7 @@ class InspectionSheetRepository {
 
   Future<void> addInspectionSheet(
     InspectionSheetInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef.doc().set({
       ...input.toFirestore(),
@@ -46,7 +46,7 @@ class InspectionSheetRepository {
   Future<void> updateInspectionSheet(
     String sheetId,
     InspectionSheetInput input,
-    User currentUser,
+    AppUser currentUser,
   ) {
     return _rawRef.doc(sheetId).update({
       ...input.toFirestore(),
@@ -56,7 +56,7 @@ class InspectionSheetRepository {
 
   Future<void> setInspectionSheetArchived(
     String sheetId,
-    User currentUser, {
+    AppUser currentUser, {
     required bool archived,
   }) {
     return _rawRef.doc(sheetId).update({

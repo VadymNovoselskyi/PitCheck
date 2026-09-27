@@ -15,7 +15,7 @@ class InspectionMember {
   final String inspectionId;
   final String userId;
   final String displayName;
-  final String image;
+  final String? image;
   final InspectionMemberRole role;
 
   /// Null while a Firestore server timestamp is still pending locally.
@@ -43,7 +43,7 @@ class InspectionMember {
       inspectionId: data['inspectionId'],
       userId: data['userId'],
       displayName: data['displayName'],
-      image: data['image'] ?? '',
+      image: data['image'],
       role: InspectionMemberRole.values.byName(data['role']),
       joinedAt: (data['joinedAt'] as Timestamp?)?.toDate(),
     );
