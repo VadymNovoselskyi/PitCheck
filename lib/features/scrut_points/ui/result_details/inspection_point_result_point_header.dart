@@ -27,7 +27,6 @@ class InspectionPointResultPointHeader extends ConsumerWidget {
     );
 
     final point = ref.watch(pointProvider);
-    ;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
