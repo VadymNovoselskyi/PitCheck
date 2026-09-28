@@ -79,6 +79,11 @@ class _SignInFormState extends State<SignInForm> {
             text: 'Continue with Google',
           ),
           SignInButton(
+            Buttons.facebookNew,
+            onPressed: _signInWithFacebook,
+            text: 'Continue with Facebook',
+          ),
+          SignInButton(
             Buttons.email,
             onPressed: widget.onSignUp,
             text: 'Create an account',
@@ -111,6 +116,17 @@ class _SignInFormState extends State<SignInForm> {
       showAppSnackBar(messenger, error.code);
     } catch (_) {
       showAppSnackBar(messenger, 'Google sign-in failed. Please try again.');
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await authRepository.signInWithFacebook();
+    } on FirebaseAuthException catch (error) {
+      showAppSnackBar(messenger, error.code);
+    } catch (_) {
+      showAppSnackBar(messenger, 'Facebook sign-in failed. Please try again.');
     }
   }
 }

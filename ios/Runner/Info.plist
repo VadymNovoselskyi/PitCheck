@@ -29,14 +29,26 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb2598223753961361</string>
 				<string>com.googleusercontent.apps.930302853058-6i3npjavlmolpgs5ecsirkce5gq0a1ag</string>
 			</array>
 		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>2598223753961361</string>
+	<key>FacebookClientToken</key>
+	<string>83c16151eaef9e6bb7ab05eb12aea870</string>
+	<key>FacebookDisplayName</key>
+	<string>Pit Check</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
