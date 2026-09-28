@@ -2,11 +2,11 @@
 
 | Kategori              | Krav | Poäng |
 | --------------------- | ---: | ----: |
-| Tekniska krav         |    6 |     8 |
+| Tekniska krav         |    9 |    11 |
 | Entreprenöriella krav |    4 |     6 |
-| Totalt                |   10 |    14 |
+| Totalt                |   13 |    17 |
 
-## Tekniska krav (8 p)
+## Tekniska krav (11 p)
 
 ### Modulär kod (2 p)
 
@@ -43,6 +43,24 @@ Formuläret för inspection sheets kräver namn och beskrivning. Det kontrollera
 Firestore `snapshots()` stream:ar listor och dokument. När ett inspection sheet ändras uppdateras list screen via en stream provider
 
 [firestore_stream_helpers.dart](../lib/shared/firestore_stream_helpers.dart), [InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart)
+
+### Enkel inloggning mot Firebase (1 p)
+
+Användare kan skapa konto och logga in med e-postadress och lösenord via Firebase Authentication
+
+[AuthRepository](../lib/features/users/repository/auth_repository.dart), [SignInForm](../lib/features/users/ui/auth/sign_in_form.dart), [SignUpForm](../lib/features/users/ui/auth/sign_up_form.dart)
+
+### Tredjepartsinloggning med Google (1 p)
+
+Google-inloggning ger en Firebase-användare via Google-credential. Samma Google-metod räknas bara en gång
+
+[AuthRepository](../lib/features/users/repository/auth_repository.dart), [SignInForm](../lib/features/users/ui/auth/sign_in_form.dart)
+
+### Tredjepartsinloggning med Facebook (1 p)
+
+Facebook-inloggning ger en Firebase-användare via Facebook-credential. Samma Facebook-metod räknas bara en gång
+
+[AuthRepository](../lib/features/users/repository/auth_repository.dart), [SignInForm](../lib/features/users/ui/auth/sign_in_form.dart)
 
 ## Entreprenöriella krav (6 p)
 
