@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 import 'package:pit_check/features/users/state/user_providers.dart';
 import 'package:pit_check/shared/ui/snack_bar_helpers.dart';
@@ -72,13 +73,15 @@ class _SignInFormState extends State<SignInForm> {
           ),
           const SizedBox(height: 20),
 
-          OutlinedButton(
+          SignInButton(
+            Buttons.google,
             onPressed: _signInWithGoogle,
-            child: const Text('Continue with Google'),
+            text: 'Continue with Google',
           ),
-          TextButton(
+          SignInButton(
+            Buttons.email,
             onPressed: widget.onSignUp,
-            child: const Text('Create an account'),
+            text: 'Create an account',
           ),
         ],
       ),
