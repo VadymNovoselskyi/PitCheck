@@ -2,9 +2,9 @@
 
 | Kategori              | Krav | Poäng |
 | --------------------- | ---: | ----: |
-| Tekniska krav         |    9 |    11 |
+| Tekniska krav         |    8 |    10 |
 | Entreprenöriella krav |    4 |     6 |
-| Totalt                |   13 |    17 |
+| Totalt                |   13 |    16 |
 
 ## Tekniska krav (11 p)
 
@@ -19,12 +19,6 @@ Funktionen för inspection sheets (och alla andra features) är uppdelad i `ui/`
 Skärmarna håller tillfälligt UI state där det används. Skärmen för inspection sheets håller valet mellan aktiva och arkiverade sheets lokalt. `StartInspectionForm` håller valt sheet, vald kategori och exkluderade underkategorier lokalt. Delad data kommer från providers
 
 [InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart), [StartInspectionForm](../lib/features/inspections/ui/setup/start_inspection_form.dart), [SettingsScreen](../lib/features/settings/ui/settings_screen.dart)
-
-### Provider för app state (1 p)
-
-Skärmen (och många andra screens/widgets) för inspection sheets använder `ref.watch(inspectionSheetsProvider(...))`. Settings och `MaterialApp` delar valt tema via en provider
-
-[InspectionSheetsScreen](../lib/features/inspection_sheets/ui/list/inspection_sheets_screen.dart), [theme provider](../lib/features/settings/state/theme_mode_provider.dart)
 
 ### Forms validation (2 p)
 
