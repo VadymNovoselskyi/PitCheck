@@ -6,7 +6,7 @@
 | Entreprenöriella krav |    4 |     6 |
 | Totalt                |   13 |    16 |
 
-## Tekniska krav (11 p)
+## Tekniska krav (10 p)
 
 ### Modulär kod (2 p)
 
