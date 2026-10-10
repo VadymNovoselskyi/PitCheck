@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:pit_check/features/settings/ui/appearance_picker.dart';
 import 'package:pit_check/features/settings/ui/settings_profile.dart';
+import 'package:pit_check/features/settings/ui/text_size_picker.dart';
 import 'package:pit_check/features/users/state/user_providers.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -13,7 +14,11 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 96),
-        children: [const SettingsProfile(), const AppearancePicker()],
+        children: const [
+          SettingsProfile(),
+          AppearancePicker(),
+          TextSizePicker(),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         shape: const StadiumBorder(),

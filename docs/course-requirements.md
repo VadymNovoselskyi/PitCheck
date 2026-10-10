@@ -3,8 +3,8 @@
 | Kategori              | Krav | Poäng |
 | --------------------- | ---: | ----: |
 | Tekniska krav         |    8 |    10 |
-| Entreprenöriella krav |    4 |     6 |
-| Totalt                |   13 |    16 |
+| Entreprenöriella krav |    5 |     7 |
+| Totalt                |   13 |    17 |
 
 ## Tekniska krav (10 p)
 
@@ -56,7 +56,7 @@ Facebook-inloggning ger en Firebase-användare via Facebook-credential. Samma Fa
 
 [AuthRepository](../lib/features/users/repository/auth_repository.dart), [SignInForm](../lib/features/users/ui/auth/sign_in_form.dart)
 
-## Entreprenöriella krav (6 p)
+## Entreprenöriella krav (7 p)
 
 ### Cloud Firestore (2 p)
 
@@ -69,6 +69,12 @@ Facebook-inloggning ger en Firebase-användare via Facebook-credential. Samma Fa
 Användaren kan välja `System`, `Light` eller `Dark` i Settings. Valet sparas på enheten och laddas nästa gång appen startar
 
 [appearance_picker.dart](../lib/features/settings/ui/appearance_picker.dart), [main.dart](../lib/main.dart)
+
+### Accessibility: textstorlek (1 p)
+
+Användaren kan välja `Small` (0,9×), `Default`, `Large` (1,15×) eller `Larger` (1,3×) textstorlek i Settings. Valet multipliceras med enhetens egen textstorlek, så systemets tillgänglighetsinställningar gäller fortfarande. Valet sparas på enheten och laddas nästa gång appen startar
+
+[text_size_picker.dart](../lib/features/settings/ui/text_size_picker.dart), [text_size_provider.dart](../lib/features/settings/state/text_size_provider.dart), [main.dart](../lib/main.dart)
 
 ### Performance Monitoring (1 p)
 
