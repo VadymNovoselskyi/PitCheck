@@ -3,8 +3,6 @@
 - [App Description](#app-description)
 - [Competitive Analysis](./docs/01-competitive_analysis.md)
 - [Course Requirements](./docs/course-requirements.md)
-- [MVP Screens and Navigation](./docs/screens.md)
-- [MVP Data Models](./docs/models.md)
 
 ## To run riverpod codegen
 
