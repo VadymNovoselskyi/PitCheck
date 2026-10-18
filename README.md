@@ -1,6 +1,8 @@
 # TDP028
 
 - [App Description](#app-description)
+- [Tech PM](./docs/05-tech-pm.pdf)
+- [Weekly Plan](./docs/05-weekly-plan.md)
 - [Competitive Analysis](./docs/01-competitive_analysis.md)
 - [Course Requirements](./docs/course-requirements.md)
 
